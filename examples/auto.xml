@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="table-wide" order="2">
+
+<css lib="datatables responsive">
+	#auto thead th {
+		white-space: nowrap;
+	}
+</css>
+<js lib="jquery datatables responsive">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#auto').DataTable( {
+		columnDefs: [
+			{ visible: false, targets: -2 }
+		]
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Responsive">Column control</title>
+
+<info><![CDATA[
+
+
+]]></info>
+
+<custom-table>
+	<div id="breakpoint"> </div>
+	<table id="auto" class="display responsive" width="100%">
+		<thead>
+			<tr>
+				<th>First name</th>
+				<th>Last name</th>
+				<th>Position</th>
+				<th>Office</th>
+				<th>Age</th>
+				<th>Start date</th>
+				<th>Salary</th>
+				<th>Extn.</th>
+				<th>E-mail</th>
+			</tr>
+		</thead>
+
+		<tfoot>
+			<tr>
+				<th>First name</th>
+				<th>Last name</th>
+				<th>Position</th>
+				<th>Office</th>
+				<th>Age</th>
+				<th>Start date</th>
+				<th>Salary</th>
+				<th>Extn.</th>
+				<th>E-mail</th>
+			</tr>
+		</tfoot>
+	</table>
+</custom-table>
+
+</dt-example>
+
