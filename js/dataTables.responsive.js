@@ -27,7 +27,7 @@
 var factory = function( $, DataTable ) {
 "use strict";
 
-var Responsive = function ( settings ) {
+var Responsive = function ( settings, opts ) {
 	// Sanity check that we are using DataTables 1.10 or newer
 	if ( ! $.fn.dataTable.versionCheck || ! $.fn.dataTable.versionCheck( '1.10' ) ) {
 		throw 'DataTables Responsive required DataTables 1.10 or newer';
@@ -41,6 +41,7 @@ var Responsive = function ( settings ) {
 		columns: []
 	};
 
+	this.c = $.extend( true, {}, opts, Responsive.defaults );
 	settings.responsive = this;
 	this.constructor();
 };
@@ -69,24 +70,13 @@ Responsive.prototype = {
 
 	_resize: function ()
 	{
-		// Which mode are we operating in?
-		if ( ! this.s.auto ) {
-			this._resizeManual();
-		}
-		else {
-			this._resizeAuto();
-		}
-	},
-
-	_resizeManual: function ()
-	{
 		var dt = this.s.dt;
 		// Use the classes given by the end user to determine which columns
 		// should be shown and hidden
 		
 		// Which break point are we in?
 		var width = $(window).width();
-		var breakpoints = Responsive.breakpoints;
+		var breakpoints = this.c.breakpoints;
 		var breakpoint = 'desktop';
 
 		// xxx Should we reorder the breakpoints array here?
@@ -98,12 +88,12 @@ Responsive.prototype = {
 			}
 		}
 
-		console.log( 'Break point: ', breakpoint );
-		$('#breakpoint').html( breakpoint );
+		//console.log( 'Break point: ', breakpoint );
+		//$('#breakpoint').html( breakpoint );
 
 		// Decision logic for what columns to show for this break point
 		var columns = this._columnsVisiblity( breakpoint );
-		console.log( 'Columns: ', columns );
+		//console.log( 'Columns: ', columns );
 
 		// Show the columns for that break point
 		dt.columns().eq(0).each( function ( colIdx, i ) {
@@ -140,11 +130,11 @@ Responsive.prototype = {
 			}
 		}
 
-		console.log( 'first pass width', firstPassWidth );
+		//console.log( 'first pass width', firstPassWidth );
 
 		// Second pass, use up any remaining width for other columns
 		var widthAvailable = $('#'+dt.table().node().id+'_wrapper')[0].offsetWidth;
-		console.log( 'width available', widthAvailable );
+		//console.log( 'width available', widthAvailable );
 
 		var usedWidth = widthAvailable - firstPassWidth;
 		for ( i=0, ien=display.length ; i<ien ; i++ ) {
@@ -167,7 +157,7 @@ Responsive.prototype = {
 	_classLogic: function ()
 	{
 		var calc = {};
-		var breakpoints = Responsive.breakpoints;
+		var breakpoints = this.c.breakpoints;
 		var columns = this.s.dt.columns().eq(0).map( function (i) {
 			return {
 				className: this.column(i).header().className,
@@ -222,6 +212,18 @@ Responsive.prototype = {
 		};
 
 		columns.each( function ( col, i ) {
+			if ( col.className.match(/\ball\b/i) ) {
+				// Include in all
+				col.includeIn = $.map( breakpoints, function (a) {
+					return a.name;
+				} );
+				return;
+			}
+			else if ( col.className.match(/\bnone\b/i) ) {
+				// Include in none (default) and no auto
+				return;
+			}
+
 			var hasClass = false;
 
 			$.each( breakpoints, function ( j, breakpoint ) {
@@ -251,17 +253,30 @@ Responsive.prototype = {
 		} );
 
 		this.s.columns = columns;
-		console.log( columns );
+		//console.log( columns );
 	},
 
 	_resizeAuto: function ()
 	{
 		var dt = this.s.dt;
 		var columns = this.s.columns;
+
+		// Are we allowed to do auto sizing?
+		if ( ! this.c.auto ) {
+			return;
+		}
+
+		// Are there any columns that actually need auto-sizing, or do they all
+		// have classes defined
+		if ( $.inArray( true, $.map( columns, function (c) { return c.auto; } ) ) === -1 ) {
+			return;
+		}
+
 		var tableWidth = dt.table().node().offsetWidth;
 		var columnWidths = dt.columns;
 		var clonedTable = dt.table().node().cloneNode( false );
 		var clonedHeader = $( dt.table().header() ).clone( false ).appendTo( clonedTable );
+		var clonedRow = $( dt.table().body().cloneNode( true ) ).appendTo( clonedTable );
 		var cells = dt.settings()[0].oApi._fnGetUniqueThs( dt.settings()[0], clonedHeader );
 		var inserted = $('<div/>')
 			.css( {
@@ -269,7 +284,7 @@ Responsive.prototype = {
 				height: 1,
 				overflow: 'hidden'
 			} )
-			.append(clonedTable)
+			.append( clonedTable )
 			.insertBefore( dt.table().node() );
 
 		// The cloned header now contains the smallest that each column can be
@@ -280,6 +295,19 @@ Responsive.prototype = {
 		} );
 
 		inserted.remove();
+		//console.log( inserted[0] );
+	},
+
+
+	_find: function ( name )
+	{
+		var breakpoints = this.c.breakpoints;
+
+		for ( var i=0, ien=breakpoints.length ; i<ien ; i++ ) {
+			if ( breakpoints[i].name === name ) {
+				return breakpoints[i];
+			}
+		}
 	}
 };
 
@@ -291,18 +319,12 @@ Responsive.breakpoints = [
 	{ name: 'phone-p',  width: 320 }
 ];
 
-// add all and none options
-
-Responsive.find = function ( name )
-{
-	var breakpoints = Responsive.breakpoints;
-
-	for ( var i=0, ien=breakpoints.length ; i<ien ; i++ ) {
-		if ( breakpoints[i].name === name ) {
-			return breakpoints[i];
-		}
-	}
+Responsive.defaults = {
+	breakpoints: Responsive.breakpoints,
+	auto: true
 };
+
+
 
 
 $.fn.dataTable.Responsive = Responsive;
@@ -315,7 +337,7 @@ $(document).one( 'init.dt.dtr', function (e, settings, json) {
 		 $(settings.nTable).hasClass( 'dt-responsive' ) ||
 		 settings.oInit.responsive
 	) {
-		new Responsive( settings );
+		new Responsive( settings, settings.oInit.responsive );
 	}
 } );
 
@@ -325,7 +347,7 @@ return Responsive;
 
 // Define as an AMD module if possible
 if ( typeof define === 'function' && define.amd ) {
-	define( 'datatables-responsive', ['jquery', 'datatables'], factory );
+	define( 'datatablesResponsive', ['jquery', 'datatables'], factory );
 }
 else if ( jQuery && !jQuery.fn.dataTable.Responsive ) {
 	// Otherwise simply initialise as normal, stopping multiple evaluation
