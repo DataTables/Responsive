@@ -41,7 +41,12 @@ var Responsive = function ( settings, opts ) {
 		columns: []
 	};
 
-	this.c = $.extend( true, {}, opts, Responsive.defaults );
+	// details is an object, but for simplicity the user can give it as a string
+	if ( opts && typeof opts.details === 'string' ) {
+		opts.details = { type: opts.details };
+	}
+
+	this.c = $.extend( true, {}, Responsive.defaults, opts );
 	settings.responsive = this;
 	this.constructor();
 };
@@ -50,6 +55,7 @@ Responsive.prototype = {
 	constructor: function ()
 	{
 		var that = this;
+		var dt = this.s.dt;
 
 		// xxx use DataTables throttle function
 		$(window).on( 'resize.dtr', function () {
@@ -57,7 +63,7 @@ Responsive.prototype = {
 		} );
 
 		// Destroy event handler
-		this.s.dt.on( 'destroy.dtr', function () {
+		dt.on( 'destroy.dtr', function () {
 			$(window).off( 'resize.dtr' );
 		} );
 
@@ -65,6 +71,17 @@ Responsive.prototype = {
 		this._classLogic();
 		this._resizeAuto();
 		this._resize();
+
+		if ( this.c.details.type ) {
+			var type = Responsive.detailsType[ this.c.details.type ];
+			type.init.call( this );
+
+			window._dt = dt;
+
+			dt.on( 'column-visibility.dtr', function () {
+				type.visibility.call( that );
+			} );
+		}
 	},
 
 
@@ -321,7 +338,82 @@ Responsive.breakpoints = [
 
 Responsive.defaults = {
 	breakpoints: Responsive.breakpoints,
-	auto: true
+	auto: true,
+	details: {
+		type: false,
+		renderer: function ( api, rowIdx ) {
+			var data = api.cells( rowIdx, ':hidden' ).data();
+			console.log( data );
+			return data.join( '<br>' );
+		}
+	}
+};
+
+
+Responsive.detailsType = {
+	inline: {
+		init: function () {
+			var that = this;
+			var dt = this.s.dt;
+
+			$( dt.table().body() ).on( 'click', 'td:first-child', function (e) {
+				var row = dt.row( this.parentNode );
+
+				if ( row.child.isShown() ) {
+					row.child( false );
+					$( row.node() ).removeClass( 'hasDetail' );
+				}
+				else {
+					var info = that.c.details.renderer( dt, row[0] );
+					row.child( info, 'details' ).show();
+					$( row.node() ).addClass( 'hasDetail' );
+				}
+			} );
+		},
+
+		visibility: function () {
+			var that = this;
+			var dt = this.s.dt;
+
+			//console.log( dt.columns().visible() );
+
+			if ( dt.columns().visible().indexOf( false ) !== -1 ) {
+				// Got hidden columns
+				$( dt.table().node() ).addClass('responsiveDetails');
+
+				// Show all existing child rows
+				dt.rows().eq(0).each( function (idx) {
+					var row = dt.row( idx );
+
+					if ( row.child() ) {
+						// xxx re-render the child
+						var info = that.c.details.renderer( dt, row[0] );
+
+						row.child( info ).show();
+					}
+				} );
+			}
+			else {
+				// No hidden columns
+				$( dt.table().node() ).removeClass('responsiveDetails');
+
+				// Hide all existing child rows
+				dt.rows().eq(0).each( function (idx) {
+					dt.row( idx ).child.hide();
+				} );
+			}
+		}
+	},
+
+	column: {
+		init: function () {
+
+		},
+
+		visiblity: function () {
+
+		}
+	}
 };
 
 
@@ -337,7 +429,9 @@ $(document).one( 'init.dt.dtr', function (e, settings, json) {
 		 $(settings.nTable).hasClass( 'dt-responsive' ) ||
 		 settings.oInit.responsive
 	) {
-		new Responsive( settings, settings.oInit.responsive );
+		var init = settings.oInit.responsive;
+		console.log( init );
+		new Responsive( settings, $.isPlainObject( init ) ? init : {}  );
 	}
 } );
 
@@ -347,7 +441,7 @@ return Responsive;
 
 // Define as an AMD module if possible
 if ( typeof define === 'function' && define.amd ) {
-	define( 'datatablesResponsive', ['jquery', 'datatables'], factory );
+	define( ['jquery', 'datatables'], factory );
 }
 else if ( jQuery && !jQuery.fn.dataTable.Responsive ) {
 	// Otherwise simply initialise as normal, stopping multiple evaluation

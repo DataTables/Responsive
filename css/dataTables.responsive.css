@@ -1,0 +1,40 @@
+
+
+table.dataTable.responsiveDetails tbody td:first-child,
+table.dataTable.responsiveDetails tbody th:first-child {
+	position: relative;
+	padding-left: 30px;
+	cursor: pointer;
+}
+
+table.dataTable.responsiveDetails tbody td:first-child:before,
+table.dataTable.responsiveDetails tbody th:first-child:before {
+	position: absolute;
+	top: 8px;
+	left: 4px;
+	height: 16px;
+	width: 16px;
+	display: block;
+	content: '+';
+	color: white;
+	background-color: green;
+	border: 2px solid white;
+	border-radius: 16px;
+	text-align: center;
+	line-height: 14px;
+	box-shadow: 0 0 3px #444;
+}
+
+table.dataTable.responsiveDetails tbody tr.hasDetail td:first-child:before,
+table.dataTable.responsiveDetails tbody tr.hasDetail th:first-child:before {
+	content: '-';
+	background-color: red;
+}
+
+table.dataTable.responsiveDetails tbody td.details {
+	padding: 1em;
+}
+
+table.dataTable.responsiveDetails tbody td.details:before {
+	display: none;
+}

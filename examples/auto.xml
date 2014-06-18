@@ -2,7 +2,7 @@
 <dt-example table-type="html-wide" order="2">
 
 <css lib="datatables responsive">
-	#auto thead th {
+	th, td {
 		white-space: nowrap;
 	}
 </css>
@@ -10,13 +10,26 @@
 <![CDATA[
 
 $(document).ready(function() {
-	$('#example thead th:last-child').addClass('none');
+	//$('#example thead th:last-child').addClass('none');
 	$('#example').DataTable( {
-		responsive: true,
+		responsive: {
+			details: {
+				type: 'inline',
+				// renderer:  function () {}
+
+
+				// type: 'column',
+				// renderer: function () {}
+				// trigger: 0
+			}
+		},
 		columnDefs: [
 			{ visible: false, targets: -2 }
 		]
 	} );
+
+	// inline details trigger
+	// independent column details trigger
 } );
 
 ]]>
