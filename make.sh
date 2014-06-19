@@ -11,8 +11,8 @@ DT_BUILT="${DT_SRC}/built/DataTables"
 . $DT_SRC/build/include.sh
 
 # Copy CSS
+scss_compile css/dataTables.responsive.scss
 rsync -r css $OUT_DIR
-css_compress $OUT_DIR/css/dataTables.responsive.css
 
 # Copy images
 #rsync -r images $OUT_DIR

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-type="html-wide" order="2">
+<dt-example table-type="html-details" order="3">
 
 <css lib="datatables responsive">
 	th, td {
@@ -11,23 +11,19 @@
 <![CDATA[
 
 $(document).ready(function() {
-	//$('#example thead th:last-child').addClass('none');
 	$('#example').DataTable( {
 		responsive: {
 			details: {
-				type: 'inline',
-				// renderer:  function () {}
-
-
-				// type: 'column',
-				// renderer: function () {}
-				// trigger: 0
+				type: 'column'
 			}
-		}
+		},
+		columnDefs: [ {
+			className: 'control',
+			orderable: false,
+			targets:   0
+		} ],
+		order: [ 1, 'asc' ]
 	} );
-
-	// inline details trigger
-	// independent column details trigger
 } );
 
 ]]>

@@ -29,7 +29,7 @@ var factory = function( $, DataTable ) {
 
 var Responsive = function ( settings, opts ) {
 	// Sanity check that we are using DataTables 1.10 or newer
-	if ( ! $.fn.dataTable.versionCheck || ! $.fn.dataTable.versionCheck( '1.10' ) ) {
+	if ( ! $.fn.dataTable.versionCheck || ! $.fn.dataTable.versionCheck( '1.10.1' ) ) {
 		throw 'DataTables Responsive required DataTables 1.10 or newer';
 	}
 	else if ( settings.responsive ) {
@@ -57,10 +57,9 @@ Responsive.prototype = {
 		var that = this;
 		var dt = this.s.dt;
 
-		// xxx use DataTables throttle function
-		$(window).on( 'resize.dtr', function () {
+		$(window).on( 'resize.dtr', dt.settings()[0].oApi._fnThrottle( function () {
 			that._resize();
-		} );
+		} ) );
 
 		// Destroy event handler
 		dt.on( 'destroy.dtr', function () {
@@ -72,15 +71,21 @@ Responsive.prototype = {
 		this._resizeAuto();
 		this._resize();
 
-		if ( this.c.details.type ) {
-			var type = Responsive.detailsType[ this.c.details.type ];
-			type.init.call( this );
+		var type = this.c.details.type;
+		if ( type ) {
+			// The inline type always uses the first child as the target
+			if ( type === 'inline' ) {
+				this.c.details.target = 'td:first-child';
+			}
 
-			window._dt = dt;
+			that._detailsInit();
+			this._detailsVis();
 
 			dt.on( 'column-visibility.dtr', function () {
-				type.visibility.call( that );
+				that._detailsVis();
 			} );
+
+			$(dt.table().node()).addClass( 'dtr-'+type );
 		}
 	},
 
@@ -167,6 +172,23 @@ Responsive.prototype = {
 			}
 		}
 
+		// The two loops look inefficient here, but they are trivial and will
+		// fly through. We need to know the outcome from 1, before the action
+		// can be taken
+		var showControl = false;
+		for ( i=0, ien=columns.length ; i<ien ; i++ ) {
+			if ( ! columns[i].control && ! display[i] ) {
+				showControl = true;
+				break;
+			}
+		}
+
+		for ( i=0, ien=columns.length ; i<ien ; i++ ) {
+			if ( columns[i].control ) {
+				display[i] = showControl;
+			}
+		}
+
 		return display;
 	},
 
@@ -179,7 +201,8 @@ Responsive.prototype = {
 			return {
 				className: this.column(i).header().className,
 				includeIn: [],
-				auto: false
+				auto:      false,
+				control:   false
 			};
 		} );
 
@@ -238,6 +261,12 @@ Responsive.prototype = {
 			}
 			else if ( col.className.match(/\bnone\b/i) ) {
 				// Include in none (default) and no auto
+				return;
+			}
+			else if ( col.className.match(/\bcontrol\b/i) ) {
+				// Special column that is only visible, when one of the other
+				// columns is hidden. This is used for the details control
+				col.control = true;
 				return;
 			}
 
@@ -325,8 +354,83 @@ Responsive.prototype = {
 				return breakpoints[i];
 			}
 		}
+	},
+
+
+	_detailsInit: function ()
+	{
+		var that = this;
+		var dt = this.s.dt;
+
+		// type.target can be a string jQuery selector or a column index
+		var target = this.c.details.target;
+		var selector = typeof target === 'string' ? target : 'td';
+
+		console.log( selector );
+		$( dt.table().body() ).on( 'click', selector, function (e) {
+			// For column index, we determine if we should act or not in the
+			// handler - otherwise it is already okay
+			console.log( dt.cell( this ).index().column, target );
+			if ( typeof target === 'number' && dt.cell( this ).index().column !== target ) {
+				return;
+			}
+
+			if ( ! $(dt.table().node()).hasClass('collapsed' ) ) {
+				return;
+			}
+
+			var row = dt.row( this.parentNode );
+
+			if ( row.child.isShown() ) {
+				row.child( false );
+				$( row.node() ).removeClass( 'parent' );
+			}
+			else {
+				var info = that.c.details.renderer( dt, row[0] );
+				row.child( info, 'child' ).show();
+				$( row.node() ).addClass( 'parent' );
+			}
+		} );
+	},
+
+
+	_detailsVis: function ()
+	{
+		var that = this;
+		var dt = this.s.dt;
+
+		if ( dt.columns().visible().indexOf( false ) !== -1 ) {
+			// Got hidden columns
+			$( dt.table().node() ).addClass('collapsed');
+
+			// Show all existing child rows
+			dt.rows().eq(0).each( function (idx) {
+				var row = dt.row( idx );
+
+				if ( row.child() ) {
+					var info = that.c.details.renderer( dt, row[0] );
+
+					if ( info === false ) {
+						row.child.hide();
+					}
+					else {
+						row.child( info, 'child' ).show();
+					}
+				}
+			} );
+		}
+		else {
+			// No hidden columns
+			$( dt.table().node() ).removeClass('collapsed');
+
+			// Hide all existing child rows
+			dt.rows().eq(0).each( function (idx) {
+				dt.row( idx ).child.hide();
+			} );
+		}
 	}
 };
+
 
 Responsive.breakpoints = [
 	{ name: 'desktop',  width: Infinity },
@@ -336,87 +440,37 @@ Responsive.breakpoints = [
 	{ name: 'phone-p',  width: 320 }
 ];
 
+
 Responsive.defaults = {
 	breakpoints: Responsive.breakpoints,
 	auto: true,
 	details: {
 		type: false,
 		renderer: function ( api, rowIdx ) {
-			var data = api.cells( rowIdx, ':hidden' ).data();
-			console.log( data );
-			return data.join( '<br>' );
-		}
+			var data = api.cells( rowIdx, ':hidden' ).eq(0).map( function ( cell ) {
+				var header = $( api.column( cell.column ).header() );
+
+				if ( header.hasClass( 'control' ) ) {
+					return '';
+				}
+
+				return '<li>'+
+						'<span class="dtr-title">'+
+							header.text()+
+						'</span>: '+
+						'<span class="dtr-data">'+
+							api.cell( cell ).data()+
+						'</span>'+
+					'</li>';
+			} ).toArray().join('');
+
+			return data ?
+				$('<ul/>').append( data ) :
+				false;
+		},
+		target: 0
 	}
 };
-
-
-Responsive.detailsType = {
-	inline: {
-		init: function () {
-			var that = this;
-			var dt = this.s.dt;
-
-			$( dt.table().body() ).on( 'click', 'td:first-child', function (e) {
-				var row = dt.row( this.parentNode );
-
-				if ( row.child.isShown() ) {
-					row.child( false );
-					$( row.node() ).removeClass( 'hasDetail' );
-				}
-				else {
-					var info = that.c.details.renderer( dt, row[0] );
-					row.child( info, 'details' ).show();
-					$( row.node() ).addClass( 'hasDetail' );
-				}
-			} );
-		},
-
-		visibility: function () {
-			var that = this;
-			var dt = this.s.dt;
-
-			//console.log( dt.columns().visible() );
-
-			if ( dt.columns().visible().indexOf( false ) !== -1 ) {
-				// Got hidden columns
-				$( dt.table().node() ).addClass('responsiveDetails');
-
-				// Show all existing child rows
-				dt.rows().eq(0).each( function (idx) {
-					var row = dt.row( idx );
-
-					if ( row.child() ) {
-						// xxx re-render the child
-						var info = that.c.details.renderer( dt, row[0] );
-
-						row.child( info ).show();
-					}
-				} );
-			}
-			else {
-				// No hidden columns
-				$( dt.table().node() ).removeClass('responsiveDetails');
-
-				// Hide all existing child rows
-				dt.rows().eq(0).each( function (idx) {
-					dt.row( idx ).child.hide();
-				} );
-			}
-		}
-	},
-
-	column: {
-		init: function () {
-
-		},
-
-		visiblity: function () {
-
-		}
-	}
-};
-
-
 
 
 $.fn.dataTable.Responsive = Responsive;
@@ -430,7 +484,6 @@ $(document).one( 'init.dt.dtr', function (e, settings, json) {
 		 settings.oInit.responsive
 	) {
 		var init = settings.oInit.responsive;
-		console.log( init );
 		new Responsive( settings, $.isPlainObject( init ) ? init : {}  );
 	}
 } );
