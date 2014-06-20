@@ -116,6 +116,8 @@ table.dataTable {
 		}
 
 		span.dtr-title {
+			display: inline-block;
+			min-width: 75px;
 			font-weight: bold;
 		}
 
