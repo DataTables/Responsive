@@ -23,7 +23,7 @@ js_compress $OUT_DIR/js/dataTables.responsive.js
 
 # Copy and build examples
 rsync -r examples $OUT_DIR
-examples_process $OUT_DIR
+examples_process $OUT_DIR/examples
 
 # Readme
 cp Readme.md $OUT_DIR

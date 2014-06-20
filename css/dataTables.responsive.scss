@@ -11,6 +11,7 @@
 	text-align: center;
 	line-height: 14px;
 	box-shadow: 0 0 3px #444;
+	box-sizing: content-box;
 }
 
 @mixin control-open() {
