@@ -248,6 +248,7 @@ Responsive.prototype = {
 	 */
 	_classLogic: function ()
 	{
+		var that = this;
 		var calc = {};
 		var breakpoints = this.c.breakpoints;
 		var columns = this.s.dt.columns().eq(0).map( function (i) {
@@ -277,7 +278,7 @@ Responsive.prototype = {
 			}
 			else if ( operator === 'max-' ) {
 				// Add this breakpoint and all smaller
-				size = Responsive.find( name ).width;
+				size = that._find( name ).width;
 
 				for ( i=0, ien=breakpoints.length ; i<ien ; i++ ) {
 					if ( breakpoints[i].width <= size ) {
@@ -287,7 +288,7 @@ Responsive.prototype = {
 			}
 			else if ( operator === 'min-' ) {
 				// Add this breakpoint and all larger
-				size = Responsive.find( name ).width;
+				size = that._find( name ).width;
 
 				for ( i=0, ien=breakpoints.length ; i<ien ; i++ ) {
 					if ( breakpoints[i].width >= size ) {
@@ -314,7 +315,7 @@ Responsive.prototype = {
 
 			// Split the class name up so multiple rules can be applied if needed
 			for ( var k=0, ken=classNames.length ; k<ken ; k++ ) {
-				var className = $.trim( classNames[i] );
+				var className = $.trim( classNames[k] );
 
 				if ( className === 'all' ) {
 					// Include in all
@@ -462,6 +463,23 @@ Responsive.prototype = {
 
 
 	/**
+	 * Find a breakpoint object from a name
+	 * @param  {string} name Breakpoint name to find
+	 * @return {object}      Breakpoint description object
+	 */
+	_find: function ( name )
+	{
+		var breakpoints = this.c.breakpoints;
+
+		for ( var i=0, ien=breakpoints.length ; i<ien ; i++ ) {
+			if ( breakpoints[i].name === name ) {
+				return breakpoints[i];
+			}
+		}
+	},
+
+
+	/**
 	 * Alter the table display for a resized viewport. This involves first
 	 * determining what breakpoint the window currently is in, getting the
 	 * column visibilities to apply and then setting them.
@@ -558,8 +576,8 @@ Responsive.breakpoints = [
 	{ name: 'desktop',  width: Infinity },
 	{ name: 'tablet-l', width: 1024 },
 	{ name: 'tablet-p', width: 768 },
-	{ name: 'phone-l',  width: 480 },
-	{ name: 'phone-p',  width: 320 }
+	{ name: 'mobile-l',  width: 480 },
+	{ name: 'mobile-p',  width: 320 }
 ];
 
 

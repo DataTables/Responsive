@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-type="html-wide" table-class="table table-striped table-hover dt-responsive" order="8">
+<dt-example table-type="html-wide" table-class="table table-striped table-hover dt-responsive" order="1">
 
 <css lib="bootstrap datatables-bootstrap responsive">
 	body { font-size: 140% }
