@@ -10,13 +10,13 @@ $(document).ready(function() {
 		responsive: {
 			details: {
 				type: 'column',
-				target: 8
+				target: -1
 			}
 		},
 		columnDefs: [ {
 			className: 'control',
 			orderable: false,
-			targets:   8
+			targets:   -1
 		} ]
 	} );
 } );

@@ -393,8 +393,14 @@ Responsive.prototype = {
 		$( dt.table().body() ).on( 'click', selector, function (e) {
 			// For column index, we determine if we should act or not in the
 			// handler - otherwise it is already okay
-			if ( typeof target === 'number' && dt.cell( this ).index().column !== target ) {
-				return;
+			if ( typeof target === 'number' ) {
+				var targetIdx = target < 0 ?
+					dt.columns().eq().length + target :
+					target;
+
+				if ( dt.cell( this ).index().column !== targetIdx ) {
+					return;
+				}
 			}
 
 			// If the table is not collapsed (i.e. there is no hidden columns)
@@ -576,8 +582,8 @@ Responsive.breakpoints = [
 	{ name: 'desktop',  width: Infinity },
 	{ name: 'tablet-l', width: 1024 },
 	{ name: 'tablet-p', width: 768 },
-	{ name: 'mobile-l',  width: 480 },
-	{ name: 'mobile-p',  width: 320 }
+	{ name: 'mobile-l', width: 480 },
+	{ name: 'mobile-p', width: 320 }
 ];
 
 
@@ -667,7 +673,10 @@ $(document).on( 'init.dt.dtr', function (e, settings, json) {
 		 settings.oInit.responsive
 	) {
 		var init = settings.oInit.responsive;
-		new Responsive( settings, $.isPlainObject( init ) ? init : {}  );
+
+		if ( init !== false ) {
+			new Responsive( settings, $.isPlainObject( init ) ? init : {}  );
+		}
 	}
 } );
 
