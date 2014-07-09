@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option group="responsive">
-	<name>responsive.breakpints</name>
+	<name>responsive.breakpoints</name>
 	<summary>Set the breakpoints for a Responsive instance</summary>
 	<since>Responsive 1.0.0</since>
 
