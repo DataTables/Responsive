@@ -75,7 +75,7 @@ var factory = function( $, DataTable ) {
 var Responsive = function ( settings, opts ) {
 	// Sanity check that we are using DataTables 1.10 or newer
 	if ( ! DataTable.versionCheck || ! DataTable.versionCheck( '1.10.1' ) ) {
-		throw 'DataTables Responsive required DataTables 1.10 or newer';
+		throw 'DataTables Responsive requires DataTables 1.10.1 or newer';
 	}
 	else if ( settings.responsive ) {
 		return;
@@ -395,7 +395,7 @@ Responsive.prototype = {
 			// handler - otherwise it is already okay
 			if ( typeof target === 'number' ) {
 				var targetIdx = target < 0 ?
-					dt.columns().eq(0).length + target :
+					dt.columns().eq().length + target :
 					target;
 
 				if ( dt.cell( this ).index().column !== targetIdx ) {
@@ -687,6 +687,10 @@ return Responsive;
 // Define as an AMD module if possible
 if ( typeof define === 'function' && define.amd ) {
 	define( ['jquery', 'datatables'], factory );
+}
+else if ( typeof exports === 'object' ) {
+    // Node/CommonJS
+    factory( require('jquery'), require('datatables') );
 }
 else if ( jQuery && !jQuery.fn.dataTable.Responsive ) {
 	// Otherwise simply initialise as normal, stopping multiple evaluation
