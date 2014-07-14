@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-class="display responsive wo-wrap" order="2">
+<dt-example table-class="display responsive nowrap" order="2">
 
 <css lib="datatables responsive">
 </css>
