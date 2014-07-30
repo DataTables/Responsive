@@ -1,11 +1,11 @@
-/*! Responsive 1.0.0
+/*! Responsive 1.0.1-dev
  * 2014 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Responsive
  * @description Responsive tables plug-in for DataTables
- * @version     1.0.0
+ * @version     1.0.1-dev
  * @file        dataTables.responsive.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -391,6 +391,12 @@ Responsive.prototype = {
 
 		// Click handler to show / hide the details rows when they are available
 		$( dt.table().body() ).on( 'click', selector, function (e) {
+			// If the table is not collapsed (i.e. there is no hidden columns)
+			// then take no action
+			if ( ! $(dt.table().node()).hasClass('collapsed' ) ) {
+				return;
+			}
+
 			// For column index, we determine if we should act or not in the
 			// handler - otherwise it is already okay
 			if ( typeof target === 'number' ) {
@@ -401,12 +407,6 @@ Responsive.prototype = {
 				if ( dt.cell( this ).index().column !== targetIdx ) {
 					return;
 				}
-			}
-
-			// If the table is not collapsed (i.e. there is no hidden columns)
-			// then the details row cannot be displayed
-			if ( ! $(dt.table().node()).hasClass('collapsed' ) ) {
-				return;
 			}
 
 			// $().closest() includes itself in its check
@@ -435,7 +435,14 @@ Responsive.prototype = {
 		var that = this;
 		var dt = this.s.dt;
 
-		if ( dt.columns().visible().indexOf( false ) !== -1 ) {
+		var hiddenColumns = dt.columns(':hidden').indexes().flatten();
+		var haveHidden = true;
+
+		if ( hiddenColumns.length === 0 || ( hiddenColumns.length === 1 && this.s.columns[ hiddenColumns[0] ].control ) ) {
+			haveHidden = false;
+		}
+
+		if ( haveHidden ) {
 			// Got hidden columns
 			$( dt.table().node() ).addClass('collapsed');
 
@@ -668,7 +675,7 @@ Responsive.defaults = {
  * @name Responsive.version
  * @static
  */
-Responsive.version = '1.0.0';
+Responsive.version = '1.0.1-dev';
 
 
 $.fn.dataTable.Responsive = Responsive;
