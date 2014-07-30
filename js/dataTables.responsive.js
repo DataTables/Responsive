@@ -112,13 +112,13 @@ Responsive.prototype = {
 		var dt = this.s.dt;
 
 		// Use DataTables' private throttle function to avoid processor thrashing
-		$(window).on( 'resize.dtr', dt.settings()[0].oApi._fnThrottle( function () {
+		$(window).on( 'resize.dtr orientationchange.dtr', dt.settings()[0].oApi._fnThrottle( function () {
 			that._resize();
 		} ) );
 
 		// Destroy event handler
 		dt.on( 'destroy.dtr', function () {
-			$(window).off( 'resize.dtr' );
+			$(window).off( 'resize.dtr orientationchange.dtr' );
 		} );
 
 		// Reorder the breakpoints array here in case they have been added out
