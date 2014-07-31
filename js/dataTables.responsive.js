@@ -403,7 +403,7 @@ Responsive.prototype = {
 			// handler - otherwise it is already okay
 			if ( typeof target === 'number' ) {
 				var targetIdx = target < 0 ?
-					dt.columns().eq().length + target :
+					dt.columns().eq(0).length + target :
 					target;
 
 				if ( dt.cell( this ).index().column !== targetIdx ) {
