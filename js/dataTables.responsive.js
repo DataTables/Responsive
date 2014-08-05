@@ -563,7 +563,7 @@ Responsive.prototype = {
 
 		// This is a bit slow, but we need to get a clone of each row that
 		// includes all columns. As such, try to do this as little as possible.
-		dt.rows( { page: 'current' } ).indexes().each( function ( idx ) {
+		dt.rows( { page: 'current' } ).indexes().flatten().each( function ( idx ) {
 			var clone = dt.row( idx ).node().cloneNode( true );
 			
 			if ( dt.columns( ':hidden' ).flatten().length ) {
