@@ -1,11 +1,11 @@
-/*! Responsive 1.0.1
+/*! Responsive 1.0.2-dev
  * 2014 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Responsive
  * @description Responsive tables plug-in for DataTables
- * @version     1.0.1
+ * @version     1.0.2-dev
  * @file        dataTables.responsive.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -129,6 +129,11 @@ Responsive.prototype = {
 			return a.width < b.width ? 1 :
 				a.width > b.width ? -1 : 0;
 		} );
+
+		// Determine which columns are already hidden, and should therefore
+		// remain hidden. TODO - should this be done? See thread 22677
+		//
+		// this.s.alwaysHidden = dt.columns(':hidden').indexes();
 
 		this._classLogic();
 		this._resizeAuto();
@@ -708,7 +713,7 @@ Api.register( 'responsive.recalc()', function ( rowIdx, intParse, virtual ) {
  * @name Responsive.version
  * @static
  */
-Responsive.version = '1.0.1';
+Responsive.version = '1.0.2-dev';
 
 
 $.fn.dataTable.Responsive = Responsive;
