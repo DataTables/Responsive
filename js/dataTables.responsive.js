@@ -660,17 +660,26 @@ Responsive.defaults = {
 		renderer: function ( api, rowIdx ) {
 			var data = api.cells( rowIdx, ':hidden' ).eq(0).map( function ( cell ) {
 				var header = $( api.column( cell.column ).header() );
+				var idx = api.cell( cell ).index();
 
 				if ( header.hasClass( 'control' ) ) {
 					return '';
 				}
+
+				// Use a non-public DT API method to render the data for display
+				// This needs to be updated when DT adds a suitable method for
+				// this type of data retrieval
+				var dtPrivate = api.settings()[0];
+				var cellData = dtPrivate.oApi._fnGetCellData(
+					dtPrivate, idx.row, idx.column, 'display'
+				);
 
 				return '<li>'+
 						'<span class="dtr-title">'+
 							header.text()+':'+
 						'</span> '+
 						'<span class="dtr-data">'+
-							api.cell( cell ).data()+
+							cellData+
 						'</span>'+
 					'</li>';
 			} ).toArray().join('');
