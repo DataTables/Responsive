@@ -45,6 +45,10 @@ table.dataTable {
 				@include control;
 				@include control-open;
 			}
+
+			&.dataTables_empty:before {
+				display: none;
+			}
 		}
 
 		tr.parent {
