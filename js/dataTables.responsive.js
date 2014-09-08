@@ -186,7 +186,7 @@ Responsive.prototype = {
 				false :
 				col.auto === true ?
 					'-' :
-					col.includeIn.indexOf( breakpoint ) !== -1;
+					$.inArray( breakpoint, col.includeIn ) !== -1;
 		} );
 
 		// Auto column control - first pass: how much width is taken by the
@@ -272,7 +272,7 @@ Responsive.prototype = {
 		var add = function ( colIdx, name ) {
 			var includeIn = columns[ colIdx ].includeIn;
 
-			if ( includeIn.indexOf( name ) === -1 ) {
+			if ( $.inArray( name, includeIn ) === -1 ) {
 				includeIn.push( name );
 			}
 		};
