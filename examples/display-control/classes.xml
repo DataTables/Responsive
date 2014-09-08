@@ -41,12 +41,13 @@ You may leave the `-[lp]` option from the end if you wish to just target all tab
 Additionally, there are three special class names:
 
 * `all` - Always display
-* `none` - Never display
+* `none` - Don't display as a column, but show in the child row
+* `never` - Never display
 * `control` - Used for the `column` `r-init responsive.details.type` option.
 
 Please [refer to the Responsive manual](//datatables.net/extensions/responsive/) for further details of these options.
 
-This example shows the `start date` and `salary` columns visible on a desktop only - `office` and `age` require a tablet, while the `position` column requires a phone in landscape or larger. The `name` column is always visible.
+This example shows the `salary` column visible on a desktop only - `office` and `age` require a tablet, while the `position` column requires a phone in landscape or larger. The `name` column is always visible and the `start date` is never visible.
 
 This can be useful if you wish to change the format of the data shown on different devices, for example using a combination of `mobile` and `not-mobile` on two different columns would allow information to be formatted suitable for each device type.
 
@@ -61,7 +62,7 @@ This can be useful if you wish to change the format of the data shown on differe
 				<th class="min-phone-l">Position</th>
 				<th class="min-tablet">Office</th>
 				<th class="min-tablet">Age</th>
-				<th class="desktop">Start date</th>
+				<th class="never">Start date</th>
 				<th class="desktop">Salary</th>
 				<th class="none">Extn.</th>
 			</tr>

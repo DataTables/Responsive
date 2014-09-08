@@ -332,7 +332,7 @@ Responsive.prototype = {
 					} );
 					return;
 				}
-				else if ( className === 'none' ) {
+				else if ( className === 'none' || className === 'never' ) {
 					// Include in none (default) and no auto
 					hasClass = true;
 					return;
@@ -662,7 +662,8 @@ Responsive.defaults = {
 				var header = $( api.column( cell.column ).header() );
 				var idx = api.cell( cell ).index();
 
-				if ( header.hasClass( 'control' ) ) {
+				console.log( header[0].className );
+				if ( header.hasClass( 'control' ) || header.hasClass( 'never' ) ) {
 					return '';
 				}
 
