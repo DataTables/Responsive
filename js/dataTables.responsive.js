@@ -442,7 +442,17 @@ Responsive.prototype = {
 		var that = this;
 		var dt = this.s.dt;
 
-		var hiddenColumns = dt.columns(':hidden').indexes().flatten();
+		// Find how many columns are hidden
+		var hiddenColumns = dt.columns().indexes().filter( function ( idx ) {
+			var col = dt.column( idx );
+
+			if ( col.visible() ) {
+				return null;
+			}
+
+			// Only counts as hidden if it doesn't have the `never` class
+			return $( col.header() ).hasClass( 'never' ) ? null : idx;
+		} );
 		var haveHidden = true;
 
 		if ( hiddenColumns.length === 0 || ( hiddenColumns.length === 1 && this.s.columns[ hiddenColumns[0] ].control ) ) {
@@ -662,7 +672,6 @@ Responsive.defaults = {
 				var header = $( api.column( cell.column ).header() );
 				var idx = api.cell( cell ).index();
 
-				console.log( header[0].className );
 				if ( header.hasClass( 'control' ) || header.hasClass( 'never' ) ) {
 					return '';
 				}
