@@ -77,14 +77,16 @@ var Responsive = function ( settings, opts ) {
 	if ( ! DataTable.versionCheck || ! DataTable.versionCheck( '1.10.1' ) ) {
 		throw 'DataTables Responsive requires DataTables 1.10.1 or newer';
 	}
-	else if ( settings.responsive ) {
-		return;
-	}
 
 	this.s = {
 		dt: new DataTable.Api( settings ),
 		columns: []
 	};
+
+	// Check if responsive has already been initialised on this table
+	if ( this.s.dt.settings()[0].responsive ) {
+		return;
+	}
 
 	// details is an object, but for simplicity the user can give it as a string
 	if ( opts && typeof opts.details === 'string' ) {
