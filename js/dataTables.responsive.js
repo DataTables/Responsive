@@ -93,7 +93,7 @@ var Responsive = function ( settings, opts ) {
 		opts.details = { type: opts.details };
 	}
 
-	this.c = $.extend( true, {}, Responsive.defaults, opts );
+	this.c = $.extend( true, {}, Responsive.defaults, DataTable.defaults.responsive, opts );
 	settings.responsive = this;
 	this._constructor();
 };
@@ -403,6 +403,8 @@ Responsive.prototype = {
 
 		// Click handler to show / hide the details rows when they are available
 		$( dt.table().body() ).on( 'click', selector, function (e) {
+			e.stopPropagation();
+
 			// If the table is not collapsed (i.e. there is no hidden columns)
 			// then take no action
 			if ( ! $(dt.table().node()).hasClass('collapsed' ) ) {
@@ -748,7 +750,8 @@ $.fn.DataTable.Responsive = Responsive;
 $(document).on( 'init.dt.dtr', function (e, settings, json) {
 	if ( $(settings.nTable).hasClass( 'responsive' ) ||
 		 $(settings.nTable).hasClass( 'dt-responsive' ) ||
-		 settings.oInit.responsive
+		 settings.oInit.responsive ||
+		 DataTable.defaults.responsive
 	) {
 		var init = settings.oInit.responsive;
 
