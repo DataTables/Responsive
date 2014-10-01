@@ -403,11 +403,14 @@ Responsive.prototype = {
 
 		// Click handler to show / hide the details rows when they are available
 		$( dt.table().body() ).on( 'click', selector, function (e) {
-			e.stopPropagation();
-
 			// If the table is not collapsed (i.e. there is no hidden columns)
 			// then take no action
 			if ( ! $(dt.table().node()).hasClass('collapsed' ) ) {
+				return;
+			}
+
+			// Check that the row is actually a DataTable's controlled node
+			if ( ! dt.row( $(this).closest('tr') ).length ) {
 				return;
 			}
 
@@ -691,7 +694,7 @@ Responsive.defaults = {
 					dtPrivate, idx.row, idx.column, 'display'
 				);
 
-				return '<li>'+
+				return '<li data-dtr-index="'+idx.column+'">'+
 						'<span class="dtr-title">'+
 							header.text()+':'+
 						'</span> '+
@@ -702,7 +705,7 @@ Responsive.defaults = {
 			} ).toArray().join('');
 
 			return data ?
-				$('<ul/>').append( data ) :
+				$('<ul data-dtr-index="'+rowIdx+'"/>').append( data ) :
 				false;
 		},
 
@@ -723,13 +726,22 @@ Api.register( 'responsive()', function () {
 	return this;
 } );
 
-Api.register( 'responsive.recalc()', function ( rowIdx, intParse, virtual ) {
+Api.register( 'responsive.recalc()', function () {
 	this.iterator( 'table', function ( ctx ) {
 		if ( ctx._responsive ) {
 			ctx._responsive._resizeAuto();
 			ctx._responsive._resize();
 		}
 	} );
+} );
+
+Api.register( 'responsive.index()', function ( li ) {
+	li = $(li);
+
+	return {
+		column: li.data('dtr-index'),
+		row:    li.parent().data('dtr-index')
+	};
 } );
 
 
