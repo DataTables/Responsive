@@ -231,7 +231,7 @@ Responsive.prototype = {
 		var showControl = false;
 
 		for ( i=0, ien=columns.length ; i<ien ; i++ ) {
-			if ( ! columns[i].control && ! display[i] ) {
+			if ( ! columns[i].control && ! columns[i].never && ! display[i] ) {
 				showControl = true;
 				break;
 			}
@@ -261,11 +261,14 @@ Responsive.prototype = {
 		var calc = {};
 		var breakpoints = this.c.breakpoints;
 		var columns = this.s.dt.columns().eq(0).map( function (i) {
+			var className = this.column(i).header().className;
+
 			return {
-				className: this.column(i).header().className,
+				className: className,
 				includeIn: [],
 				auto:      false,
-				control:   false
+				control:   false,
+				never:     className.match(/\bnever\b/) ? true : false
 			};
 		} );
 
