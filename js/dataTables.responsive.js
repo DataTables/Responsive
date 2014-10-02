@@ -744,6 +744,11 @@ Api.register( 'responsive.index()', function ( li ) {
 	};
 } );
 
+Api.register( 'responsive.data()', function ( li ) {
+	li = $(li);
+
+	return li.find('span.dtr-data').text();
+} );
 
 /**
  * Version information
