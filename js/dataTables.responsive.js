@@ -243,6 +243,12 @@ Responsive.prototype = {
 			}
 		}
 
+		// Finally we need to make sure that there is at least one column that
+		// is visible
+		if ( $.inArray( true, display ) === -1 ) {
+			display[0] = true;
+		}
+
 		return display;
 	},
 
