@@ -1,11 +1,11 @@
-/*! Responsive 1.0.2
+/*! Responsive 1.0.3-dev
  * 2014 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Responsive
  * @description Responsive tables plug-in for DataTables
- * @version     1.0.2
+ * @version     1.0.3-dev
  * @file        dataTables.responsive.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -204,21 +204,25 @@ Responsive.prototype = {
 		var widthAvailable = dt.table().container().offsetWidth;
 		var usedWidth = widthAvailable - requiredWidth;
 
+		// Control column needs to always be included. This makes it sub-
+		// optimal in terms of using the available with, but to stop layout
+		// thrashing or overflow. Also we need to account for the control column
+		// width first so we know how much width is available for the other
+		// columns, since the control column might not be the first one shown
 		for ( i=0, ien=display.length ; i<ien ; i++ ) {
-			// Control column needs to always be included. This makes it sub-
-			// optimal in terms of using the available with, but to stop layout
-			// thrashing or overflow
 			if ( columns[i].control ) {
 				usedWidth -= columns[i].minWidth;
 			}
-			else if ( display[i] === '-' ) {
-				// Otherwise, remove the width
+		}
+
+		// Allow columns to be shown (counting from the left) until we run out
+		// of room
+		for ( i=0, ien=display.length ; i<ien ; i++ ) {
+			if ( display[i] === '-' && ! columns[i].control ) {
 				display[i] = usedWidth - columns[i].minWidth < 0 ?
 					false :
 					true;
 
-				// Continue counting down the width, so a smaller column to the
-				// left won't be shown
 				usedWidth -= columns[i].minWidth;
 			}
 		}
@@ -757,7 +761,7 @@ Api.register( 'responsive.index()', function ( li ) {
  * @name Responsive.version
  * @static
  */
-Responsive.version = '1.0.2';
+Responsive.version = '1.0.3-dev';
 
 
 $.fn.dataTable.Responsive = Responsive;
