@@ -122,7 +122,7 @@ Responsive.prototype = {
 
 		// Destroy event handler
 		dt.on( 'destroy.dtr', function () {
-			$(window).off( 'resize.dtr orientationchange.dtr' );
+			$(window).off( 'resize.dtr orientationchange.dtr draw.dtr' );
 		} );
 
 		// Reorder the breakpoints array here in case they have been added out
@@ -151,6 +151,19 @@ Responsive.prototype = {
 
 			dt.on( 'column-visibility.dtr', function () {
 				that._detailsVis();
+			} );
+
+			// Redraw the details box on each draw. This is used until
+			// DataTables implements a native `updated` event for rows
+			dt.on( 'draw.dtr', function () {
+				dt.rows().iterator( 'row', function ( settings, idx ) {
+					var row = dt.row( idx );
+
+					if ( row.child.isShown() ) {
+						var info = that.c.details.renderer( dt, idx );
+						row.child( info, 'child' ).show();
+					}
+				} );
 			} );
 
 			$(dt.table().node()).addClass( 'dtr-'+details.type );
