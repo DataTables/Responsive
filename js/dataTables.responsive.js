@@ -1,11 +1,11 @@
-/*! Responsive 1.0.3
+/*! Responsive 1.0.4-dev
  * 2014 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Responsive
  * @description Responsive tables plug-in for DataTables
- * @version     1.0.3
+ * @version     1.0.4-dev
  * @file        dataTables.responsive.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -749,15 +749,6 @@ Api.register( 'responsive()', function () {
 	return this;
 } );
 
-Api.register( 'responsive.recalc()', function () {
-	this.iterator( 'table', function ( ctx ) {
-		if ( ctx._responsive ) {
-			ctx._responsive._resizeAuto();
-			ctx._responsive._resize();
-		}
-	} );
-} );
-
 Api.register( 'responsive.index()', function ( li ) {
 	li = $(li);
 
@@ -767,6 +758,23 @@ Api.register( 'responsive.index()', function ( li ) {
 	};
 } );
 
+Api.register( 'responsive.rebuild()', function () {
+	return this.iterator( 'table', function ( ctx ) {
+		if ( ctx._responsive ) {
+			ctx._responsive._classLogic();
+		}
+	} );
+} );
+
+Api.register( 'responsive.recalc()', function () {
+	return this.iterator( 'table', function ( ctx ) {
+		if ( ctx._responsive ) {
+			ctx._responsive._resizeAuto();
+			ctx._responsive._resize();
+		}
+	} );
+} );
+
 
 /**
  * Version information
@@ -774,7 +782,7 @@ Api.register( 'responsive.index()', function ( li ) {
  * @name Responsive.version
  * @static
  */
-Responsive.version = '1.0.3';
+Responsive.version = '1.0.4-dev';
 
 
 $.fn.dataTable.Responsive = Responsive;
