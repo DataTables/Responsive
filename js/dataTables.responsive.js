@@ -627,8 +627,9 @@ Responsive.prototype = {
 			.insertBefore( dt.table().node() );
 
 		// The cloned header now contains the smallest that each column can be
+		// To be on the save side, add 20 pixels per cell.
 		dt.columns().eq(0).each( function ( idx ) {
-			columns[idx].minWidth = cells[ idx ].offsetWidth || 0;
+			columns[idx].minWidth = cells[ idx ].offsetWidth + 20 || 0;
 		} );
 
 		inserted.remove();
