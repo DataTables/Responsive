@@ -716,10 +716,14 @@ Responsive.defaults = {
 				var cellData = dtPrivate.oApi._fnGetCellData(
 					dtPrivate, idx.row, idx.column, 'display'
 				);
+				var title = header.text();
+				if ( title ) {
+					title = title + ':';
+				}
 
 				return '<li data-dtr-index="'+idx.column+'">'+
 						'<span class="dtr-title">'+
-							header.text()+':'+
+							title+
 						'</span> '+
 						'<span class="dtr-data">'+
 							cellData+
