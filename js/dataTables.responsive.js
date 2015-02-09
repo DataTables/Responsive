@@ -616,7 +616,11 @@ Responsive.prototype = {
 			$(clone).appendTo( clonedBody );
 		} );
 
-		var cells        = dt.columns().header().to$().clone( false ).wrapAll('tr').appendTo( clonedHeader );
+		var cells = dt.columns().header().to$().clone( false );
+		$('<tr/>')
+			.append( cells )
+			.appendTo( clonedHeader );
+
 		var inserted     = $('<div/>')
 			.css( {
 				width: 1,
