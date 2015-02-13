@@ -1,11 +1,11 @@
-/*! Responsive 1.0.4
+/*! Responsive 1.0.5-dev
  * 2014 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Responsive
  * @description Responsive tables plug-in for DataTables
- * @version     1.0.4
+ * @version     1.0.5-dev
  * @file        dataTables.responsive.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -156,7 +156,7 @@ Responsive.prototype = {
 			// Redraw the details box on each draw. This is used until
 			// DataTables implements a native `updated` event for rows
 			dt.on( 'draw.dtr', function () {
-				dt.rows().iterator( 'row', function ( settings, idx ) {
+				dt.rows( {page: 'current'} ).iterator( 'row', function ( settings, idx ) {
 					var row = dt.row( idx );
 
 					if ( row.child.isShown() ) {
@@ -790,7 +790,7 @@ Api.register( 'responsive.recalc()', function () {
  * @name Responsive.version
  * @static
  */
-Responsive.version = '1.0.4';
+Responsive.version = '1.0.5-dev';
 
 
 $.fn.dataTable.Responsive = Responsive;
