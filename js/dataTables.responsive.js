@@ -213,8 +213,14 @@ Responsive.prototype = {
 			}
 		}
 
-		// Second pass, use up any remaining width for other columns
-		var widthAvailable = dt.table().container().offsetWidth;
+		// Second pass, use up any remaining width for other columns. For
+		// scrolling tables we need to subtract the width of the scrollbar. It
+		// may not be requires which makes this sub-optimal, but it would
+		// require another full redraw to make complete use of those extra few
+		// pixels
+		var scrolling = dt.settings()[0].oScroll;
+		var bar = scrolling.sY || scrolling.sX ? scrolling.iBarWidth : 0;
+		var widthAvailable = dt.table().container().offsetWidth - bar;
 		var usedWidth = widthAvailable - requiredWidth;
 
 		// Control column needs to always be included. This makes it sub-
@@ -230,11 +236,19 @@ Responsive.prototype = {
 
 		// Allow columns to be shown (counting from the left) until we run out
 		// of room
+		var empty = false;
 		for ( i=0, ien=display.length ; i<ien ; i++ ) {
 			if ( display[i] === '-' && ! columns[i].control ) {
-				display[i] = usedWidth - columns[i].minWidth < 0 ?
-					false :
-					true;
+				// Once we've found a column that won't fit we don't let any
+				// others display either, or columns might disappear in the
+				// middle of the table
+				if ( empty || usedWidth - columns[i].minWidth < 0 ) {
+					empty = true;
+					display[i] = false;
+				}
+				else {
+					display[i] = true;
+				}
 
 				usedWidth -= columns[i].minWidth;
 			}
@@ -497,7 +511,7 @@ Responsive.prototype = {
 			$( dt.table().node() ).addClass('collapsed');
 
 			// Show all existing child rows
-			dt.rows().eq(0).each( function (idx) {
+			dt.rows( { page: 'current' } ).eq(0).each( function (idx) {
 				var row = dt.row( idx );
 
 				if ( row.child() ) {
@@ -518,7 +532,7 @@ Responsive.prototype = {
 			$( dt.table().node() ).removeClass('collapsed');
 
 			// Hide all existing child rows
-			dt.rows().eq(0).each( function (idx) {
+			dt.rows( { page: 'current' } ).eq(0).each( function (idx) {
 				dt.row( idx ).child.hide();
 			} );
 		}
@@ -621,7 +635,7 @@ Responsive.prototype = {
 			.append( cells )
 			.appendTo( clonedHeader );
 
-		var inserted     = $('<div/>')
+		var inserted = $('<div/>')
 			.css( {
 				width: 1,
 				height: 1,
@@ -831,4 +845,3 @@ else if ( jQuery && !jQuery.fn.dataTable.Responsive ) {
 
 
 })(window, document);
-
