@@ -187,28 +187,58 @@ Responsive.prototype = {
 	 *   column.
 	 *  @private
 	 */
-	_columnsVisiblity: function ( breakpoint )
-	{
+	_columnsVisiblity: function (breakpoint) {
 		var dt = this.s.dt;
 		var columns = this.s.columns;
 		var i, ien;
 
+		// Add original index and priority rating to the column properties
+		if (!columns.sorted) {
+			for (i = 0, ien = columns.length ; i < ien ; i++) {
+				var priIndex = columns[i].className.indexOf('pri-');
+				if (priIndex > -1) {
+					columns[i].priority = columns[i].className.substring(priIndex + 4, columns[i].className.indexOf(' ', priIndex));
+					//columns[i].auto = true;
+				} else {
+					columns[i].priority = Infinity;
+				}
+				columns[i].originalIndex = i;
+			}
+		}
+
 		// Class logic - determine which columns are in this breakpoint based
 		// on the classes. If no class control (i.e. `auto`) then `-` is used
 		// to indicate this to the rest of the function
-		var display = $.map( columns, function ( col ) {
-			return col.auto && col.minWidth === null ?
+
+		// Had to modify this logic so it didn't use a map of the sorted columns,
+		// but a map of the original columns for the display array
+		var display = new Array(columns.length);
+
+		for (i = 0, ien = display.length ; i < ien ; i++) {
+			display[columns[i].originalIndex] = columns[i].auto && columns[i].minWidth === null ?
 				false :
-				col.auto === true ?
+				columns[i].auto === true ?
 					'-' :
-					$.inArray( breakpoint, col.includeIn ) !== -1;
-		} );
+					$.inArray(breakpoint, columns[i].includeIn) !== -1;
+		}
+
+		// Sort columns based on priority
+		if (!columns.sorted) {
+			columns.sort(function (x, y) {
+				if (x.priority < y.priority)
+					return -1;
+				if (x.priority > y.priority)
+					return 1;
+				return 0;
+			});
+			columns.sorted = true;
+		}
 
 		// Auto column control - first pass: how much width is taken by the
 		// ones that must be included from the non-auto columns
 		var requiredWidth = 0;
-		for ( i=0, ien=display.length ; i<ien ; i++ ) {
-			if ( display[i] === true ) {
+		for (i = 0, ien = display.length ; i < ien ; i++) {
+			if (display[columns[i].originalIndex] === true) {
 				requiredWidth += columns[i].minWidth;
 			}
 		}
@@ -228,8 +258,8 @@ Responsive.prototype = {
 		// thrashing or overflow. Also we need to account for the control column
 		// width first so we know how much width is available for the other
 		// columns, since the control column might not be the first one shown
-		for ( i=0, ien=display.length ; i<ien ; i++ ) {
-			if ( columns[i].control ) {
+		for (i = 0, ien = display.length ; i < ien ; i++) {
+			if (columns[i].control) {
 				usedWidth -= columns[i].minWidth;
 			}
 		}
@@ -237,17 +267,17 @@ Responsive.prototype = {
 		// Allow columns to be shown (counting from the left) until we run out
 		// of room
 		var empty = false;
-		for ( i=0, ien=display.length ; i<ien ; i++ ) {
-			if ( display[i] === '-' && ! columns[i].control ) {
+		for (i = 0, ien = display.length ; i < ien ; i++) {
+			if (display[columns[i].originalIndex] === '-' && !columns[i].control) {
 				// Once we've found a column that won't fit we don't let any
 				// others display either, or columns might disappear in the
 				// middle of the table
-				if ( empty || usedWidth - columns[i].minWidth < 0 ) {
+				if (empty || usedWidth - columns[i].minWidth < 0) {
 					empty = true;
-					display[i] = false;
+					display[columns[i].originalIndex] = false;
 				}
 				else {
-					display[i] = true;
+					display[columns[i].originalIndex] = true;
 				}
 
 				usedWidth -= columns[i].minWidth;
@@ -261,22 +291,22 @@ Responsive.prototype = {
 		// first , before the action in the second can be taken
 		var showControl = false;
 
-		for ( i=0, ien=columns.length ; i<ien ; i++ ) {
-			if ( ! columns[i].control && ! columns[i].never && ! display[i] ) {
+		for (i = 0, ien = columns.length ; i < ien ; i++) {
+			if (!columns[i].control && !columns[i].never && !display[columns[i].originalIndex]) {
 				showControl = true;
 				break;
 			}
 		}
 
-		for ( i=0, ien=columns.length ; i<ien ; i++ ) {
-			if ( columns[i].control ) {
-				display[i] = showControl;
+		for (i = 0, ien = columns.length ; i < ien ; i++) {
+			if (columns[i].control) {
+				display[columns[i].originalIndex] = showControl;
 			}
 		}
 
 		// Finally we need to make sure that there is at least one column that
 		// is visible
-		if ( $.inArray( true, display ) === -1 ) {
+		if ($.inArray(true, display) === -1) {
 			display[0] = true;
 		}
 
