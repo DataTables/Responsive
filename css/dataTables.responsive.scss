@@ -52,8 +52,8 @@ table.dataTable {
 		}
 
 		> tr.parent {
-			td:first-child:before,
-			th:first-child:before {
+			> td:first-child:before,
+			> th:first-child:before {
 				@include control-close;
 			}
 		}
