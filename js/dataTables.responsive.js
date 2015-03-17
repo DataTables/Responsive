@@ -618,6 +618,8 @@ Responsive.prototype = {
 		var clonedHeader = $( dt.table().header().cloneNode( false ) ).appendTo( clonedTable );
 		var clonedBody   = $( dt.table().body().cloneNode( false ) ).appendTo( clonedTable );
 
+		$( dt.table().footer() ).clone( false ).appendTo( clonedTable );
+
 		// This is a bit slow, but we need to get a clone of each row that
 		// includes all columns. As such, try to do this as little as possible.
 		dt.rows( { page: 'current' } ).indexes().flatten().each( function ( idx ) {
