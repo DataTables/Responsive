@@ -507,9 +507,6 @@ Responsive.prototype = {
 		}
 
 		if ( haveHidden ) {
-			// Got hidden columns
-			$( dt.table().node() ).addClass('collapsed');
-
 			// Show all existing child rows
 			dt.rows( { page: 'current' } ).eq(0).each( function (idx) {
 				var row = dt.row( idx );
@@ -528,9 +525,6 @@ Responsive.prototype = {
 			} );
 		}
 		else {
-			// No hidden columns
-			$( dt.table().node() ).removeClass('collapsed');
-
 			// Hide all existing child rows
 			dt.rows( { page: 'current' } ).eq(0).each( function (idx) {
 				dt.row( idx ).child.hide();
@@ -580,6 +574,10 @@ Responsive.prototype = {
 		
 		// Show the columns for that break point
 		var columns = this._columnsVisiblity( breakpoint );
+
+		// Set the class before the column visibility is changed so event
+		// listeners know what the state is
+		$( dt.table().node() ).toggleClass('collapsed', $.inArray( false, columns ) !== -1 );
 
 		dt.columns().eq(0).each( function ( colIdx, i ) {
 			dt.column( colIdx ).visible( columns[i] );
