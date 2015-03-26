@@ -140,9 +140,6 @@ Responsive.prototype = {
 		this._classLogic();
 		this._resizeAuto();
 
-		// First pass - draw the table for the current viewport size
-		this._resize();
-
 		// Details handler
 		var details = this.c.details;
 		if ( details.type ) {
@@ -168,6 +165,9 @@ Responsive.prototype = {
 
 			$(dt.table().node()).addClass( 'dtr-'+details.type );
 		}
+
+		// First pass - draw the table for the current viewport size
+		this._resize();
 	},
 
 
