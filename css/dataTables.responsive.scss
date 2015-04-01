@@ -63,6 +63,23 @@ table.dataTable {
 		}
 	}
 
+	// DataTables' `compact` styling
+	&.dtr-inline.collapsed.compact > tbody {
+		> tr > td:first-child,
+		> tr > th:first-child {
+			padding-left: 27px;
+
+			&:before {
+				top: 5px;
+				left: 4px;
+				height: 14px;
+				width: 14px;
+				border-radius: 14px;
+				line-height: 12px;
+			}
+		}
+	}
+
 
 	// Styling for the `column` type
 	&.dtr-column > tbody {
