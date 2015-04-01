@@ -824,11 +824,17 @@ $.fn.DataTable.Responsive = Responsive;
 // Attach a listener to the document which listens for DataTables initialisation
 // events so we can automatically initialise
 $(document).on( 'init.dt.dtr', function (e, settings, json) {
+	if ( e.namespace !== 'dt' ) {
+		return;
+	}
+
 	if ( $(settings.nTable).hasClass( 'responsive' ) ||
 		 $(settings.nTable).hasClass( 'dt-responsive' ) ||
 		 settings.oInit.responsive ||
 		 DataTable.defaults.responsive
 	) {
+		console.log( e.namespace );
+
 		var init = settings.oInit.responsive;
 
 		if ( init !== false ) {
