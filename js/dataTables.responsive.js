@@ -433,6 +433,9 @@ Responsive.prototype = {
 		if ( details.type === 'inline' ) {
 			details.target = 'td:first-child';
 		}
+		
+		//Allowing each row to get tab focus
+		$( 'tbody > ' + details.target ).attr( 'tabindex',0 );
 
 		// type.target can be a string jQuery selector or a column index
 		var target   = details.target;
@@ -476,6 +479,13 @@ Responsive.prototype = {
 				$( row.node() ).addClass( 'parent' );
 			}
 		} );
+		
+		//Capturing generic event of enter key when a row is highlighted.
+		$( 'tr' ).keypress(function(e) {
+			if( e.which == 13 ) {//Enter key pressed
+				$(e.currentTarget).click();
+			}
+		});
 	},
 
 
