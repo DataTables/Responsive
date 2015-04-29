@@ -646,14 +646,25 @@ Responsive.prototype = {
 			.append( cells )
 			.appendTo( clonedHeader );
 
+		// In the inline case extra padding is applied to the first column to
+		// give space for the show / hide icon. We need to use this in the
+		// calculation
+		if ( this.c.details.type === 'inline' ) {
+			$(clonedTable).addClass( 'dtr-inline collapsed' );
+		}
+
 		var inserted = $('<div/>')
 			.css( {
 				width: 1,
 				height: 1,
 				overflow: 'hidden'
 			} )
-			.append( clonedTable )
-			.insertBefore( dt.table().node() );
+			.append( clonedTable );
+
+		// Remove columns which are not to be included
+		inserted.find('th.never, td.never').remove();
+
+		inserted.insertBefore( dt.table().node() );
 
 		// The cloned header now contains the smallest that each column can be
 		dt.columns().eq(0).each( function ( idx ) {
