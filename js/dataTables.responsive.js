@@ -458,6 +458,9 @@ Responsive.prototype = {
 					dt.columns().eq(0).length + target :
 					target;
 
+				if ( ! dt.cell( this ).any() ) {
+					return;
+				}
 				if ( dt.cell( this ).index().column !== targetIdx ) {
 					return;
 				}
