@@ -756,7 +756,9 @@ Responsive.defaults = {
 				var cellData = dtPrivate.oApi._fnGetCellData(
 					dtPrivate, idx.row, idx.column, 'display'
 				);
-				var title = header.text();
+
+				// Likewise DataTables needs get/set method for column titles
+				var title = dtPrivate.aoColumns[ idx.column ].sTitle;
 				if ( title ) {
 					title = title + ':';
 				}
