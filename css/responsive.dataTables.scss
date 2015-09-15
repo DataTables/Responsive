@@ -1,5 +1,13 @@
 
 //
+// Variables
+//
+
+$open-button-background: #31b131 !default;
+$close-button-background: #d33333 !default;
+
+
+//
 // Mixins
 //
 @mixin control() {
@@ -16,12 +24,12 @@
 
 @mixin control-open() {
 	content: '+';
-	background-color: #31b131;
+	background-color: $open-button-background;
 }
 
 @mixin control-close() {
 	content: '-';
-	background-color: #d33333;
+	background-color: $close-button-background;
 }
 
 
@@ -60,6 +68,23 @@ table.dataTable {
 
 		> tr.child td:before {
 			display: none;
+		}
+	}
+
+	// DataTables' `compact` styling
+	&.dtr-inline.collapsed.compact > tbody {
+		> tr > td:first-child,
+		> tr > th:first-child {
+			padding-left: 27px;
+
+			&:before {
+				top: 5px;
+				left: 4px;
+				height: 14px;
+				width: 14px;
+				border-radius: 14px;
+				line-height: 12px;
+			}
 		}
 	}
 

@@ -1,15 +1,15 @@
-/*! Responsive 1.0.5-dev
- * 2014 SpryMedia Ltd - datatables.net/license
+/*! Responsive 1.0.8-dev
+ * 2014-2015 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Responsive
  * @description Responsive tables plug-in for DataTables
- * @version     1.0.5-dev
+ * @version     1.0.8-dev
  * @file        dataTables.responsive.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
- * @copyright   Copyright 2014 SpryMedia Ltd.
+ * @copyright   Copyright 2014-2015 SpryMedia Ltd.
  *
  * This source file is free software, available under the following license:
  *   MIT license - http://datatables.net/license/mit
@@ -98,7 +98,7 @@ var Responsive = function ( settings, opts ) {
 	this._constructor();
 };
 
-Responsive.prototype = {
+$.extend( Responsive.prototype, {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Constructor
 	 */
@@ -133,7 +133,7 @@ Responsive.prototype = {
 		} );
 
 		// Determine which columns are already hidden, and should therefore
-		// remain hidden. TODO - should this be done? See thread 22677
+		// remain hidden. todo - should this be done? See thread 22677
 		//
 		// this.s.alwaysHidden = dt.columns(':hidden').indexes();
 
@@ -563,9 +563,11 @@ Responsive.prototype = {
 		var width = $(window).width();
 		var breakpoints = this.c.breakpoints;
 		var breakpoint = breakpoints[0].name;
+		var columns = this.s.columns;
+		var i, ien;
 
 		// Determine what breakpoint we are currently at
-		for ( var i=breakpoints.length-1 ; i>=0 ; i-- ) {
+		for ( i=breakpoints.length-1 ; i>=0 ; i-- ) {
 			if ( width <= breakpoints[i].width ) {
 				breakpoint = breakpoints[i].name;
 				break;
@@ -573,14 +575,23 @@ Responsive.prototype = {
 		}
 		
 		// Show the columns for that break point
-		var columns = this._columnsVisiblity( breakpoint );
+		var columnsVis = this._columnsVisiblity( breakpoint );
 
 		// Set the class before the column visibility is changed so event
-		// listeners know what the state is
-		$( dt.table().node() ).toggleClass('collapsed', $.inArray( false, columns ) !== -1 );
+		// listeners know what the state is. Need to determine if there are
+		// any columns that are not visible but can be shown
+		var collapsedClass = false;
+		for ( i=0, ien=columns.length ; i<ien ; i++ ) {
+			if ( columnsVis[i] === false && ! columns[i].never ) {
+				collapsedClass = true;
+				break;
+			}
+		}
+
+		$( dt.table().node() ).toggleClass('collapsed', collapsedClass );
 
 		dt.columns().eq(0).each( function ( colIdx, i ) {
-			dt.column( colIdx ).visible( columns[i] );
+			dt.column( colIdx ).visible( columnsVis[i] );
 		} );
 	},
 
@@ -635,14 +646,25 @@ Responsive.prototype = {
 			.append( cells )
 			.appendTo( clonedHeader );
 
+		// In the inline case extra padding is applied to the first column to
+		// give space for the show / hide icon. We need to use this in the
+		// calculation
+		if ( this.c.details.type === 'inline' ) {
+			$(clonedTable).addClass( 'dtr-inline collapsed' );
+		}
+
 		var inserted = $('<div/>')
 			.css( {
 				width: 1,
 				height: 1,
 				overflow: 'hidden'
 			} )
-			.append( clonedTable )
-			.insertBefore( dt.table().node() );
+			.append( clonedTable );
+
+		// Remove columns which are not to be included
+		inserted.find('th.never, td.never').remove();
+
+		inserted.insertBefore( dt.table().node() );
 
 		// The cloned header now contains the smallest that each column can be
 		dt.columns().eq(0).each( function ( idx ) {
@@ -651,7 +673,7 @@ Responsive.prototype = {
 
 		inserted.remove();
 	}
-};
+} );
 
 
 /**
@@ -734,7 +756,9 @@ Responsive.defaults = {
 				var cellData = dtPrivate.oApi._fnGetCellData(
 					dtPrivate, idx.row, idx.column, 'display'
 				);
-				var title = header.text();
+
+				// Likewise DataTables needs get/set method for column titles
+				var title = dtPrivate.aoColumns[ idx.column ].sTitle;
 				if ( title ) {
 					title = title + ':';
 				}
@@ -804,7 +828,7 @@ Api.register( 'responsive.recalc()', function () {
  * @name Responsive.version
  * @static
  */
-Responsive.version = '1.0.5-dev';
+Responsive.version = '1.0.8-dev';
 
 
 $.fn.dataTable.Responsive = Responsive;
@@ -813,6 +837,10 @@ $.fn.DataTable.Responsive = Responsive;
 // Attach a listener to the document which listens for DataTables initialisation
 // events so we can automatically initialise
 $(document).on( 'init.dt.dtr', function (e, settings, json) {
+	if ( e.namespace !== 'dt' ) {
+		return;
+	}
+
 	if ( $(settings.nTable).hasClass( 'responsive' ) ||
 		 $(settings.nTable).hasClass( 'dt-responsive' ) ||
 		 settings.oInit.responsive ||
