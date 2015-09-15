@@ -5,7 +5,9 @@
     "main": "make.sh",
     "directories": {
         "doc": "docs",
-        "example": "examples"
+        "example": "examples",
+        "css": "css",
+        "js": "js"
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
