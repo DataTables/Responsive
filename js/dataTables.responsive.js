@@ -74,8 +74,8 @@ var factory = function( $, DataTable ) {
  */
 var Responsive = function ( settings, opts ) {
 	// Sanity check that we are using DataTables 1.10 or newer
-	if ( ! DataTable.versionCheck || ! DataTable.versionCheck( '1.10.1' ) ) {
-		throw 'DataTables Responsive requires DataTables 1.10.1 or newer';
+	if ( ! DataTable.versionCheck || ! DataTable.versionCheck( '1.10.3' ) ) {
+		throw 'DataTables Responsive requires DataTables 1.10.3 or newer';
 	}
 
 	this.s = {
@@ -117,8 +117,9 @@ $.extend( Responsive.prototype, {
 
 		dt.settings()[0]._responsive = this;
 
-		// Use DataTables' private throttle function to avoid processor thrashing
-		$(window).on( 'resize.dtr orientationchange.dtr', dtPrivateSettings.oApi._fnThrottle( function () {
+		// Use DataTables' throttle function to avoid processor thrashing on
+		// resize
+		$(window).on( 'resize.dtr orientationchange.dtr', DataTable.util.throttle( function () {
 			that._resize();
 		} ) );
 
