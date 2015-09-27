@@ -140,6 +140,7 @@ $.extend( Responsive.prototype, {
 
 		// Destroy event handler
 		dt.on( 'destroy.dtr', function () {
+			dt.off('.dtr');
 			$(window).off( 'resize.dtr orientationchange.dtr' );
 		} );
 
