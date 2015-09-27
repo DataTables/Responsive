@@ -5,12 +5,24 @@
 	<since>Responsive 1.0.0</since>
 
 	<type type="function">
-		<signature>renderer( api, rowIdx )</signature>
+		<signature>renderer( api, rowIdx, columns )</signature>
 		<parameter type="DataTables.Api" name="api">
 			DataTables API instance for the table in question
 		</parameter>
 		<parameter type="integer" name="rowIdx">
 			Row index for the row that the renderer is being asked to render. Use the `dt-api row()` and / or `dt-api cells()` methods to get information from the API about the row so the information can be rendered.
+		</parameter>
+		<parameter type="array" name="columns" since="2.0.0">
+			An array of objects containing information about each column in the DataTable. The array length is exactly equal to the number of columns in the DataTable, with each column represented by a DataTable in index order. Additionally, the structure of each object in the array is:
+
+			```js
+			{
+				title: "...",          // string - column title
+				data: "...",           // string - cell's value
+				hidden: true / false   // boolean - true if hidden by Responsive - otherwise false
+			}
+			```
+
 		</parameter>
 		<returns type="boolean|string">
 			Two values can be returned:
@@ -37,20 +49,15 @@
 $('#example').DataTable( {
 	responsive: {
 		details: {
-			renderer: function ( api, rowIdx ) {
-				// Select hidden columns for the given row
-				var data = api.cells( rowIdx, ':hidden' ).eq(0).map( function ( cell ) {
-					var header = $( api.column( cell.column ).header() );
-
-					return '<tr>'+
-							'<td>'+
-								header.text()+':'+
-							'</td> '+
-							'<td>'+
-								api.cell( cell ).data()+
-							'</td>'+
-						'</tr>';
-				} ).toArray().join('');
+			renderer: function ( api, rowIdx, columns ) {
+				var data = $.map( columns, function ( col, i ) {
+					return col.hidden ?
+						'<tr>'+
+							'<td>'+col.title+':'+'</td> '+
+							'<td>'+col.data+'</td>'+
+						'</tr>' :
+						'';
+				} ).join('');
 
 				return data ?
 					$('<table/>').append( data ) :

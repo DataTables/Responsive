@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-wide" table-class="display responsive nowrap" order="6">
+
+<css lib="datatables responsive buttons" />
+<js lib="jquery datatables responsive buttons buttons-colvis">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		dom: 'Bfrtip',
+		buttons: [
+			'colvis'
+		]
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Responsive">Column visibility</title>
+
+<info><![CDATA[
+
+
+
+]]></info>
+
+</dt-example>
+

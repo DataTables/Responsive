@@ -9,20 +9,15 @@ $(document).ready(function() {
 	$('#example').DataTable( {
 		responsive: {
 			details: {
-				renderer: function ( api, rowIdx ) {
-					// Select hidden columns for the given row
-					var data = api.cells( rowIdx, ':hidden' ).eq(0).map( function ( cell ) {
-						var header = $( api.column( cell.column ).header() );
-
-						return '<tr>'+
-								'<td>'+
-									header.text()+':'+
-								'</td> '+
-								'<td>'+
-									api.cell( cell ).data()+
-								'</td>'+
-							'</tr>';
-					} ).toArray().join('');
+				renderer: function ( api, rowIdx, columns ) {
+					var data = $.map( columns, function ( col, i ) {
+						return col.hidden ?
+							'<tr>'+
+								'<td>'+col.title+':'+'</td> '+
+								'<td>'+col.data+'</td>'+
+							'</tr>' :
+							'';
+					} ).join('');
 
 					return data ?
 						$('<table/>').append( data ) :
@@ -40,9 +35,9 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-The child row's for a collapsed table in Responsive, by default, show a `-tag ul/li` list of the data from the hidden columns. The `r-init responsive.details.renderer` option provide the ability to create your own custom renderer. It is given two parameters: the DataTables API instance for the table and the row index to use.
+The child row's for a collapsed table in Responsive, by default, show a `-tag ul/li` list of the data from the hidden columns. The `r-init responsive.details.renderer` option provide the ability to create your own custom renderer. It is given three parameters: the DataTables API instance for the table, the row index to use and an array of information about the columns - please refer to the `r-init responsive.details.renderer` documentation for full details of the object structure used in the array for each column.
 
-This example shows the `dt-api cells()` method being used to select the hidden columns and constructing a table of the data. You could refine the selector to select only certain columns, or show all columns, etc.
+This example shows the `columns` parameter that is passed in to display information only about the columns that Responsive has hidden. You could refine this to select only certain columns, or show all columns, etc.
 
 ]]></info>
 
