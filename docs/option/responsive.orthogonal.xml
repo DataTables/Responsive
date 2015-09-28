@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Responsive">
+	<name>responsive.orthogonal</name>
+	<summary>Set the orthogonal data request type for the hidden information display</summary>
+	<since>Responsive 2.0.0</since>
+
+	<type type="string">
+		<description>
+			The data type to request when obtaining data from the DataTable for a specific cell. See the `dt-init columns.render` and `dt-api cell().render()` documentation for full details.
+		</description>
+	</type>
+
+	<default value="display">
+		The same data that is shown in the DataTable will be requested when accessing the data for the hidden information display.
+	</default>
+
+	<description>
+		When Responsive is asked to show the hidden information about a DataTable row, it uses the `dt-api cell().render()` method to access this data for each cell in the row. This method provides DataTables ability to make use of [orthogonal data](//datatables.net/manual/orhtogonal-data) - that is, the same data but formatted in a different way for different uses.
+
+		Consider for example the number _123456_ - when displaying in the table you might wish to have this displayed as a currency value: `$1,234.56` but for search and sort you would use the unformatted number. This ability is provided by using the `dt-init columns.render` option as a function or an object and specifying the data you want to retrieve for each specific use that DataTables has for the data.
+
+		Typically you will wish Responsive to simply use the same data that is shown in the DataTable cells, which it does by default, but you may wish to format data in a specific way for Responsive's information display. That is made possible by this parameter.
+	</description>
+
+	<example title="Set a specific data request type for the information display"><![CDATA[
+
+$('#example').DataTable( {
+	responsive: {
+		orthogonal: 'responsive'
+	}
+} );
+
+]]></example>
+
+</dt-option>

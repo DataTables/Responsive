@@ -529,7 +529,7 @@ $.extend( Responsive.prototype, {
 		return $.map( this.s.columns, function( col, i ) {
 			return {
 				title:   dt.settings()[0].aoColumns[ i ].sTitle,
-				data:    dt.cell( rowIdx, i ).render( 'display' ),  // xxx orthogonal option
+				data:    dt.cell( rowIdx, i ).render( that.c.orthogonal ),
 				hidden:  dt.column( i ).visible() && !that.s.current[ i ]
 			};
 		} );
@@ -880,7 +880,15 @@ Responsive.defaults = {
 		target: 0,
 
 		type: 'inline'
-	}
+	},
+
+	/**
+	 * Orthogonal data request option. This is used to define the data type
+	 * requested when Responsive gets the data to show in the child row.
+	 *
+	 * @type {String}
+	 */
+	orthogonal: 'display'
 };
 
 
