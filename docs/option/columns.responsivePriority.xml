@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Responsive">
+	<name>columns.responsivePriority</name>
+	<summary>Set column's visibility priority</summary>
+	<since>Responsive 2.0.0</since>
+
+	<type type="integer">
+		<description>
+			The priority is an integer value where lower numbers are given a higher priority (i.e. a column with priority 2 will be hidden before a column with priority 1).
+
+			It is expected that the priority given should be >=0, but it is technically possible to use negative numbers to increase priority for important columns.
+		</description>
+	</type>
+
+	<default value="undefined">
+		The default value for this parameter is `-type undefined`. When Responsive finds an undefined priority value it will automatically set the column's priority to 10000.
+	</default>
+
+	<description>
+		<![CDATA[
+		Responsive will automatically remove columns from the right-hand-side of the table when it needs to hide columns when a table is too wide for a given display. Although this is a useful default, this behaviour might not always suit your needs and you want to control the order in which columns are hidden. This parameter provides that ability by setting a visibility priority order.
+
+		The value given will set the column's visibility priority with a lower number representing a higher priority in terms of staying visible in the table. For example a column with a priority of 2 will be removed from the display before a column with priority 1, regardless of the order that they appear in the table.
+
+		This can be particularly useful for cases where you wish to keep the right hand column(s) visible if they contain action buttons or other important information.
+
+		The column priority can also be defined by a `data-priority` attribute on the column's header cell (for example `-tag <th data-priority="1">First name</th>`). If both a `data-priority` attribute and a `r-init columns.responsivePriority` value has been set for a single column, the `r-init columns.responsivePriority` value will always be used.
+		]]>
+	</description>
+
+	<example title="Give priority to the first and last columns"><![CDATA[
+
+$('#example').DataTable( {
+	responsive: true,
+	columnDefs: [
+		{ responsivePriority: 1, targets: 0 },
+		{ responsivePriority: 2, targets: -1 }
+	]
+} );
+
+]]></example>
+
+	<example title="Hide columns from the left to the right"><![CDATA[
+
+$('#example').DataTable( {
+	responsive: true,
+	columns: [
+		{ responsivePriority: 6 },
+		{ responsivePriority: 5 },
+		{ responsivePriority: 4 },
+		{ responsivePriority: 3 },
+		{ responsivePriority: 2 },
+		{ responsivePriority: 1 }
+	]
+} );
+
+]]></example>
+
+</dt-option>

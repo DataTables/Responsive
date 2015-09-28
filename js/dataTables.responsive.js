@@ -64,7 +64,7 @@ var factory = function( $, DataTable ) {
  *  @param {object} settings DataTables settings object for the host table
  *  @param {object} [opts] Configuration options
  *  @requires jQuery 1.7+
- *  @requires DataTables 1.10.1+
+ *  @requires DataTables 1.10.3+
  *
  *  @example
  *      $('#example').DataTable( {
@@ -205,6 +205,24 @@ $.extend( Responsive.prototype, {
 		var columns = this.s.columns;
 		var i, ien;
 
+		// Create an array that defines the column ordering based first on the
+		// column's priority, and secondly the column index. This allows the
+		// columns to be removed from the right if the priority matches
+		var order = columns
+			.map( function ( col, idx ) {
+				return {
+					columnIdx: idx,
+					priority: col.priority
+				};
+			} )
+			.sort( function ( a, b ) {
+				if ( a.priority !== b.priority ) {
+					return a.priority - b.priority;
+				}
+				return a.columnIdx - b.columnIdx;
+			} );
+
+
 		// Class logic - determine which columns are in this breakpoint based
 		// on the classes. If no class control (i.e. `auto`) then `-` is used
 		// to indicate this to the rest of the function
@@ -246,23 +264,25 @@ $.extend( Responsive.prototype, {
 			}
 		}
 
-		// Allow columns to be shown (counting from the left) until we run out
-		// of room
+		// Allow columns to be shown (counting by priority and then right to
+		// left) until we run out of room
 		var empty = false;
-		for ( i=0, ien=display.length ; i<ien ; i++ ) {
-			if ( display[i] === '-' && ! columns[i].control && columns[i].minWidth ) {
+		for ( i=0, ien=order.length ; i<ien ; i++ ) {
+			var colIdx = order[i].columnIdx;
+
+			if ( display[colIdx] === '-' && ! columns[colIdx].control && columns[colIdx].minWidth ) {
 				// Once we've found a column that won't fit we don't let any
 				// others display either, or columns might disappear in the
 				// middle of the table
-				if ( empty || usedWidth - columns[i].minWidth < 0 ) {
+				if ( empty || usedWidth - columns[colIdx].minWidth < 0 ) {
 					empty = true;
-					display[i] = false;
+					display[colIdx] = false;
 				}
 				else {
-					display[i] = true;
+					display[colIdx] = true;
 				}
 
-				usedWidth -= columns[i].minWidth;
+				usedWidth -= columns[colIdx].minWidth;
 			}
 		}
 
@@ -309,15 +329,25 @@ $.extend( Responsive.prototype, {
 		var that = this;
 		var calc = {};
 		var breakpoints = this.c.breakpoints;
-		var columns = this.s.dt.columns().eq(0).map( function (i) {
-			var className = this.column(i).header().className;
+		var dt = this.s.dt;
+		var columns = dt.columns().eq(0).map( function (i) {
+			var column = this.column(i);
+			var className = column.header().className;
+			var priority = dt.settings()[0].aoColumns[i].responsivePriority;
+
+			if ( priority === undefined ) {
+				priority = $(column.header).data('priority') !== undefined ?
+					$(column.header).data('priority') * 1 :
+					10000;
+			}
 
 			return {
 				className: className,
 				includeIn: [],
 				auto:      false,
 				control:   false,
-				never:     className.match(/\bnever\b/) ? true : false
+				never:     className.match(/\bnever\b/) ? true : false,
+				priority:  priority
 			};
 		} );
 
