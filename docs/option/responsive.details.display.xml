@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Responsive">
+	<name>responsive.details.display</name>
+	<summary>Define how the hidden information should be displayed to the end user</summary>
+	<since>Responsive 2.0.0</since>
+
+	<type type="function">
+		<signature>display( row, update, render )</signature>
+		<parameter type="DataTables.Api" name="row">
+			DataTables API instance for the table in question which is pre-populated with the row that is being acted upon - i.e. the result from `dt-api row()`.
+		</parameter>
+		<parameter type="boolean" name="update">
+			This parameter is used to inform the function what has triggered the function call:
+
+			* `true` - It is an automatic update caused by a change in column visibility, redrawing the table or some other action that is not the user specifically activating the row.
+			* `false` - End user trigger of the row. This should liken be used as a toggle (if the hidden details can be shown and hidden) or a show action if they can only be shown from the row (e.g. in a modal).
+		</parameter>
+		<parameter type="function" name="render">
+			The data to be shown - this is given as a function so it will be executed only when required (i.e. there is no point in gather data to display if the display function is simply going to hide it). The string returned by this function is that given by the `r-init responsive.details.renderer` function. It accepts no input parameters.
+		</parameter>
+		<returns type="boolean">
+			`true` if the display function has shown the hidden data, `false` if not. This information is used to trigger the events indicating if Responsive has shown or hidden information. If `undefined` is returned, no event will be triggered.
+		</returns>
+	</type>
+
+
+	<default value="$.fn.dataTable.Responsive.display.childRow"/>
+
+	<description>
+		Responsive provides the ability to show information about the columns it has hidden using DataTables child rows feature (`dt-api row().child()`), but you may wish to display the data in a different manner (potentially so you can use the child rows for other actions such as editing) - this parameter provides that ability.
+
+		The function given is responsible for show and hiding the child data, usually when requested to do so by the end user (second parameter). It can be used to display information in child rows (as it is by default), in a modal pop-up, in a separate information element or even potentially to open a new window with a details view.
+
+		Responsive has a number of built in display functions which can be accessed from the `$.fn.dataTable.Responsive.display` object - the build in options are:
+
+		* `childRow` - Show hidden information in a child row, the visibility of which can be toggled by an end user.
+		* `childRowImmediate` - Show information in a child row, but don't wait for user request to show the data, just show it immediately.
+	</description>
+
+	<example title="Use the `childRowImmediate` display option"><![CDATA[
+
+$('#example').DataTable( {
+	responsive: {
+		details: {
+			display: $.fn.dataTable.Responsive.display.childRowImmediate,
+			type: ''
+		}
+	}
+} );
+
+]]></example>
+
+</dt-option>

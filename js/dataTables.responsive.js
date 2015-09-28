@@ -156,9 +156,8 @@ $.extend( Responsive.prototype, {
 
 		// Details handler
 		var details = this.c.details;
-		if ( details.type ) {
+		if ( details.type !== false ) {
 			that._detailsInit();
-			this._detailsVis();
 
 			// DataTables will trigger this event on every column it shows and
 			// hides individually
@@ -508,15 +507,14 @@ $.extend( Responsive.prototype, {
 			// $().closest() includes itself in its check
 			var row = dt.row( $(this).closest('tr') );
 
-			if ( row.child.isShown() ) {
-				row.child( false );
-				$( row.node() ).removeClass( 'parent' );
-			}
-			else {
-				var info = that.c.details.renderer( dt, row[0], that._detailsObj(row[0]) );
-				row.child( info, 'child' ).show();
-				$( row.node() ).addClass( 'parent' );
-			}
+			// The renderer is given as a function so the caller can execute it
+			// only when they need (i.e. if hiding there is no point is running
+			// the renderer)
+			that.c.details.display( row, false, function () {
+				return that.c.details.renderer(
+					dt, row[0], that._detailsObj(row[0])
+				);
+			} );
 		} );
 	},
 
@@ -533,55 +531,6 @@ $.extend( Responsive.prototype, {
 				hidden:  dt.column( i ).visible() && !that.s.current[ i ]
 			};
 		} );
-	},
-
-
-	/**
-	 * Update the child rows in the table whenever the column visibility changes
-	 *
-	 * @private
-	 */
-	_detailsVis: function ()
-	{
-		var that = this;
-		var dt = this.s.dt;
-		var columns = this.s.columns;
-		var current = this.s.current;
-
-		// Find how many columns are hidden
-		var hiddenColumns = $.map( this.s.current, function ( val, i ) {
-			return val === true ? true : null;
-		} );
-		var haveHidden = true;
-
-		if ( hiddenColumns.length === 0 || ( hiddenColumns.length === 1 && columns[ hiddenColumns[0] ].control ) ) {
-			haveHidden = false;
-		}
-
-		if ( haveHidden ) {
-			// Show all existing child rows
-			dt.rows( { page: 'current' } ).eq(0).each( function (idx) {
-				var row = dt.row( idx );
-
-				if ( row.child() ) {
-					var info = that.c.details.renderer( dt, row[0] );
-
-					// The renderer can return false to have no child row
-					if ( info === false ) {
-						row.child.hide();
-					}
-					else {
-						row.child( info, 'child' ).show();
-					}
-				}
-			} );
-		}
-		else {
-			// Hide all existing child rows
-			dt.rows( { page: 'current' } ).eq(0).each( function (idx) {
-				dt.row( idx ).child.hide();
-			} );
-		}
 	},
 
 
@@ -618,10 +567,11 @@ $.extend( Responsive.prototype, {
 		dt.rows( {page: 'current'} ).iterator( 'row', function ( settings, idx ) {
 			var row = dt.row( idx );
 
-			if ( $(row.node()).hasClass('parent') ) {
-				var info = that.c.details.renderer( dt, idx, that._detailsObj(idx) );
-				row.child( info, 'child' ).show();
-			}
+			that.c.details.display( row, true, function () {
+				return that.c.details.renderer(
+					dt, row[0], that._detailsObj(row[0])
+				);
+			} );
 		} );
 	},
 
@@ -666,7 +616,7 @@ $.extend( Responsive.prototype, {
 			}
 		}
 
-		$( dt.table().node() ).toggleClass('collapsed', collapsedClass );
+		$( dt.table().node() ).toggleClass( 'collapsed', collapsedClass );
 
 		dt.columns().eq(0).each( function ( colIdx, i ) {
 			that._setColumnVis( colIdx, columnsVis[i] );
@@ -814,6 +764,58 @@ Responsive.breakpoints = [
 
 
 /**
+ * Display methods - functions which define how the hidden data should be shown
+ * in the table.
+ *
+ * @namespace
+ * @name Responsive.defaults
+ * @static
+ */
+Responsive.display = {
+	childRow: function ( row, update, render ) {
+		if ( update ) {
+			if ( $(row.node()).hasClass('parent') ) {
+				row.child( render(), 'child' ).show();
+
+				return true;
+			}
+		}
+		else {
+			if ( ! row.child.isShown()  ) {
+				row.child( render(), 'child' ).show();
+				$( row.node() ).addClass( 'parent' );
+
+				return true;
+			}
+			else {
+				row.child( false );
+				$( row.node() ).removeClass( 'parent' );
+
+				return false;
+			}
+		}
+	},
+
+	childRowImmediate: function ( row, update, render ) {
+		if ( (! update && row.child.isShown()) || ! row.responsive.hasHidden() ) {
+			// User interaction and the row is show, or nothing to show
+			row.child( false );
+			$( row.node() ).removeClass( 'parent' );
+
+			return false;
+		}
+		else {
+			// Display
+			row.child( render(), 'child' ).show();
+			$( row.node() ).addClass( 'parent' );
+
+			return true;
+		}
+	}
+};
+
+
+/**
  * Responsive default settings for initialisation
  *
  * @namespace
@@ -848,6 +850,7 @@ Responsive.defaults = {
 	 *
 	 * The object consists of the following properties:
 	 *
+	 * * `display` - A function that is used to show and hide the hidden details
 	 * * `renderer` - function that is called for display of the child row data.
 	 *   The default function will show the data from the hidden columns
 	 * * `target` - Used as the selector for what objects to attach the child
@@ -858,6 +861,8 @@ Responsive.defaults = {
 	 * @type {Object|string}
 	 */
 	details: {
+		display: Responsive.display.childRow,
+
 		renderer: function ( api, rowIdx, columns ) {
 			var data = $.map( columns, function ( col, i ) {
 				return col.hidden ?
@@ -926,6 +931,14 @@ Api.register( 'responsive.recalc()', function () {
 			ctx._responsive._resize();
 		}
 	} );
+} );
+
+Api.register( 'responsive.hasHidden()', function () {
+	var ctx = this.context[0];
+
+	return ctx._responsive ?
+		$.inArray( false, ctx._responsive.s.current ) !== -1 :
+		false;
 } );
 
 

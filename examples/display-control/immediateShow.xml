@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-wide" table-class="display nowrap" order="1">
+
+<css lib="datatables responsive" />
+<js lib="jquery datatables responsive">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		responsive: {
+			details: {
+				display: $.fn.dataTable.Responsive.display.childRowImmediate,
+				type: ''
+			}
+		}
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Responsive">Immediately show hidden details</title>
+
+<info><![CDATA[
+
+Responsive has the ability to display the details that it has hidden in a variety of different ways. Its default is to allow the end user to toggle the the display by clicking on a row and showing the information in a DataTables child row. At times it can be useful not to require end user interaction to display the hidden data in a responsive manner, which can be done with the `childRowImmediate` display type.
+
+Display types are set using the `r-init responsive.details.display` option which should point to a function that will handle the child row display. The built in options are available in the `$.fn.dataTable.Responsive.display` object. See `r-init responsive.details.display` for a full list of the options available.
+
+Additionally, the `r-init responsive.details.type` option is set to be an empty string in this example to disable the user's ability to toggle the child rows - i.e. in this example the full contents of the table are always visible. This could be removed if you want to retain that ability.
+
+]]></info>
+
+</dt-example>
+
