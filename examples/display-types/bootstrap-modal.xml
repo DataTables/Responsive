@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-wide" table-class="display nowrap" order="2" framework="bootstrap">
+
+<css lib="datatables responsive"/>
+<js lib="jquery bootstrap datatables responsive">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		responsive: {
+			details: {
+				display: $.fn.dataTable.Responsive.display.modal,
+				renderer: function ( api, rowIdx, columns ) {
+					var data = $.map( columns, function ( col, i ) {
+						return '<tr>'+
+								'<td>'+col.title+':'+'</td> '+
+								'<td>'+col.data+'</td>'+
+							'</tr>';
+					} ).join('');
+
+					return $('<div />')
+						.append( '<h4 class="modal-title">Details for '+columns[0].data+' '+columns[1].data+'</h4>' )
+						.append( $('<table class="table"/>').append( data ) );
+				}
+			}
+		}
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Responsive">Bootstrap modal</title>
+
+<info><![CDATA[
+
+This example shows the `r-init responsive.details.display` option being used with the `modal` option, which, when used with the Bootstrap integration for Responsive, will use Bootstrap's native modal display.
+
+In this case the `r-init responsive.details.renderer` returns a table showing the full contents of the row, plus an `-tag h4` tag for the modal title. The Bootstrap modal code for Responsive will automatically move `-tag h2`, `-tag h3` and `-tag h4` elements into the title from the node returned by the rendering function.
+
+]]></info>
+
+</dt-example>
+
