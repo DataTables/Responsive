@@ -629,6 +629,7 @@ $.extend( Responsive.prototype, {
 		var breakpoint = breakpoints[0].name;
 		var columns = this.s.columns;
 		var i, ien;
+		var oldVis = this.s.current.slice();
 
 		// Determine what breakpoint we are currently at
 		for ( i=breakpoints.length-1 ; i>=0 ; i-- ) {
@@ -655,11 +656,18 @@ $.extend( Responsive.prototype, {
 
 		$( dt.table().node() ).toggleClass( 'collapsed', collapsedClass );
 
+		var changed = false;
+
 		dt.columns().eq(0).each( function ( colIdx, i ) {
-			that._setColumnVis( colIdx, columnsVis[i] );
+			if ( columnsVis[i] !== oldVis[i] ) {
+				changed = true;
+				that._setColumnVis( colIdx, columnsVis[i] );
+			}
 		} );
 
-		this._redrawChildren();
+		if ( changed ) {
+			this._redrawChildren();
+		}
 	},
 
 
