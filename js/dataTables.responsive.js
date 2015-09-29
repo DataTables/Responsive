@@ -476,6 +476,30 @@ $.extend( Responsive.prototype, {
 
 
 	/**
+	 * Show the details for the child row
+	 *
+	 * @param  {DataTables.Api} row    API instance for the row
+	 * @param  {boolean}        update Update flag
+	 * @private
+	 */
+	_detailsDisplay: function ( row, update )
+	{
+		var that = this;
+		var dt = this.s.dt;
+
+		var res = this.c.details.display( row, update, function () {
+			return that.c.details.renderer(
+				dt, row[0], that._detailsObj(row[0])
+			);
+		} );
+
+		if ( res === true || res === false ) {
+			$(dt.table().node()).triggerHandler( 'responsive-display.dt', [dt, row, res, update] );
+		}
+	},
+
+
+	/**
 	 * Initialisation for the details handler
 	 *
 	 * @private
@@ -526,15 +550,16 @@ $.extend( Responsive.prototype, {
 			// The renderer is given as a function so the caller can execute it
 			// only when they need (i.e. if hiding there is no point is running
 			// the renderer)
-			that.c.details.display( row, false, function () {
-				return that.c.details.renderer(
-					dt, row[0], that._detailsObj(row[0])
-				);
-			} );
+			that._detailsDisplay( row, false );
 		} );
 	},
 
 
+	/**
+	 * Get the details to pass to a renderer for a row
+	 * @param  {int} rowIdx Row index
+	 * @private
+	 */
 	_detailsObj: function ( rowIdx )
 	{
 		var that = this;
@@ -583,11 +608,7 @@ $.extend( Responsive.prototype, {
 		dt.rows( {page: 'current'} ).iterator( 'row', function ( settings, idx ) {
 			var row = dt.row( idx );
 
-			that.c.details.display( row, true, function () {
-				return that.c.details.renderer(
-					dt, row[0], that._detailsObj(row[0])
-				);
-			} );
+			that._detailsDisplay( dt.row( idx ), true );
 		} );
 	},
 

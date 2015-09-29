@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-event library="Responsive">
+	<name>responsive-display</name>
+	<summary>The details for a row have been displayed, updated or hidden</summary>
+	<since>2.0.0</since>
+
+	<type type="function">
+		<signature>function( e, datatable, row, showHide, update )</signature>
+		<parameter type="object" name="e">
+			jQuery event object
+		</parameter>
+		<parameter type="DataTables.Api" name="datatable">
+			DataTable API instance for the table in question
+		</parameter>
+		<parameter type="DataTables.Api" name="row">
+			The `dt-api row()` for the row whose details are being handled
+		</parameter>
+		<parameter type="boolean" name="showHide">
+			Flag to indicate if the details are being shown (`true`) or hidden (`false`). This value is determined by the function used for `r-init responsive.details.display`.
+		</parameter>
+		<parameter type="boolean" name="update">
+			Flag to indicate if the details data is being updated (`true`) due to an event such as resizing the table, or the details data is being shown / hidden at the request of the end user (`false`).
+		</parameter>
+		<scope>HTML table element</scope>
+	</type>
+
+	<description>
+		It can sometimes be useful to know when the end user requests that Responsive show the details of the hidden rows in a column (be it in a child row or a modal), when those details are hidden or when the details have been updated. THis event provides that ability.
+
+		Please note that, as with all DataTables emitted events, this event is triggered with the `dt` namespace. As such, to listen for this event, you must also use the `dt` namespace by simply appending `.dt` to your event name, or use `dt-api on()` which will automatically append this name space, as shown in the example below.
+	</description>
+
+	<example title="Listen for details display event using `dt-api on()`"><![CDATA[
+
+var table = $('#example').DataTable( {
+	responsive: true
+} );
+
+table.on( 'responsive-display', function ( e, datatable, row, showHide, update ) {
+	console.log( 'Details for row '+row.index()+' '+(showHide ? 'shown' : 'hidden') );
+} );
+
+]]></example>
+</dt-event>
