@@ -35,6 +35,7 @@
 
 		* `childRow` - Show hidden information in a child row, the visibility of which can be toggled by an end user.
 		* `childRowImmediate` - Show information in a child row, but don't wait for user request to show the data, just show it immediately.
+		* `modal` - Show information in a modal pop-up. When used with the Bootstrap, Foundation and jQuery UI integration options, Responsive will use use the styling framework's native modal display to ensure a consistent interface is displayed to the end user.
 	</description>
 
 	<example title="Use the `childRowImmediate` display option"><![CDATA[
