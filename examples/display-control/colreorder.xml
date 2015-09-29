@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-wide" table-class="display nowrap" order="2">
+
+<css lib="datatables responsive colreorder"/>
+<js lib="jquery datatables responsive colreorder">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		responsive: true,
+		colReorder: true
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Responsive">ColReorder</title>
+
+<info><![CDATA[
+
+
+
+]]></info>
+
+</dt-example>
+

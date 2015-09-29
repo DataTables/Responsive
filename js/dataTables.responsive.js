@@ -177,6 +177,15 @@ $.extend( Responsive.prototype, {
 			$(dt.table().node()).addClass( 'dtr-'+details.type );
 		}
 
+		dt.on( 'column-reorder.dtr', function (e, settings, details) {
+			// This requires ColReorder 1.2.1 or newer
+			if ( details.drop ) {
+				that._classLogic();
+				that._resizeAuto();
+				that._resize();
+			}
+		} );
+
 		// First pass - draw the table for the current viewport size
 		this._resize();
 	},
