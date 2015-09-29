@@ -142,6 +142,13 @@ $.extend( Responsive.prototype, {
 		dt.on( 'destroy.dtr', function () {
 			dt.off('.dtr');
 			$(window).off( 'resize.dtr orientationchange.dtr' );
+
+			// Restore the columns that we've hidden
+			$.each( that.s.current, function ( i, val ) {
+				if ( val === false ) {
+					that._setColumnVis( i, true );
+				}
+			} );
 		} );
 
 		// Reorder the breakpoints array here in case they have been added out
