@@ -140,7 +140,8 @@ $.extend( Responsive.prototype, {
 
 		// Destroy event handler
 		dt.on( 'destroy.dtr', function () {
-			dt.off('.dtr');
+			dt.off( '.dtr' );
+			$( dt.table().body() ).off( '.dtr' );
 			$(window).off( 'resize.dtr orientationchange.dtr' );
 
 			// Restore the columns that we've hidden
@@ -403,8 +404,7 @@ $.extend( Responsive.prototype, {
 				}
 			}
 			else if ( operator === 'not-' ) {
-				// Add all but this breakpoint (xxx need extra information)
-
+				// Add all but this breakpoint
 				for ( i=0, ien=breakpoints.length ; i<ien ; i++ ) {
 					if ( breakpoints[i].name.indexOf( matched ) === -1 ) {
 						add( colIdx, breakpoints[i].name );
@@ -515,43 +515,60 @@ $.extend( Responsive.prototype, {
 			details.target = 'td:first-child';
 		}
 
+		// Keyboard accessibility
+		dt.on( 'draw.dtr', function () {
+			that._tabIndexes();
+		} );
+		that._tabIndexes(); // Initial draw has already happened
+
+		$( dt.table().body() ).on( 'keyup.dtr', 'td', function (e) {
+			if ( e.keyCode === 13 && $(this).data('dtr-keyboard') ) {
+				$(this).click();
+			}
+		} );
+
 		// type.target can be a string jQuery selector or a column index
 		var target   = details.target;
 		var selector = typeof target === 'string' ? target : 'td';
 
 		// Click handler to show / hide the details rows when they are available
-		$( dt.table().body() ).on( 'click', selector, function (e) {
-			// If the table is not collapsed (i.e. there is no hidden columns)
-			// then take no action
-			if ( ! $(dt.table().node()).hasClass('collapsed' ) ) {
-				return;
-			}
-
-			// Check that the row is actually a DataTable's controlled node
-			if ( ! dt.row( $(this).closest('tr') ).length ) {
-				return;
-			}
-
-			// For column index, we determine if we should act or not in the
-			// handler - otherwise it is already okay
-			if ( typeof target === 'number' ) {
-				var targetIdx = target < 0 ?
-					dt.columns().eq(0).length + target :
-					target;
-
-				if ( dt.cell( this ).index().column !== targetIdx ) {
+		$( dt.table().body() )
+			.on( 'mousedown.dtr', selector, function (e) {
+				// For mouse users, prevent the focus ring from showing
+				e.preventDefault();
+			} )
+			.on( 'click.dtr', selector, function () {
+				// If the table is not collapsed (i.e. there is no hidden columns)
+				// then take no action
+				if ( ! $(dt.table().node()).hasClass('collapsed' ) ) {
 					return;
 				}
-			}
 
-			// $().closest() includes itself in its check
-			var row = dt.row( $(this).closest('tr') );
+				// Check that the row is actually a DataTable's controlled node
+				if ( ! dt.row( $(this).closest('tr') ).length ) {
+					return;
+				}
 
-			// The renderer is given as a function so the caller can execute it
-			// only when they need (i.e. if hiding there is no point is running
-			// the renderer)
-			that._detailsDisplay( row, false );
-		} );
+				// For column index, we determine if we should act or not in the
+				// handler - otherwise it is already okay
+				if ( typeof target === 'number' ) {
+					var targetIdx = target < 0 ?
+						dt.columns().eq(0).length + target :
+						target;
+
+					if ( dt.cell( this ).index().column !== targetIdx ) {
+						return;
+					}
+				}
+
+				// $().closest() includes itself in its check
+				var row = dt.row( $(this).closest('tr') );
+
+				// The renderer is given as a function so the caller can execute it
+				// only when they need (i.e. if hiding there is no point is running
+				// the renderer)
+				that._detailsDisplay( row, false );
+			} );
 	},
 
 
@@ -774,8 +791,9 @@ $.extend( Responsive.prototype, {
 	 * supported (and all evergreen browsers of course) the control of the
 	 * display attribute works well.
 	 *
-	 * @param {[type]} col      [description]
-	 * @param {[type]} showHide [description]
+	 * @param {integer} col      Column index
+	 * @param {boolean} showHide Show or hide (true or false)
+	 * @private
 	 */
 	_setColumnVis: function ( col, showHide )
 	{
@@ -785,6 +803,34 @@ $.extend( Responsive.prototype, {
 		$( dt.column( col ).header() ).css( 'display', display );
 		$( dt.column( col ).footer() ).css( 'display', display );
 		dt.column( col ).nodes().to$().css( 'display', display );
+	},
+
+
+	/**
+	 * Update the cell tab indexes for keyboard accessibility. This is called on
+	 * every table draw - that is potentially inefficient, but also the least
+	 * complex option given that column visibility can change on the fly. Its a
+	 * shame user-focus was removed from CSS 3 UI, as it would have solved this
+	 * issue with a single CSS statement.
+	 *
+	 * @private
+	 */
+	_tabIndexes: function ()
+	{
+		var dt = this.s.dt;
+		var cells = dt.cells( { page: 'current' } ).nodes().to$();
+		var ctx = dt.settings()[0];
+		var target = this.c.details.target;
+
+		cells.filter( '[data-dtr-keyboard]' ).removeData( '[data-dtr-keyboard]' );
+
+		var selector = typeof target === 'number' ?
+			':eq('+target+')' :
+			target;
+
+		$( selector, dt.rows( { page: 'current' } ).nodes() )
+			.attr( 'tabIndex', ctx.iTabIndex )
+			.data( 'dtr-keyboard', 1 );
 	}
 } );
 
