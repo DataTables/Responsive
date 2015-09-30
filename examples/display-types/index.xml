@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example order="0">
+
+<title lib="Responsive">Display options</title>
+
+<info><![CDATA[
+
+Responsive will, by default, give end users the ability to show the information that it has hidden in a DataTables child row. However, it is not limited to this behaviour, and in fact has built in options to immediately show the child rows (no interaction required by the end user) and to display the information in a pop-up modal.
+
+These options are explored in this section.
+
+]]></info>
+
+</dt-example>

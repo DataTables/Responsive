@@ -20,7 +20,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="Responsive">Column visibility priority</title>
+<title lib="Responsive">Column priority</title>
 
 <info><![CDATA[
 
