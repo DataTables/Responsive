@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-wide" table-class="display nowrap" order="2" framework="jqueryui">
+
+<css lib="datatables responsive"/>
+<js lib="jquery jqueryui datatables responsive">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		responsive: {
+			details: {
+				display: $.fn.dataTable.Responsive.display.modal( {
+					header: function ( row ) {
+						var data = row.data();
+						return 'Details for '+data[0]+' '+data[1];
+					}
+				} ),
+				renderer: function ( api, rowIdx, columns ) {
+					var data = $.map( columns, function ( col, i ) {
+						return '<tr>'+
+								'<td>'+col.title+':'+'</td> '+
+								'<td>'+col.data+'</td>'+
+							'</tr>';
+					} ).join('');
+
+					return $('<table width="100%"/>').append( data );
+				}
+			}
+		}
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Responsive">jQuery UI modal</title>
+
+<info><![CDATA[
+
+This example shows the `r-init responsive.details.display` option being used with the `modal` option, which, when used with the jQuery UI integration for Responsive, will use jQuery UI's native modal display.
+
+The built-in `modal` display option should be executed as a function with optional parameters passed in to control the behaviour of the modal display. In the case of jQuery UI it has a `header` option (which is a function that should return the title for the modal) and a `modal` option which is an object of [configuration parameters](http://api.jqueryui.com/dialog) that will be passed to the jQuery UI modal.
+
+Additionally, the `r-init responsive.details.renderer` option is used here to display the full data for the row, rather than just the hidden columns, which is the default behaviour.
+
+]]></info>
+
+</dt-example>
+
