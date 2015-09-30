@@ -39,8 +39,8 @@ $close-button-background: #d33333 !default;
 table.dataTable {
 	// Styling for the `inline` type
 	&.dtr-inline.collapsed > tbody {
-		> tr > td:first-child,
-		> tr > th:first-child {
+		> tr > td:first-child:not(.dataTables_empty),
+		> tr > th:first-child:not(.dataTables_empty) {
 			position: relative;
 			padding-left: 30px;
 			cursor: pointer;
@@ -52,10 +52,6 @@ table.dataTable {
 				width: 16px;
 				@include control;
 				@include control-open;
-			}
-
-			&.dataTables_empty:before {
-				display: none;
 			}
 		}
 
@@ -73,8 +69,8 @@ table.dataTable {
 
 	// DataTables' `compact` styling
 	&.dtr-inline.collapsed.compact > tbody {
-		> tr > td:first-child,
-		> tr > th:first-child {
+		> tr > td:first-child:not(.dataTables_empty),
+		> tr > th:first-child:not(.dataTables_empty) {
 			padding-left: 27px;
 
 			&:before {
