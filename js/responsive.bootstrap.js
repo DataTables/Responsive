@@ -5,21 +5,25 @@
 (function( factory ){
 	if ( typeof define === 'function' && define.amd ) {
 		// AMD
-		define( ['jquery', 'datatables', 'datatables-responsive'], factory );
+		define( ['jquery', 'datatables-bs', 'datatables-responsive'], factory );
 	}
 	else if ( typeof exports === 'object' ) {
 		// Node / CommonJS
-		module.exports = function ($, dt) {
+		module.exports = function ($) {
 			if ( ! $ ) { $ = require('jquery'); }
-			factory( $, dt || $.fn.dataTable || require('datatables') );
+			if ( ! $.fn.dataTable ) { require('datatables-bs')($); }
+			if ( ! $.fn.dataTable.AutoFill ) { require('datatables-responsive')($); }
+
+			factory( $ );
 		};
 	}
-	else if ( jQuery ) {
-		// Browser standard
-		factory( jQuery, jQuery.fn.dataTable );
+	else {
+		// Browser
+		factory( jQuery );
 	}
-}(function( $, DataTable ) {
+}(function( $ ) {
 'use strict';
+var DataTable = $.fn.dataTable;
 
 
 var _display = DataTable.Responsive.display;
@@ -60,4 +64,5 @@ _display.modal = function ( options ) {
 };
 
 
+return DataTable.Responsive;
 }));
