@@ -5,14 +5,14 @@
 (function( factory ){
 	if ( typeof define === 'function' && define.amd ) {
 		// AMD
-		define( ['jquery', 'datatables-zf', 'datatables-responsive'], factory );
+		define( ['jquery', 'datatables.net-zf', 'datatables.net-responsive'], factory );
 	}
 	else if ( typeof exports === 'object' ) {
 		// Node / CommonJS
 		module.exports = function ($) {
 			if ( ! $ ) { $ = require('jquery'); }
-			if ( ! $.fn.dataTable ) { require('datatables-zf')($); }
-			if ( ! $.fn.dataTable.AutoFill ) { require('datatables-responsive')($); }
+			if ( ! $.fn.dataTable ) { require('datatables.net-zf')($); }
+			if ( ! $.fn.dataTable.AutoFill ) { require('datatables.net-responsive')($); }
 
 			factory( $ );
 		};
