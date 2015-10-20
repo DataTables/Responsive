@@ -599,6 +599,10 @@ $.extend( Responsive.prototype, {
 		var dt = this.s.dt;
 
 		return $.map( this.s.columns, function( col, i ) {
+			if ( col.never ) {
+				return;
+			}
+
 			return {
 				title:   dt.settings()[0].aoColumns[ i ].sTitle,
 				data:    dt.cell( rowIdx, i ).render( that.c.orthogonal ),
