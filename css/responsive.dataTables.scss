@@ -16,10 +16,13 @@ $close-button-background: #d33333 !default;
 	color: white;
 	border: 2px solid white;
 	border-radius: 16px;
-	text-align: center;
-	line-height: 14px;
 	box-shadow: 0 0 3px #444;
 	box-sizing: content-box;
+
+	// Use Courier New because it is common and consistent
+	font-family: 'Courier New', Courier, monospace;
+	text-indent: 4px;
+	line-height: 16px;
 }
 
 @mixin control-open() {
@@ -39,8 +42,20 @@ $close-button-background: #d33333 !default;
 table.dataTable {
 	// Styling for the `inline` type
 	&.dtr-inline.collapsed > tbody {
-		> tr > td:first-child:not(.dataTables_empty),
-		> tr > th:first-child:not(.dataTables_empty) {
+		> tr {
+			> td.child,
+			> th.child,
+			> td.dataTables_empty {
+				cursor: default !important;
+
+				&:before {
+					display: none !important;
+				}
+			}
+		}
+
+		> tr > td:first-child,
+		> tr > th:first-child {
 			position: relative;
 			padding-left: 30px;
 			cursor: pointer;
@@ -69,8 +84,8 @@ table.dataTable {
 
 	// DataTables' `compact` styling
 	&.dtr-inline.collapsed.compact > tbody {
-		> tr > td:first-child:not(.dataTables_empty),
-		> tr > th:first-child:not(.dataTables_empty) {
+		> tr > td:first-child,
+		> tr > th:first-child {
 			padding-left: 27px;
 
 			&:before {
@@ -79,7 +94,8 @@ table.dataTable {
 				height: 14px;
 				width: 14px;
 				border-radius: 14px;
-				line-height: 12px;
+				line-height: 14px;
+				text-indent: 3px;
 			}
 		}
 	}
