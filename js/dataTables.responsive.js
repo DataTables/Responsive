@@ -375,8 +375,10 @@ $.extend( Responsive.prototype, {
 			var priority = dt.settings()[0].aoColumns[i].responsivePriority;
 
 			if ( priority === undefined ) {
-				priority = $(column.header()).data('priority') !== undefined ?
-					$(column.header).data('priority') * 1 :
+				var dataPriority = $(column.header()).data('priority');
+
+				priority = dataPriority !== undefined ?
+					dataPriority * 1 :
 					10000;
 			}
 
