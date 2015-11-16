@@ -15,7 +15,7 @@
 	</default>
 
 	<description>
-		When Responsive is asked to show the hidden information about a DataTable row, it uses the `dt-api cell().render()` method to access this data for each cell in the row. This method provides DataTables ability to make use of [orthogonal data](//datatables.net/manual/orhtogonal-data) - that is, the same data but formatted in a different way for different uses.
+		When Responsive is asked to show the hidden information about a DataTable row, it uses the `dt-api cell().render()` method to access this data for each cell in the row. This method provides DataTables ability to make use of [orthogonal data](//datatables.net/manual/orthogonal-data) - that is, the same data but formatted in a different way for different uses.
 
 		Consider for example the number _123456_ - when displaying in the table you might wish to have this displayed as a currency value: `$1,234.56` but for search and sort you would use the unformatted number. This ability is provided by using the `dt-init columns.render` option as a function or an object and specifying the data you want to retrieve for each specific use that DataTables has for the data.
 

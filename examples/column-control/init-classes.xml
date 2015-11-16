@@ -27,7 +27,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example exactly matches the functionality of the [class control example](classes.xml) but in this case the classes are assigned using the `dt-init columns.className` option.
+This example exactly matches the functionality of the [class control example](classes.html) but in this case the classes are assigned using the `dt-init columns.className` option.
 
 ]]></info>
 
