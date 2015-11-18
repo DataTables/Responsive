@@ -20,6 +20,7 @@
 				title: "...",          // string - column title
 				data: "...",           // string - cell's value
 				hidden: true / false   // boolean - true if hidden by Responsive - otherwise false
+				columnIndex: ...       // integer - column data index (since Responsive 2.0.1)
 			}
 			```
 

@@ -618,9 +618,10 @@ $.extend( Responsive.prototype, {
 			}
 
 			return {
-				title:   dt.settings()[0].aoColumns[ i ].sTitle,
-				data:    dt.cell( rowIdx, i ).render( that.c.orthogonal ),
-				hidden:  dt.column( i ).visible() && !that.s.current[ i ]
+				title:     dt.settings()[0].aoColumns[ i ].sTitle,
+				data:      dt.cell( rowIdx, i ).render( that.c.orthogonal ),
+				hidden:    dt.column( i ).visible() && !that.s.current[ i ],
+				columnIdx: i
 			};
 		} );
 	},
@@ -1043,7 +1044,7 @@ Responsive.defaults = {
 		renderer: function ( api, rowIdx, columns ) {
 			var data = $.map( columns, function ( col, i ) {
 				return col.hidden ?
-					'<li data-dtr-index="'+i+'">'+
+					'<li data-dtr-index="'+col.columnIdx+'">'+
 						'<span class="dtr-title">'+
 							col.title+
 						'</span> '+
