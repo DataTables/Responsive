@@ -217,6 +217,11 @@ $.extend( Responsive.prototype, {
 			}
 		} );
 
+		dt.on( 'init.dtr', function (e, settings, details) {
+			that._resizeAuto();
+			that._resize();
+		} );
+
 		// First pass - draw the table for the current viewport size
 		this._resize();
 	},
