@@ -187,6 +187,7 @@ $.extend( Responsive.prototype, {
 
 		// Details handler
 		var details = this.c.details;
+
 		if ( details.type !== false ) {
 			that._detailsInit();
 
@@ -516,15 +517,18 @@ $.extend( Responsive.prototype, {
 	{
 		var that = this;
 		var dt = this.s.dt;
+		var details = this.c.details;
 
-		var res = this.c.details.display( row, update, function () {
-			return that.c.details.renderer(
-				dt, row[0], that._detailsObj(row[0])
-			);
-		} );
+		if ( details && details.type ) {
+			var res = details.display( row, update, function () {
+				return details.renderer(
+					dt, row[0], that._detailsObj(row[0])
+				);
+			} );
 
-		if ( res === true || res === false ) {
-			$(dt.table().node()).triggerHandler( 'responsive-display.dt', [dt, row, res, update] );
+			if ( res === true || res === false ) {
+				$(dt.table().node()).triggerHandler( 'responsive-display.dt', [dt, row, res, update] );
+			}
 		}
 	},
 
