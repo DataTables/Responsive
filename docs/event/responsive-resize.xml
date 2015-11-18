@@ -30,9 +30,7 @@ var table = $('#example').DataTable( {
 
 table.on( 'responsive-resize', function ( e, datatable, columns ) {
 	var count = columns.reduce( function (a,b) {
-		if ( b === false ) {
-			return a+1;
-		}
+		return b === false ? a+1 : a;
 	}, 0 );
 
 	console.log( count +' column(s) are hidden' );
