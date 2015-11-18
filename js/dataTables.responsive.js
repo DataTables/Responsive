@@ -723,7 +723,8 @@ $.extend( Responsive.prototype, {
 
 		if ( changed ) {
 			this._redrawChildren();
-			// trigger the resize event when a column has collapsed or been shown in responsive
+
+			// Inform listeners of the change
 			$(dt.table().node()).trigger( 'responsive-resize.dt', [dt, this.s.current] );
 		}
 	},

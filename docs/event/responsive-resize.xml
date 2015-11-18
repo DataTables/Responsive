@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-event library="Responsive">
+	<name>responsive-resize</name>
+	<summary>The columns displayed by Responsive has changed due to a resize</summary>
+	<since>2.0.1</since>
+
+	<type type="function">
+		<signature>function( e, datatable, columns )</signature>
+		<parameter type="object" name="e">
+			jQuery event object
+		</parameter>
+		<parameter type="DataTables.Api" name="datatable">
+			DataTable API instance for the table in question
+		</parameter>
+		<parameter type="array" name="columns">
+			An array of boolean values that represent the state of the columns in the table. The array is exactly the same length as the number of columns in the table and a boolean `true` indicates that the column is visible while boolean `false` indicates that the column has been hidden by Responsive.
+		</parameter>
+		<scope>HTML table element</scope>
+	</type>
+
+	<description>
+		This event can be used to inform external libraries and controls that Responsive has changed the visibility of columns in the table in response to a resize or recalculation event. This can be particularly useful if you have an external control that depends upon columns being visible or you wish to update a control based on those columns.
+	</description>
+
+	<example title="Listen for responsive resize event using `dt-api on()`"><![CDATA[
+
+var table = $('#example').DataTable( {
+	responsive: true
+} );
+
+table.on( 'responsive-resize', function ( e, datatable, columns ) {
+	var count = columns.reduce( function (a,b) {
+		if ( b === false ) {
+			return a+1;
+		}
+	}, 0 );
+
+	console.log( count +' column(s) are hidden' );
+} );
+
+]]></example>
+</dt-event>
