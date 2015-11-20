@@ -595,12 +595,13 @@ $.extend( Responsive.prototype, {
 				var row = dt.row( $(this).closest('tr') );
 
 				// Check event type to do an action
-				if(e.type === 'click'){
+				if ( e.type === 'click' ) {
 					// The renderer is given as a function so the caller can execute it
 					// only when they need (i.e. if hiding there is no point is running
 					// the renderer)
 					that._detailsDisplay( row, false );
-				}else if(e.type === 'mousedown'){
+				}
+				else if ( e.type === 'mousedown' ) {
 					// For mouse users, prevent the focus ring from showing
 					e.preventDefault();
 				}
