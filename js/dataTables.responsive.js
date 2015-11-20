@@ -567,11 +567,7 @@ $.extend( Responsive.prototype, {
 
 		// Click handler to show / hide the details rows when they are available
 		$( dt.table().body() )
-			.on( 'mousedown.dtr', selector, function (e) {
-				// For mouse users, prevent the focus ring from showing
-				e.preventDefault();
-			} )
-			.on( 'click.dtr', selector, function () {
+			.on( 'click.dtr mousedown.dtr', selector, function () {
 				// If the table is not collapsed (i.e. there is no hidden columns)
 				// then take no action
 				if ( ! $(dt.table().node()).hasClass('collapsed' ) ) {
@@ -598,10 +594,16 @@ $.extend( Responsive.prototype, {
 				// $().closest() includes itself in its check
 				var row = dt.row( $(this).closest('tr') );
 
-				// The renderer is given as a function so the caller can execute it
-				// only when they need (i.e. if hiding there is no point is running
-				// the renderer)
-				that._detailsDisplay( row, false );
+				// Check event type to do an action
+				if(e.type === 'click'){
+					// The renderer is given as a function so the caller can execute it
+					// only when they need (i.e. if hiding there is no point is running
+					// the renderer)
+					that._detailsDisplay( row, false );
+				}else if(e.type === 'mousedown'){
+					// For mouse users, prevent the focus ring from showing
+					e.preventDefault();
+				}
 			} );
 	},
 
