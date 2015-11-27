@@ -567,7 +567,7 @@ $.extend( Responsive.prototype, {
 
 		// Click handler to show / hide the details rows when they are available
 		$( dt.table().body() )
-			.on( 'click.dtr mousedown.dtr', selector, function () {
+			.on( 'click.dtr mousedown.dtr', selector, function (e) {
 				// If the table is not collapsed (i.e. there is no hidden columns)
 				// then take no action
 				if ( ! $(dt.table().node()).hasClass('collapsed' ) ) {
