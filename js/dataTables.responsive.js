@@ -987,12 +987,6 @@ Responsive.display = {
 					)
 					.appendTo( 'body' );
 
-				if ( options && options.header ) {
-					modal.find( 'div.dtr-modal-content' ).prepend(
-						'<h2>'+options.header( row )+'</h2>'
-					);
-				}
-
 				$(document).on( 'keyup.dtr', function (e) {
 					if ( e.keyCode === 27 ) {
 						e.stopPropagation();
@@ -1005,6 +999,12 @@ Responsive.display = {
 				$('div.dtr-modal-content')
 					.empty()
 					.append( render() );
+			}
+
+			if ( options && options.header ) {
+				$('div.dtr-modal-content').prepend(
+					'<h2>'+options.header( row )+'</h2>'
+				);
 			}
 		};
 	}
