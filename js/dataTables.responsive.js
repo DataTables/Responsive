@@ -229,6 +229,12 @@ $.extend( Responsive.prototype, {
 		dt.on( 'init.dtr', function (e, settings, details) {
 			that._resizeAuto();
 			that._resize();
+
+			// If columns were hidden, then DataTables needs to adjust the
+			// column sizing
+			if ( $.inArray( false, that.s.current ) ) {
+				dt.columns.adjust();
+			}
 		} );
 
 		// First pass - draw the table for the current viewport size
