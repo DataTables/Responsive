@@ -228,7 +228,6 @@ $.extend( Responsive.prototype, {
 
 		// Change in column sizes means we need to calc
 		dt.on( 'column-sizing.dtr', function () {
-			that._resizeAuto();
 			that._resize();
 		});
 
