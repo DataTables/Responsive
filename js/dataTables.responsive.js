@@ -575,7 +575,7 @@ $.extend( Responsive.prototype, {
 
 		// Click handler to show / hide the details rows when they are available
 		$( dt.table().body() )
-			.on( 'click.dtr mousedown.dtr', selector, function (e) {
+			.on( 'click.dtr mousedown.dtr mouseup.dtr', selector, function (e) {
 				// If the table is not collapsed (i.e. there is no hidden columns)
 				// then take no action
 				if ( ! $(dt.table().node()).hasClass('collapsed' ) ) {
@@ -611,7 +611,11 @@ $.extend( Responsive.prototype, {
 				}
 				else if ( e.type === 'mousedown' ) {
 					// For mouse users, prevent the focus ring from showing
-					e.preventDefault();
+					$(this).css('outline', 'none');
+				}
+				else if ( e.type === 'mouseup' ) {
+					// And then re-allow at the end of the click
+					$(this).blur().css('outline', '');
 				}
 			} );
 	},
