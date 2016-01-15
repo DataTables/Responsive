@@ -565,7 +565,7 @@ $.extend( Responsive.prototype, {
 
 		// The inline type always uses the first child as the target
 		if ( details.type === 'inline' ) {
-			details.target = 'td:first-child';
+			details.target = 'td:first-child, th:first-child';
 		}
 
 		// Keyboard accessibility
@@ -574,7 +574,7 @@ $.extend( Responsive.prototype, {
 		} );
 		that._tabIndexes(); // Initial draw has already happened
 
-		$( dt.table().body() ).on( 'keyup.dtr', 'td', function (e) {
+		$( dt.table().body() ).on( 'keyup.dtr', 'td, th', function (e) {
 			if ( e.keyCode === 13 && $(this).data('dtr-keyboard') ) {
 				$(this).click();
 			}
