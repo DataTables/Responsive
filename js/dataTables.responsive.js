@@ -582,7 +582,7 @@ $.extend( Responsive.prototype, {
 
 		// type.target can be a string jQuery selector or a column index
 		var target   = details.target;
-		var selector = typeof target === 'string' ? target : 'td';
+		var selector = typeof target === 'string' ? target : 'td, th';
 
 		// Click handler to show / hide the details rows when they are available
 		$( dt.table().body() )
