@@ -4,6 +4,24 @@
 	<summary>Obtain the cell index from a `-tag li` details element</summary>
 	<since>1.0.3</since>
 
+	<deprecated>
+		<version>2.0.2</version>
+		<description>
+			As of DataTables 1.10.11 and Responsive 2.0.2 this method is no longer required to obtain a cell index from a node in the Responsive display as the `dt-api cell()` method will accept the `-tag td` elements which have `dt-row` and `dt-column` data attributes (which is now used by Responsive).
+		</description>
+		<example title="Add a class name to the host cell for data when clicked on)"><![CDATA[
+
+var table = $('#example').DataTable();
+
+$('#example').on( 'click', 'li', function () {
+	$( table.cell( this ).node() )
+		.addClass( 'highlight' );
+} );
+
+]]>
+		</example>
+	</deprecated>
+
 	<type type="function">
 		<signature>responsive.index( li )</signature>
 		<description>Calculate the cell index from a `-tag li` details element</description>
