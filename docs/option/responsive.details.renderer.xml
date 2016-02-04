@@ -30,7 +30,7 @@
 			Two values can be returned:
 
 			* `-type boolean` `false` - Do not display a child row
-			* `-type string` - The information to be shown in the child row, including any required HTML.
+			* `-type string` - The information to be shown in the details display, including any required HTML.
 		</returns>
 	</type>
 
@@ -39,11 +39,13 @@
 	</default>
 
 	<description>
-		The information contained in the details rows that are displayed by Responsive are created through this function. By default it will create a `-tag ul/li` list showing the data from cells that are hidden, but you can provide a custom function that will create a child row containing whatever information you wish to display.
+		The information contained in the details rows that are displayed by Responsive are created through this function. By default it will create a `-tag ul/li` list showing the data from cells that are hidden, but you can provide a custom function that will create a display containing whatever information you wish to display.
 
-		This function is executed for every child row in a table, and is run whenever the column visibility of the table changes.
+		This function is executed for details display in a table, and is run whenever the column visibility of the table changes.
 
 		Please note that as with all other configuration options for Responsive, this option is an extension to the [default set of DataTables options](/reference/option). This property should be set in the DataTables initialisation object.
+
+		When creating the HTML for each item to be shown, it is a good idea to add `-string data-dt-row` and `-string data-dt-column` attributes based on the `rowIndex` and `columnIndex` information given. This allows these elements and their children to be passed into the DataTables API selector methods (`dt-api cell()` for example) and used as a regular part of the API.
 	</description>
 
 	<example title="Custom renderer which displays the data that has been hidden in an HTML table"><![CDATA[
@@ -54,7 +56,7 @@ $('#example').DataTable( {
 			renderer: function ( api, rowIdx, columns ) {
 				var data = $.map( columns, function ( col, i ) {
 					return col.hidden ?
-						'<tr>'+
+						'<tr data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
 							'<td>'+col.title+':'+'</td> '+
 							'<td>'+col.data+'</td>'+
 						'</tr>' :
