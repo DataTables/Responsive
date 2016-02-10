@@ -225,12 +225,9 @@ $.extend( Responsive.prototype, {
 		}
 
 		dt.on( 'column-reorder.dtr', function (e, settings, details) {
-			// This requires ColReorder 1.2.1 or newer
-			if ( details.drop ) {
-				that._classLogic();
-				that._resizeAuto();
-				that._resize();
-			}
+			that._classLogic();
+			that._resizeAuto();
+			that._resize();
 		} );
 
 		// Change in column sizes means we need to calc
@@ -292,7 +289,6 @@ $.extend( Responsive.prototype, {
 				}
 				return a.columnIdx - b.columnIdx;
 			} );
-
 
 		// Class logic - determine which columns are in this breakpoint based
 		// on the classes. If no class control (i.e. `auto`) then `-` is used
