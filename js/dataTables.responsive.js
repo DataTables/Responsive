@@ -813,7 +813,7 @@ $.extend( Responsive.prototype, {
 		if ( footer ) {
 			var clonedFooter = $( footer.cloneNode( false ) ).appendTo( clonedTable );
 			var footerCells = dt.columns()
-				.header()
+				.footer()
 				.filter( function (idx) {
 					return dt.column(idx).visible();
 				} )
