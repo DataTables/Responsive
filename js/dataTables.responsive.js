@@ -542,7 +542,7 @@ $.extend( Responsive.prototype, {
 		var dt = this.s.dt;
 		var details = this.c.details;
 
-		if ( details && details.type ) {
+		if ( details && details.type !== false ) {
 			var res = details.display( row, update, function () {
 				return details.renderer(
 					dt, row[0], that._detailsObj(row[0])
