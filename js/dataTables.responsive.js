@@ -647,7 +647,8 @@ $.extend( Responsive.prototype, {
 		var dt = this.s.dt;
 
 		return $.map( this.s.columns, function( col, i ) {
-			if ( col.never ) {
+			// Never and control columns should not be passed to the renderer
+			if ( col.never || col.control ) {
 				return;
 			}
 
