@@ -21,7 +21,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-
+[Buttons](https://datatables.net/extensions/buttons) is an extension for DataTables that provides a framework for control buttons, and also a number of default button sets. This example shows the use of Responsive with the `b-button colvis` button type, demonstrating how Responsive works with column visibility in DataTables.
 
 ]]></info>
 

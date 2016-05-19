@@ -19,7 +19,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-
+This example demonstrates the use of Responsive with the [ColReorder extension](https://datatables.net/extensions/colreorder) for DataTables, which provides the ability to reorder columns using click and drag on the column headers.
 
 ]]></info>
 
