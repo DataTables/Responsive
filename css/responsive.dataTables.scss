@@ -3,6 +3,7 @@
 // Variables
 //
 
+$control-button-top: 8px !default;
 $open-button-background: #31b131 !default;
 $close-button-background: #d33333 !default;
 
@@ -62,7 +63,7 @@ table.dataTable {
 			cursor: pointer;
 
 			&:before {
-				top: 8px;
+				top: $control-button-top;
 				left: 4px;
 				height: 16px;
 				width: 16px;

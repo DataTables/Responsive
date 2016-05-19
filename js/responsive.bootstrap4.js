@@ -1,11 +1,11 @@
-/*! Bootstrap integration for DataTables' Responsive
- * ©2015-2016 SpryMedia Ltd - datatables.net/license
+/*! Bootstrap 4 integration for DataTables' Responsive
+ * ©2016 SpryMedia Ltd - datatables.net/license
  */
 
 (function( factory ){
 	if ( typeof define === 'function' && define.amd ) {
 		// AMD
-		define( ['jquery', 'datatables.net-bs', 'datatables.net-responsive'], function ( $ ) {
+		define( ['jquery', 'datatables.net-bs4', 'datatables.net-responsive'], function ( $ ) {
 			return factory( $, window, document );
 		} );
 	}
@@ -17,7 +17,7 @@
 			}
 
 			if ( ! $ || ! $.fn.dataTable ) {
-				$ = require('datatables.net-bs')(root, $).$;
+				$ = require('datatables.net-bs4')(root, $).$;
 			}
 
 			if ( ! $.fn.dataTable.Responsive ) {
