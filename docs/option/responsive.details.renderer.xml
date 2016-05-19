@@ -39,14 +39,52 @@
 	</default>
 
 	<description>
-		The information contained in the details rows that are displayed by Responsive are created through this function. By default it will create a `-tag ul/li` list showing the data from cells that are hidden, but you can provide a custom function that will create a display containing whatever information you wish to display.
+		The information contained in the details rows that are displayed by Responsive are created through this function. By default it will create a `-tag ul` / `-tag li` list showing the data from cells that are hidden, or you can use one of the other built in renderers, or provide your own.
 
-		This function is executed for details display in a table, and is run whenever the column visibility of the table changes.
+		The rendering function is executed for details display in a table, and is run whenever the column visibility of the table changes.
 
 		Please note that as with all other configuration options for Responsive, this option is an extension to the [default set of DataTables options](/reference/option). This property should be set in the DataTables initialisation object.
 
+		Since v2.1.0 Responsive has a number of built in rendering functions which can be accessed from the `$.fn.dataTable.Responsive.renderer` object. The built in renderers are provided as functions that must be executed and will return the required renderer. This provides the ability to pass in options to the renderer.
+
+		The built in options are:
+
+		* `listHidden` - Show the data that has been hidden in an `-tag ul` / `-tag li` list.
+		  * No additional options
+		  * Default renderer
+		* `tableAll` - Show the data for all columns (regardless of if they have been hidden or not) in a `-tag table`.
+		  * Single option: `tableClass` - the class name to apply to the created table.
+
+		Additional renderers could be created and attached to this object if you wish to make them modular. If so, please [feel free to share them](/forums) with the community!
+
 		When creating the HTML for each item to be shown, it is a good idea to add `-string data-dt-row` and `-string data-dt-column` attributes based on the `rowIndex` and `columnIndex` information given. This allows these elements and their children to be passed into the DataTables API selector methods (`dt-api cell()` for example) and used as a regular part of the API.
 	</description>
+
+	<example title="Use the `tableAll` renderer without specifying a class name"><![CDATA[
+
+$('#example').DataTable( {
+	responsive: {
+		details: {
+			renderer: $.fn.dataTable.Responsive.renderer.tableAll()
+		}
+	}
+} );
+
+]]></example>
+
+	<example title="Use the `tableAll` renderer and specify a class name"><![CDATA[
+
+$('#example').DataTable( {
+	responsive: {
+		details: {
+			renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+				tableClass: 'ui table'
+			} )
+		}
+	}
+} );
+
+]]></example>
 
 	<example title="Custom renderer which displays the data that has been hidden in an HTML table"><![CDATA[
 

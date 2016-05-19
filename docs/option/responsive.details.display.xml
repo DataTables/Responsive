@@ -31,7 +31,7 @@
 
 		The function given is responsible for show and hiding the child data, usually when requested to do so by the end user (second parameter). It can be used to display information in child rows (as it is by default), in a modal pop-up, in a separate information element or even potentially to open a new window with a details view.
 
-		Responsive has a number of built in display functions which can be accessed from the `$.fn.dataTable.Responsive.display` object - the build in options are:
+		Responsive has a number of built in display functions which can be accessed from the `$.fn.dataTable.Responsive.display` object - the built in options are:
 
 		* `childRow` - Show hidden information in a child row, the visibility of which can be toggled by an end user.
 		* `childRowImmediate` - Show information in a child row, but don't wait for user request to show the data, just show it immediately.

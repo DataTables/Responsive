@@ -1038,6 +1038,54 @@ Responsive.display = {
 
 
 /**
+ * Display methods - functions which define how the hidden data should be shown
+ * in the table.
+ *
+ * @namespace
+ * @name Responsive.defaults
+ * @static
+ */
+Responsive.renderer = {
+	listHidden: function () {
+		return function ( api, rowIdx, columns ) {
+			var data = $.map( columns, function ( col ) {
+				return col.hidden ?
+					'<li data-dtr-index="'+col.columnIndex+'" data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
+						'<span class="dtr-title">'+
+							col.title+
+						'</span> '+
+						'<span class="dtr-data">'+
+							col.data+
+						'</span>'+
+					'</li>' :
+					'';
+			} ).join('');
+
+			return data ?
+				$('<ul data-dtr-index="'+rowIdx+'"/>').append( data ) :
+				false;
+		}
+	},
+
+	tableAll: function ( options ) {
+		options = $.extend( {
+			tableClass: ''
+		}, options );
+
+		return function ( api, rowIdx, columns ) {
+			var data = $.map( columns, function ( col ) {
+				return '<tr data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
+						'<td>'+col.title+':'+'</td> '+
+						'<td>'+col.data+'</td>'+
+					'</tr>';
+			} ).join('');
+
+			return $('<table class="'+options.tableClass+'" width="100%"/>').append( data );
+		}
+	}
+};
+
+/**
  * Responsive default settings for initialisation
  *
  * @namespace
@@ -1085,24 +1133,7 @@ Responsive.defaults = {
 	details: {
 		display: Responsive.display.childRow,
 
-		renderer: function ( api, rowIdx, columns ) {
-			var data = $.map( columns, function ( col, i ) {
-				return col.hidden ?
-					'<li data-dtr-index="'+col.columnIndex+'" data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
-						'<span class="dtr-title">'+
-							col.title+
-						'</span> '+
-						'<span class="dtr-data">'+
-							col.data+
-						'</span>'+
-					'</li>' :
-					'';
-			} ).join('');
-
-			return data ?
-				$('<ul data-dtr-index="'+rowIdx+'"/>').append( data ) :
-				false;
-		},
+		renderer: Responsive.renderer.listHidden(),
 
 		target: 0,
 

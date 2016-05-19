@@ -15,16 +15,9 @@ $(document).ready(function() {
 						return 'Details for '+data[0]+' '+data[1];
 					}
 				} ),
-				renderer: function ( api, rowIdx, columns ) {
-					var data = $.map( columns, function ( col, i ) {
-						return '<tr>'+
-								'<td>'+col.title+':'+'</td> '+
-								'<td>'+col.data+'</td>'+
-							'</tr>';
-					} ).join('');
-
-					return $('<table class="ui table"/>').append( data );
-				}
+				renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+					tableClass: 'ui table'
+				} )
 			}
 		}
 	} );
@@ -41,7 +34,7 @@ This example shows the `r-init responsive.details.display` option being used wit
 
 The built-in `modal` display option should be executed as a function with optional parameters passed in to control the behaviour of the modal display. In the case of Semantic UI integration it has only a `header` option which is a function that should return the title for the modal. If you do not wish to display a title, simply don't use this option.
 
-Additionally, the `r-init responsive.details.renderer` option is used here to display the full data for the row, rather than just the hidden columns, which is the default behaviour. The custom renderer is entirely optional.
+Additionally, the `r-init responsive.details.renderer` option is used here to display the full data for the row, rather than just the hidden columns (which is the default behaviour) as this looks a bit better in a modal!
 
 ]]></info>
 
