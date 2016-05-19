@@ -34,7 +34,7 @@ This example shows the `r-init responsive.details.display` option being used wit
 
 The built-in `modal` display option should be executed as a function with optional parameters passed in to control the behaviour of the modal display. In the case of Bootstrap it has only a `header` option which is a function that should return the title for the modal. If you do not wish to display a title, simply don't use this option.
 
-Additionally, the `r-init responsive.details.renderer` option is used here to display the full data for the row, rather than just the hidden columns, which is the default behaviour.
+Additionally, the `r-init responsive.details.renderer` option is used here to display the full data for the row, rather than just the hidden columns (which is the default behaviour) as this looks a bit better in a modal!
 
 ]]></info>
 
