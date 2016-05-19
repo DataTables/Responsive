@@ -4,6 +4,8 @@
 //
 
 $control-button-top: 8px !default;
+$control-button-size: 16px !default;
+$control-button-color: white !default;
 $open-button-background: #31b131 !default;
 $close-button-background: #d33333 !default;
 
@@ -14,7 +16,7 @@ $close-button-background: #d33333 !default;
 @mixin control() {
 	display: block;
 	position: absolute;
-	color: white;
+	color: $control-button-color;
 	border: 2px solid white;
 	border-radius: 16px;
 	box-shadow: 0 0 3px #444;
@@ -65,8 +67,8 @@ table.dataTable {
 			&:before {
 				top: $control-button-top;
 				left: 4px;
-				height: 16px;
-				width: 16px;
+				height: $control-button-size;
+				width: $control-button-size;
 				@include control;
 				@include control-open;
 			}

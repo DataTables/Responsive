@@ -1,0 +1,9 @@
+
+$open-button-background: #21ba45 !default;
+$control-button-size: 14px !default;
+
+@import 'responsive.dataTables.scss';
+
+div.dtr-bs-modal table.table tr:first-child td {
+	border-top: none;
+}
