@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-type="html-wide" table-class="display compact nowrap" order="4">
+<dt-example table-type="html-wide" table-class="display compact nowrap" order="6">
 
 <css lib="datatables responsive">
 	div.container { max-width: 1200px }
