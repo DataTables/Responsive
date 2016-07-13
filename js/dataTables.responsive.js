@@ -811,7 +811,7 @@ $.extend( Responsive.prototype, {
 		// Footer
 		var footer = dt.table().footer();
 		if ( footer ) {
-			var clonedFooter = $( footer.cloneNode( false ) ).appendTo( clonedTable );
+			var clonedFooter = $( footer.cloneNode( true ) ).appendTo( clonedTable );
 			var footerCells = dt.columns()
 				.footer()
 				.filter( function (idx) {
