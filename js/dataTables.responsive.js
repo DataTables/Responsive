@@ -236,6 +236,23 @@ $.extend( Responsive.prototype, {
 			that._resize();
 		});
 
+		// On Ajax reload we want to reopen any child rows which are displayed
+		// by responsive
+		dt.on( 'preXhr.dtr', function () {
+			var rowIds = [];
+			dt.rows().every( function () {
+				if ( this.child.isShown() ) {
+					rowIds.push( this.id(true) );
+				}
+			} );
+
+			dt.one( 'draw.dtr', function () {
+				dt.rows( rowIds ).every( function () {
+					that._detailsDisplay( this, false );
+				} );
+			} );
+		});
+
 		dt.on( 'init.dtr', function (e, settings, details) {
 			that._resizeAuto();
 			that._resize();
@@ -598,7 +615,7 @@ $.extend( Responsive.prototype, {
 				}
 
 				// Check that the row is actually a DataTable's controlled node
-				if ( ! dt.row( $(this).closest('tr') ).length ) {
+				if ( $.inArray( $(this).closest('tr').get(0), dt.rows().nodes().toArray() ) === -1 ) {
 					return;
 				}
 
@@ -906,6 +923,12 @@ $.extend( Responsive.prototype, {
 		var selector = typeof target === 'number' ?
 			':eq('+target+')' :
 			target;
+
+		// This is a bit of a hack - we need to limit the selected nodes to just
+		// those of this table
+		if ( selector === 'td:first-child, th:first-child' ) {
+			selector = '>td:first-child, >th:first-child';
+		}
 
 		$( selector, dt.rows( { page: 'current' } ).nodes() )
 			.attr( 'tabIndex', ctx.iTabIndex )
