@@ -166,7 +166,7 @@ $.extend( Responsive.prototype, {
 		// new data is added
 		dtPrivateSettings.oApi._fnCallbackReg( dtPrivateSettings, 'aoRowCreatedCallback', function (tr, data, idx) {
 			if ( $.inArray( false, that.s.current ) !== -1 ) {
-				$('td, th', tr).each( function ( i ) {
+				$('>td, >th', tr).each( function ( i ) {
 					var idx = dt.column.index( 'toData', i );
 
 					if ( that.s.current[idx] === false ) {
