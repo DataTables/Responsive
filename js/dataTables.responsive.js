@@ -1085,7 +1085,7 @@ Responsive.renderer = {
 			} ).join('');
 
 			return data ?
-				$('<ul data-dtr-index="'+rowIdx+'"/>').append( data ) :
+				$('<ul data-dtr-index="'+rowIdx+'" class="dtr-details"/>').append( data ) :
 				false;
 		}
 	},
@@ -1103,7 +1103,7 @@ Responsive.renderer = {
 					'</tr>';
 			} ).join('');
 
-			return $('<table class="'+options.tableClass+'" width="100%"/>').append( data );
+			return $('<table class="'+options.tableClass+' dtr-details" width="100%"/>').append( data );
 		}
 	}
 };
