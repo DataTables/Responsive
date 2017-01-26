@@ -639,6 +639,7 @@ $.extend( Responsive.prototype, {
 					// The renderer is given as a function so the caller can execute it
 					// only when they need (i.e. if hiding there is no point is running
 					// the renderer)
+					e.stopPropagation();
 					that._detailsDisplay( row, false );
 				}
 				else if ( e.type === 'mousedown' ) {
