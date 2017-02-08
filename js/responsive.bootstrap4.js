@@ -65,7 +65,7 @@ _display.modal = function ( options ) {
 					header
 						.empty()
 						.append( '<h4 class="modal-title">'+options.header( row )+'</h4>' )
-						.prepend( button );
+						.append( button );
 				}
 
 				_modal.find( 'div.modal-body' )
