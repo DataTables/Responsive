@@ -775,6 +775,11 @@ $.extend( Responsive.prototype, {
 
 			// Inform listeners of the change
 			$(dt.table().node()).trigger( 'responsive-resize.dt', [dt, this.s.current] );
+
+			// If no records, update the "No records" display element
+			if ( dt.page.info().recordsDisplay === 0 ) {
+				dt.draw();
+			}
 		}
 	},
 
