@@ -1,7 +1,20 @@
 #!/bin/sh
 
-OUT_DIR=$1
-DEBUG=$2
+DT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../.."
+if [ "$1" = "debug" ]; then
+	DEBUG="debug"
+else
+	OUT_DIR=$1
+	DEBUG=$2
+fi
+
+# If not run from DataTables build script, redirect to there
+if [ -z "$DT_BUILD" ]; then
+	cd $DT_DIR/build
+	./make.sh extension Responsive $DEBUG
+	cd -
+	exit
+fi
 
 # Change into script's own dir
 cd $(dirname $0)
