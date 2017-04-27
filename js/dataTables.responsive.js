@@ -1312,6 +1312,11 @@ Api.register( 'responsive.hasHidden()', function () {
 		false;
 } );
 
+Api.register( 'responsive.data()', function ( li ) {
+	li = $(li);
+
+	return li.find('span.dtr-data').text();
+} );
 
 /**
  * Version information
