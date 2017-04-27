@@ -1,0 +1,29 @@
+{
+    "name": "datatables-responsive",
+    "version": "1.0.7",
+    "description": "Responsive will automatically optimise the table's layout for different screen sizes through the dynamic column visibility control, making your tables useful on desktop and mobile screens.",
+    "main": "make.sh",
+    "directories": {
+        "doc": "docs",
+        "example": "examples",
+        "css": "css",
+        "js": "js"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DataTables/Responsive.git"
+    },
+    "author": "DataTables",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/DataTables/Responsive/issues"
+    },
+    "homepage": "https://github.com/DataTables/Responsive#readme",
+    "dependencies": {
+        "jquery": ">=1.7.0",
+        "datatables": ">=1.10.1"
+    }
+}
