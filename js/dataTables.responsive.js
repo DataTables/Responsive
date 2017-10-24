@@ -263,9 +263,6 @@ $.extend( Responsive.prototype, {
 				dt.columns.adjust();
 			}
 		} );
-
-		// First pass - draw the table for the current viewport size
-		this._resize();
 	},
 
 
