@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api library="Responsive">
+	<name>responsive.hasHidden()</name>
+	<summary>Determine if Responsive has hidden columns in the table</summary>
+	<since>2.0.0</since>
+
+	<type type="function">
+		<signature>responsive.hasHidden()</signature>
+		<description>Determine if columns have been hidden by Responsive or not.</description>
+		<returns type="boolean">`true` if columns have been hidden by Responsive, `false` otherwise.</returns>
+	</type>
+
+	<description>
+		This method provides the ability to programmatically determine if Responsive has hidden any columns in the table or not. The result will reflect the state of the table when the method is called.
+	</description>
+
+	<example title="Hide a column completely by adding a class name and rebuilding"><![CDATA[
+
+var table = $('#example').DataTable( {
+    responsive: true
+} );
+
+if ( table.responsive.hasHidden() ) {
+    console.log( 'In Responsive state' );
+}
+else {
+    console.log( 'Not in Responsive state' );
+}
+
+]]></example>
+
+</dt-api>
