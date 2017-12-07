@@ -249,6 +249,9 @@ $.extend( Responsive.prototype, {
 			} );
 
 			dt.one( 'draw.dtr', function () {
+				that._resizeAuto();
+				that._resize();
+
 				dt.rows( rowIds ).every( function () {
 					that._detailsDisplay( this, false );
 				} );
