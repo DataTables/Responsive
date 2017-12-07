@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-api library="Responsive">
 	<name>responsive.hasHidden()</name>
-	<summary>Determine if Responsive has hidden columns in the table</summary>
+	<summary>Determine if Responsive has hidden any columns in the table</summary>
 	<since>2.0.0</since>
 
 	<type type="function">

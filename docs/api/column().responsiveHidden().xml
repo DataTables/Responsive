@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api library="Responsive">
+	<name>column().responsiveHidden()</name>
+	<summary>Get the responsive visibility state of a column in the table</summary>
+	<since>2.2.1</since>
+
+	<type type="function">
+		<signature>column().responsiveHidden()</signature>
+		<description>For the selected column, determine if Responsive has hidden it or not.</description>
+		<returns type="boolean">`true` if the column is responsive visible, `false` otherwise.</returns>
+	</type>
+
+	<description>
+		This method provides the ability to determine the Responsive visibility state of a single column in a table.
+        
+        Please note that this is not the same as the column visibility control built into DataTables (`-api columns().visible()` / `-init columns.visible`) - Responsive implements its own column hiding.
+	</description>
+
+    <related>-api responsive.hasHidden()</related>
+    <related>-api columns().responsiveHidden()</related>
+    <related>-api columns().visible()</related>
+</dt-api>
