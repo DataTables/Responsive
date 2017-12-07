@@ -15,16 +15,7 @@ $(document).ready(function() {
 						return 'Details for '+data[0]+' '+data[1];
 					}
 				} ),
-				renderer: function ( api, rowIdx, columns ) {
-					var data = $.map( columns, function ( col, i ) {
-						return '<tr>'+
-								'<td>'+col.title+':'+'</td> '+
-								'<td>'+col.data+'</td>'+
-							'</tr>';
-					} ).join('');
-
-					return $('<table/>').append( data );
-				}
+				renderer: $.fn.dataTable.Responsive.renderer.tableAll()
 			}
 		}
 	} );
