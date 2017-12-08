@@ -842,7 +842,8 @@ $.extend( Responsive.prototype, {
 			} )
 			.to$()
 			.clone( false )
-			.css( 'display', 'table-cell' );
+			.css( 'display', 'table-cell' )
+			.css( 'min-width', 0 );
 
 		// Body rows - we don't need to take account of DataTables' column
 		// visibility since we implement our own here (hence the `display` set)
