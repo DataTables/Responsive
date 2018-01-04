@@ -317,6 +317,9 @@ $.extend( Responsive.prototype, {
 		// on the classes. If no class control (i.e. `auto`) then `-` is used
 		// to indicate this to the rest of the function
 		var display = $.map( columns, function ( col ) {
+			if ( dt.column(i).visible() === false ) {
+				return false;
+			}
 			return col.auto && col.minWidth === null ?
 				false :
 				col.auto === true ?
