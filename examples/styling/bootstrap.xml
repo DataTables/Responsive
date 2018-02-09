@@ -16,7 +16,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example shows DataTables and the Responsive extension being used with the [Bootstrap](http://getbootstrap.com) framework providing the styling. The [DataTables / Bootstrap integration](//datatables.net/manual/styling/bootstrap) prove seamless integration for DataTables to be used in a Bootstrap page.
+This example shows DataTables and the Responsive extension being used with the [Bootstrap](http://getbootstrap.com) framework providing the styling. The [DataTables / Bootstrap integration](//datatables.net/manual/styling/bootstrap) provides seamless integration for DataTables to be used in a Bootstrap page.
 
 Note that the `dt-responsive` class is used to indicate to the extension that it should be enabled on this page, as `responsive` [has special meaning in Bootstrap](http://getbootstrap.com/css/#tables-responsive). The `r-init responsive` option could also be used if required.
 
