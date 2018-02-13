@@ -28,9 +28,9 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-Responsive's default mode to show information that is hidden due to columns being removed from the table is to show the hidden details in a child row (`dt-api row().child()`). However, you may wish to use the child row for other purposes or you may simply wish to use a different method of showing the row's information. This can be achieved with the `modal` display type.
+Responsive's default mode to show information that is hidden due to columns being removed from the table, is to show the hidden details in a child row (`dt-api row().child()`). However, you may wish to use the child row for other purposes or you may simply wish to use a different method of showing the row's information. This can be achieved with the `modal` display type.
 
-Display types are set using the `r-init responsive.details.display` option which should point to a function that will handle the child row display - in the example show here we use `$.fn.dataTable.Responsive.display.modal()` which will return a suitable function. We use the options for this function to specify a header for the modal - if you do not wish to show a header, simply don't specify this option.
+Display types are set using the `r-init responsive.details.display` option which should point to a function that will handle the child row display - in the example shown here we use `$.fn.dataTable.Responsive.display.modal()` which will return a suitable function. We use the options for this function to specify a header for the modal - if you do not wish to show a header, simply don't specify this option.
 
 The display options which are built into Responsive are available in the `$.fn.dataTable.Responsive.display` object. See `r-init responsive.details.display` for a full list of the options available.
 

@@ -29,7 +29,7 @@
 	<description>
 		Responsive provides the ability to show information about the columns it has hidden using DataTables child rows feature (`dt-api row().child()`), but you may wish to display the data in a different manner (potentially so you can use the child rows for other actions such as editing) - this parameter provides that ability.
 
-		The function given is responsible for show and hiding the child data, usually when requested to do so by the end user (second parameter). It can be used to display information in child rows (as it is by default), in a modal pop-up, in a separate information element or even potentially to open a new window with a details view.
+		The function given is responsible for showing and hiding the child data, usually when requested to do so by the end user (second parameter). It can be used to display information in child rows (as it is by default), in a modal pop-up, in a separate information element or even potentially to open a new window with a details view.
 
 		Responsive has a number of built in display functions which can be accessed from the `$.fn.dataTable.Responsive.display` object - the built in options are:
 

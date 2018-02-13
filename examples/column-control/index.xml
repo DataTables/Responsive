@@ -5,7 +5,7 @@
 
 <info><![CDATA[
 
-Responsive has two modes of operation for controlling the visibility of columns at different display sizes. These two modes can be using either separately or together:
+Responsive has two modes of operation for controlling the visibility of columns at different display sizes. These two modes can be used separately or combined together:
 
 * Manually assigned class names for breakpoints - Assign a column a class name to tell Responsive which breakpoint(s) to show it in.
 * Automatically - for columns without a breakpoint class name, it will be automatically removed if there is no room available on screen to show it. Columns can be removed in priority order or right-to-left.

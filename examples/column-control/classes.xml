@@ -27,7 +27,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-You can tell Responsive what columns to want to be visible on different devices through the use of class names on the columns. The breakpoints are horizontal screen resolutions and the defaults are set for common devices:
+You can tell Responsive what columns should be visible on different devices through the use of class names on the columns. The breakpoints are horizontal screen resolutions and the defaults are set for common devices:
 
 * `desktop` x >= 1024px
 * `tablet-l` (landscape) 768 <= x < 1024
@@ -35,7 +35,7 @@ You can tell Responsive what columns to want to be visible on different devices 
 * `mobile-l` (landscape) 320 <= x < 480
 * `mobile-p` (portrait) x < 320
 
-You may leave the `-[lp]` option from the end if you wish to just target all tablet or mobile devices. Additionally to may add `min-`, `max-` or `not-` as a prefix to the class name to perform logic operations. For example `not-mobile` would cause a column to appear as visible on desktop and tablet devices, while `min-tablet-l` would require at least a horizontal width of 768 for the browser window to be shown, and be shown at all sizes larger.
+You may leave the `-[lp]` option from the end if you wish to just target all tablet or mobile devices. Additionally, add `min-`, `max-` or `not-` as a prefix to the class name to perform logic operations. For example, `not-mobile` would cause a column to appear as visible on desktop and tablet devices, while `min-tablet-l` would require at least a horizontal width of 768 for the browser window to be shown, and be shown at all sizes larger.
 
 Additionally, there are three special class names:
 
