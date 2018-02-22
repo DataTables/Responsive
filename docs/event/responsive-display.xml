@@ -25,7 +25,7 @@
 	</type>
 
 	<description>
-		It can sometimes be useful to know when the end user requests that Responsive show the details of the hidden rows in a column (be it in a child row or a modal), when those details are hidden or when the details have been updated. THis event provides that ability.
+		It can sometimes be useful to know when the end user requests that Responsive show the details of the hidden rows in a column (be it in a child row or a modal), when those details are hidden or when the details have been updated. This event provides that ability.
 
 		Please note that, as with all DataTables emitted events, this event is triggered with the `dt` namespace. As such, to listen for this event, you must also use the `dt` namespace by simply appending `.dt` to your event name, or use `dt-api on()` which will automatically append this name space, as shown in the example below.
 	</description>

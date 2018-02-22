@@ -12,8 +12,9 @@
 
 	<description>
 		This method provides the ability to determine the Responsive visibility state of columns in a table.
-        
-        Please note that this is not the same as the column visibility control built into DataTables (`-api columns().visible()` / `-init columns.visible`) - Responsive implements its own column hiding.
+
+		Please note that this is not the same as the column visibility control built into DataTables (`-api columns().visible()` / `-init columns.visible`) - Responsive implements its own column hiding.
+
 	</description>
 
     <related>-api responsive.hasHidden()</related>
