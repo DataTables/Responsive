@@ -318,7 +318,7 @@ $.extend( Responsive.prototype, {
 		// to indicate this to the rest of the function
 		var display = $.map( columns, function ( col, i ) {
 			if ( dt.column(i).visible() === false ) {
-				return false;
+				return 'not-visible';
 			}
 			return col.auto && col.minWidth === null ?
 				false :
@@ -387,7 +387,7 @@ $.extend( Responsive.prototype, {
 		var showControl = false;
 
 		for ( i=0, ien=columns.length ; i<ien ; i++ ) {
-			if ( ! columns[i].control && ! columns[i].never && ! display[i] ) {
+			if ( ! columns[i].control && ! columns[i].never && display[i] === false ) {
 				showControl = true;
 				break;
 			}
@@ -396,6 +396,11 @@ $.extend( Responsive.prototype, {
 		for ( i=0, ien=columns.length ; i<ien ; i++ ) {
 			if ( columns[i].control ) {
 				display[i] = showControl;
+			}
+
+			// Replace not visible string with false from the control column detection above
+			if ( display[i] === 'not-visible' ) {
+				display[i] = false;
 			}
 		}
 
