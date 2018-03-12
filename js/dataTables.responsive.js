@@ -208,12 +208,21 @@ $.extend( Responsive.prototype, {
 
 			// DataTables will trigger this event on every column it shows and
 			// hides individually
-			dt.on( 'column-visibility.dtr', function (e, ctx, col, vis, recalc) {
-				if ( recalc ) {
+			dt.on( 'column-visibility.dtr', function () {
+				// Use a small debounce to allow multiple columns to be set together
+				if ( that._timer ) {
+					clearTimeout( that._timer );
+				}
+
+				that._timer = setTimeout( function () {
+					that._timer = null;
+
 					that._classLogic();
 					that._resizeAuto();
 					that._resize();
-				}
+
+					that._redrawChildren();
+				}, 100 );
 			} );
 
 			// Redraw the details box on each draw which will happen if the data
