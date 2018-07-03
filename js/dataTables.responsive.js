@@ -268,6 +268,10 @@ $.extend( Responsive.prototype, {
 		});
 
 		dt.on( 'init.dtr', function (e, settings, details) {
+			if ( e.namespace !== 'dt' ) {
+				return;
+			}
+
 			that._resizeAuto();
 			that._resize();
 
