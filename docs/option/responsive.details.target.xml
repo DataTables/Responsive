@@ -17,6 +17,8 @@
 	<type type="string">
 		<description>
 			As a string, this option is used as a jQuery selector to determine what element(s) will activate the show / hide control for the details child rows. This provides the ability to use any element in a table - for example you can use the whole row, or a single `-tag img` element in the row.
+
+			As an empty string the user's ability to activate the row details through Responsive's default click action is removed.
 		</description>
 	</type>
 
