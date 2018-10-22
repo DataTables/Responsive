@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-type="html-wide" table-class="display responsive nowrap" order="4" framework="semanticui">
+<dt-example table-type="html-wide" table-class="display responsive nowrap unstackable" order="4" framework="semanticui">
 
 <css lib="datatables responsive"/>
 <js lib="jquery datatables responsive">
