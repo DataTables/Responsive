@@ -1,11 +1,11 @@
-/*! Responsive 2.2.3
+/*! Responsive 2.2.4-dev
  * 2014-2018 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Responsive
  * @description Responsive tables plug-in for DataTables
- * @version     2.2.3
+ * @version     2.2.4-dev
  * @file        dataTables.responsive.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -144,7 +144,7 @@ $.extend( Responsive.prototype, {
 		var that = this;
 		var dt = this.s.dt;
 		var dtPrivateSettings = dt.settings()[0];
-		var oldWindowWidth = $(window).width();
+		var oldWindowWidth = $(window).innerWidth();
 
 		dt.settings()[0]._responsive = this;
 
@@ -153,7 +153,7 @@ $.extend( Responsive.prototype, {
 		$(window).on( 'resize.dtr orientationchange.dtr', DataTable.util.throttle( function () {
 			// iOS has a bug whereby resize can fire when only scrolling
 			// See: http://stackoverflow.com/questions/8898412
-			var width = $(window).width();
+			var width = $(window).innerWidth();
 
 			if ( width !== oldWindowWidth ) {
 				that._resize();
@@ -757,7 +757,7 @@ $.extend( Responsive.prototype, {
 	{
 		var that = this;
 		var dt = this.s.dt;
-		var width = $(window).width();
+		var width = $(window).innerWidth();
 		var breakpoints = this.c.breakpoints;
 		var breakpoint = breakpoints[0].name;
 		var columns = this.s.columns;
@@ -1368,7 +1368,7 @@ Api.registerPlural( 'columns().responsiveHidden()', 'column().responsiveHidden()
  * @name Responsive.version
  * @static
  */
-Responsive.version = '2.2.3';
+Responsive.version = '2.2.4-dev';
 
 
 $.fn.dataTable.Responsive = Responsive;
