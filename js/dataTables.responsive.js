@@ -631,7 +631,7 @@ $.extend( Responsive.prototype, {
 		var target   = details.target;
 		var selector = typeof target === 'string' ? target : 'td, th';
 
-		if ( target ) {
+		if ( target !== undefined || target !== null ) {
 			// Click handler to show / hide the details rows when they are available
 			$( dt.table().body() )
 				.on( 'click.dtr mousedown.dtr mouseup.dtr', selector, function (e) {
