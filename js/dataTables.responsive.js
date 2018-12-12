@@ -1366,7 +1366,7 @@ Api.register( 'responsive.hasHidden()', function () {
 	var ctx = this.context[0];
 
 	return ctx._responsive ?
-		$.inArray( false, settings._responsive._responsiveOnlyHidden() ) !== -1 :
+		$.inArray( false, ctx._responsive._responsiveOnlyHidden() ) !== -1 :
 		false;
 } );
 
