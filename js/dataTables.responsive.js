@@ -933,6 +933,23 @@ $.extend( Responsive.prototype, {
 	},
 
 	/**
+	 * Get the state of the current hidden columns - controlled by Responsive only
+	 */
+	_responsiveOnlyHidden: function ()
+	{
+		var dt = this.s.dt;
+
+		return $.map( this.s.current, function (v, i) {
+			// If the column is hidden by DataTables then it can't be hidden by
+			// Responsive!
+			if ( dt.column(i).visible() === false ) {
+				return true;
+			}
+			return v;
+		} );
+	},
+
+	/**
 	 * Set a column's visibility.
 	 *
 	 * We don't use DataTables' column visibility controls in order to ensure
@@ -1349,14 +1366,14 @@ Api.register( 'responsive.hasHidden()', function () {
 	var ctx = this.context[0];
 
 	return ctx._responsive ?
-		$.inArray( false, ctx._responsive.s.current ) !== -1 :
+		$.inArray( false, settings._responsive._responsiveOnlyHidden() ) !== -1 :
 		false;
 } );
 
 Api.registerPlural( 'columns().responsiveHidden()', 'column().responsiveHidden()', function () {
 	return this.iterator( 'column', function ( settings, column ) {
 		return settings._responsive ?
-			settings._responsive.s.current[ column ] :
+			settings._responsive._responsiveOnlyHidden()[ column ] :
 			false;
 	}, 1 );
 } );
