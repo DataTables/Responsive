@@ -22,7 +22,7 @@ describe('Responsive - responsive.details.target', function() {
 	it('Clicking on first column opens child row', function() {
 		$('tbody tr td:eq(0)').click();
 		expect($('tbody tr').length).toBe(11);
-	});	
+	});
 
 	dt.html('basic_wide');
 	it('Target specified within columnDefs', function() {
