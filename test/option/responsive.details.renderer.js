@@ -24,7 +24,7 @@ describe('Responsive - responsive.details.renderer', function() {
 			expect($('table').length).toBe(1);
 			expect($('tbody tr').length).toBe(11);
 		});
-		it('//Clicking on first column closes child row', function() {
+		it('Clicking on first column closes child row', function() {
 			$('tbody tr td:eq(0)').click();
 			expect($('table').length).toBe(1);
 			expect($('tbody tr').length).toBe(10);
