@@ -12,6 +12,7 @@ $(document).ready(function() {
 		responsive: true,
 		columnDefs: [
 			{ responsivePriority: 1, targets: 0 },
+			{ responsivePriority: 10001, targets: 4 },
 			{ responsivePriority: 2, targets: -2 }
 		]
 	} );
@@ -26,9 +27,9 @@ $(document).ready(function() {
 
 Responsive will automatically hide columns from the right-hand-side of the table, moving in as the table gets smaller, but it can often be useful to use a custom ordering, giving priority to certain columns (for example an actions buttons column, or a column with important information).
 
-Column visibility priority can be defined in Responsive using the `r-init columns.responsivePriority` initialisation option in the DataTables column options (`dt-init columns` or `dt-init columnDefs`). The priority given is a number with lower values representing a higher priority.
+Column visibility priority can be defined in Responsive using the `r-init columns.responsivePriority` initialisation option in the DataTables column options (`dt-init columns` or `dt-init columnDefs`). The priority given is a number with lower values representing a higher priority. Columns have a default value of 10000 for their hiding priority - to make a column disappear before the right most column, set its `responsivePriority` to be 10001 or higher.
 
-This example shows the _first name_ column being given top priority and then the _extn._ column. Resizing the table will cause the other columns to be removed before these two columns - with the _first name_ column finally taking priority.
+This example shows the _first name_ column being given top priority and then the _extn._ column. Resizing the table will cause the other columns to be removed before these two columns - with the _first name_ column finally taking priority. The _age_ column is the lowest priority and removed before all others, even although it is in the middle of the table.
 
 The column priority can also be defined by a `data-priority` attribute on the column's header cell (for example `-tag <th data-priority="1">First name</th>`).
 
