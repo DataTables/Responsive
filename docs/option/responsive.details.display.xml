@@ -40,7 +40,7 @@
 		    * `header` - a function that should return a string of what will be shown in the modal's header. A single parameter is passed in, the `dt-api row()` instance of the row whose details are being shown.
 		  * jQuery UI:
 		    * `header` - a function that should return a string of what will be shown in the modal's header. A single parameter is passed in, the `dt-api row()` instance of the row whose details are being shown.
-		    * `modal` - An object of [dialog configuration control options](http://api.jqueryui.com/dialog) as defined by the jQuery UI library.
+		    * `dialog` - An object of [dialog configuration control options](http://api.jqueryui.com/dialog) as defined by the jQuery UI library.
 	</description>
 
 	<example title="Use the `childRowImmediate` display option"><![CDATA[
