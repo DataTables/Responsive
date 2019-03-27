@@ -441,6 +441,12 @@ $.extend( Responsive.prototype, {
 		var calc = {};
 		var breakpoints = this.c.breakpoints;
 		var dt = this.s.dt;
+		var details = this.c.details;
+		var controlClass = 'control';
+		//Override the class used to detect the control column, if set
+		if(details && details.controlClass) {
+			controlClass = details.controlClass;
+		}
 		var columns = dt.columns().eq(0).map( function (i) {
 			var column = this.column(i);
 			var className = column.header().className;
@@ -533,7 +539,7 @@ $.extend( Responsive.prototype, {
 					hasClass = true;
 					return;
 				}
-				else if ( className === 'control' ) {
+				else if ( className === controlClass ) {
 					// Special column that is only visible, when one of the other
 					// columns is hidden. This is used for the details control
 					hasClass = true;
