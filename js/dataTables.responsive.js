@@ -445,13 +445,12 @@ $.extend( Responsive.prototype, {
 			var column = this.column(i);
 			var className = column.header().className;
 			var priority = dt.settings()[0].aoColumns[i].responsivePriority;
+			var dataPriority = column.header().getAttribute('data-priority');
 
-			if ( priority === undefined ) {
-				var dataPriority = $(column.header()).data('priority');
-
-				priority = dataPriority !== undefined ?
-					dataPriority * 1 :
-					10000;
+			if ( priority === undefined || priority !== dataPriority ) {
+				priority = dataPriority === undefined || dataPriority === null?
+					10000 :
+					dataPriority * 1;
 			}
 
 			return {
