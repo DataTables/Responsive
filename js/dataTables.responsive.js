@@ -238,7 +238,7 @@ $.extend( Responsive.prototype, {
 		dt.on( 'column-reorder.dtr', function (e, settings, details) {
 			that._classLogic();
 			that._resizeAuto();
-			that._resize();
+			that._resize(true);
 		} );
 
 		// Change in column sizes means we need to calc
@@ -750,9 +750,10 @@ $.extend( Responsive.prototype, {
 	 * determining what breakpoint the window currently is in, getting the
 	 * column visibilities to apply and then setting them.
 	 *
+	 * @param  {boolean} forceRedraw Force a redraw
 	 * @private
 	 */
-	_resize: function ()
+	_resize: function (forceRedraw)
 	{
 		var that = this;
 		var dt = this.s.dt;
@@ -796,7 +797,7 @@ $.extend( Responsive.prototype, {
 				visible++;
 			}
 
-			if ( columnsVis[i] !== oldVis[i] ) {
+			if ( forceRedraw || columnsVis[i] !== oldVis[i] ) {
 				changed = true;
 				that._setColumnVis( colIdx, columnsVis[i] );
 			}
