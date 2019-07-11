@@ -1,5 +1,5 @@
 describe('Responsive - column().responsiveHidden()', function() {
-	var table;
+	let table;
 
 	dt.libs({
 		js: ['jquery', 'datatables', 'responsive'],
@@ -7,8 +7,6 @@ describe('Responsive - column().responsiveHidden()', function() {
 	});
 
 	describe('Check the defaults', function() {
-		let table;
-
 		dt.html('basic_wide');
 		it('Exists and is a function', function() {
 			table = $('#example').DataTable({
@@ -22,8 +20,6 @@ describe('Responsive - column().responsiveHidden()', function() {
 	});
 
 	describe('Functional tests', function() {
-		let table;
-
 		dt.html('basic_wide');
 		it('Just check all the columns', function() {
 			table = $('#example').DataTable({
