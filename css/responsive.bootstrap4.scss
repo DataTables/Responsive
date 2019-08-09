@@ -7,3 +7,13 @@ $open-button-background: #0275d8 !default;
 div.dtr-bs-modal table.table tr:first-child td {
 	border-top: none;
 }
+
+table.dataTable.dtr-inline.collapsed.table-sm > tbody > tr {
+	> td,
+	> th {
+		&:first-child:before {
+			top: 5px;
+		}
+	}
+}
+
