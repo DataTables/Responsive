@@ -8,8 +8,6 @@ describe('Responsive - responsive.breakpoints', function() {
 
 	function checkVisible(expected) {
 		for (let i = 0; i < expected.length; i++) {
-			console.log(i);
-			console.log($('thead th:eq(' + i + ')').attr('style'));
 			let invisible = $('thead th:eq(' + i + ')')
 				.attr('style')
 				.includes('display: none;');
