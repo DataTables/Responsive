@@ -21,8 +21,6 @@ describe('Responsive - responsive.colreorder', function() {
 		expect($('ul li:nth-child(2) span:eq(0)').text()).toBe('Line Manager First Name');
 		expect($('ul li:nth-child(3) span:eq(0)').text()).toBe('Line Manager Last Name');
 	});
-	// TK COLIN
-	// failing due to jira DD-757
 	it('Move a row and check table headers', function() {
 		table.colReorder.move(0, 10);
 
