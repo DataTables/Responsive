@@ -21,7 +21,7 @@
 
 		* `inline` - where the first column in the table has additional padding added to it and the `:before` pseudo element is used to display the button.
 		* `column` - where a whole column is dedicated to the show / hide control.
-		* `-string none` - Don't show the show / hide icons - typically used when the user's ability to show / hide rows is rmeoved (`-init responsive.details.target`).
+		* `-string none` - Don't show the show / hide icons - typically used when the user's ability to show / hide rows is removed (`-init responsive.details.target`).
 
 		The `inline` style is useful if you already have a table that you quickly want to add Responsive to without changing its structure, while the `column` type can be useful if you don't want the first column's layout to be modified by the padding required to make space for the inline display.
 
