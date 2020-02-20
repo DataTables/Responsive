@@ -673,7 +673,7 @@ $.extend( Responsive.prototype, {
 					}
 					else if ( e.type === 'mouseup' ) {
 						// And then re-allow at the end of the click
-						$(this).blur().css('outline', '');
+						$(this).trigger('blur').css('outline', '');
 					}
 				} );
 		}
