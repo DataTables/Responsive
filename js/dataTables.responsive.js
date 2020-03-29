@@ -857,6 +857,8 @@ $.extend( Responsive.prototype, {
 		var clonedHeader = $( dt.table().header().cloneNode( false ) ).appendTo( clonedTable );
 		var clonedBody   = $( dt.table().body() ).clone( false, false ).empty().appendTo( clonedTable ); // use jQuery because of IE8
 
+		clonedTable.style.width = 'auto';
+
 		// Header
 		var headerCells = dt.columns()
 			.header()
@@ -866,6 +868,7 @@ $.extend( Responsive.prototype, {
 			.to$()
 			.clone( false )
 			.css( 'display', 'table-cell' )
+			.css( 'width', 'auto' )
 			.css( 'min-width', 0 );
 
 		// Body rows - we don't need to take account of DataTables' column
