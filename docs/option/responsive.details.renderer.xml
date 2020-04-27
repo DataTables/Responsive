@@ -17,11 +17,12 @@
 
 			```js
 			{
-				title: "...",          // string - column title
-				data: "...",           // string - cell's value
-				hidden: true / false   // boolean - true if hidden by Responsive - otherwise false
-				columnIndex: ...       // integer - column data index (since Responsive 2.0.1)
-				rowIndex: ...          // integer - column data index (since Responsive 2.0.2)
+				className: ...,         // string - host column's class name (since Responsive 2.2.4)
+				columnIndex: ...,       // integer - column data index (since Responsive 2.0.1)
+				data: "...",            // string - cell's value
+				hidden: true / false,   // boolean - true if hidden by Responsive - otherwise false
+				rowIndex: ...,          // integer - column data index (since Responsive 2.0.2)
+				title: "...",           // string - column title
 			}
 			```
 

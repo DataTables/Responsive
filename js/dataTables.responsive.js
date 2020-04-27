@@ -696,12 +696,15 @@ $.extend( Responsive.prototype, {
 				return;
 			}
 
+			var dtCol = dt.settings()[0].aoColumns[ i ];
+
 			return {
-				title:       dt.settings()[0].aoColumns[ i ].sTitle,
+				className:   dtCol.sClass,
+				columnIndex: i,
 				data:        dt.cell( rowIdx, i ).render( that.c.orthogonal ),
 				hidden:      dt.column( i ).visible() && !that.s.current[ i ],
-				columnIndex: i,
-				rowIndex:    rowIdx
+				rowIndex:    rowIdx,
+				title:       dtCol.sTitle
 			};
 		} );
 	},
@@ -1205,8 +1208,12 @@ Responsive.renderer = {
 
 			var data = $.each( columns, function ( i, col ) {
 				if ( col.hidden ) {
+					var klass = col.className ?
+						'class="'+ col.className +'"' :
+						'';
+	
 					$(
-						'<li data-dtr-index="'+col.columnIndex+'" data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
+						'<li '+klass+' data-dtr-index="'+col.columnIndex+'" data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
 							'<span class="dtr-title">'+
 								col.title+
 							'</span> '+
@@ -1228,8 +1235,12 @@ Responsive.renderer = {
 	listHidden: function () {
 		return function ( api, rowIdx, columns ) {
 			var data = $.map( columns, function ( col ) {
+				var klass = col.className ?
+					'class="'+ col.className +'"' :
+					'';
+
 				return col.hidden ?
-					'<li data-dtr-index="'+col.columnIndex+'" data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
+					'<li '+klass+' data-dtr-index="'+col.columnIndex+'" data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
 						'<span class="dtr-title">'+
 							col.title+
 						'</span> '+
@@ -1253,7 +1264,11 @@ Responsive.renderer = {
 
 		return function ( api, rowIdx, columns ) {
 			var data = $.map( columns, function ( col ) {
-				return '<tr data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
+				var klass = col.className ?
+					'class="'+ col.className +'"' :
+					'';
+
+				return '<tr '+klass+' data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
 						'<td>'+col.title+':'+'</td> '+
 						'<td>'+col.data+'</td>'+
 					'</tr>';
