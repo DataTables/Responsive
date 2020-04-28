@@ -65,10 +65,11 @@ table.dataTable {
 			cursor: pointer;
 
 			&:before {
-				top: $control-button-top;
-				left: 4px;
+				top: 50%;
+				left: 5px;
 				height: $control-button-size;
 				width: $control-button-size;
+				margin-top: -$control-button-top;
 				@include control;
 				@include control-open;
 			}
@@ -89,7 +90,6 @@ table.dataTable {
 			padding-left: 27px;
 
 			&:before {
-				top: 5px;
 				left: 4px;
 				height: 14px;
 				width: 14px;
