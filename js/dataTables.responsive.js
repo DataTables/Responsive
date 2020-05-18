@@ -739,7 +739,9 @@ $.extend( Responsive.prototype, {
 				data:        dt.cell( rowIdx, i ).render( that.c.orthogonal ),
 				hidden:      dt.column( i ).visible() && !that.s.current[ i ],
 				rowIndex:    rowIdx,
-				title:       dtCol.sTitle
+				title:       dtCol.sTitle !== null ?
+					dtCol.sTitle :
+					$(dt.column(i).header()).text()
 			};
 		} );
 	},
