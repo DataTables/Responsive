@@ -25,4 +25,24 @@ describe('Responsive - responsive', function() {
 		expect($('ul li:eq(2)').hasClass('test')).toBe(true);
 		expect($('ul li:eq(1)').hasClass('test')).toBe(false);
 	});
+
+	dt.html('basic_wide');
+	it('+ icons are displayed on all rows on first page', function() {
+		table = $('#example').DataTable({
+			responsive: true,
+			columnDefs: [
+				{
+					targets: 10,
+					className: 'test'
+				}
+			]
+		});
+
+		expect($('tbody tr td.dtr-control').length).toBe(10);
+	});
+	it('... and second page', function() {
+		table.page(1).draw(false);
+
+		expect($('tbody tr td.dtr-control').length).toBe(10);
+	});
 });
