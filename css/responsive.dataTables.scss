@@ -103,6 +103,8 @@ table.dataTable {
 
 	// Styling for the `column` type
 	&.dtr-column > tbody {
+		> tr > td.dtr-control,
+		> tr > th.dtr-control,
 		> tr > td.control,
 		> tr > th.control {
 			position: relative;
@@ -121,6 +123,8 @@ table.dataTable {
 		}
 
 		> tr.parent {
+			td.dtr-control:before,
+			th.dtr-control:before,
 			td.control:before,
 			th.control:before {
 				@include control-close;
