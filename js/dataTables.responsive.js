@@ -269,7 +269,7 @@ $.extend( Responsive.prototype, {
 		});
 
 		dt
-			.on( 'draw.dtr', function () {
+			.on( 'draw.dtr column-visibility.dtr column-reorder.dtr', function () {
 				that._controlClass();
 			})
 			.on( 'init.dtr', function (e, settings, details) {
