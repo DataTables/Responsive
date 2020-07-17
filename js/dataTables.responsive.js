@@ -269,7 +269,7 @@ $.extend( Responsive.prototype, {
 		});
 
 		dt
-			.on( 'draw.dtr column-visibility.dtr column-reorder.dtr', function () {
+			.on( 'draw.dtr', function () {
 				that._controlClass();
 			})
 			.on( 'init.dtr', function (e, settings, details) {
@@ -855,6 +855,8 @@ $.extend( Responsive.prototype, {
 				$('td', dt.table().body()).eq(0).attr('colspan', visible);
 			}
 		}
+
+		that._controlClass();
 	},
 
 
