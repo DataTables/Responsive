@@ -220,7 +220,7 @@ $.extend( Responsive.prototype, {
 
 					that._classLogic();
 					that._resizeAuto();
-					that._resize();
+					that._resize(true);
 
 					that._redrawChildren();
 				}, 100 );
