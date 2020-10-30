@@ -13,7 +13,7 @@ $close-button-background: #d33333 !default;
 //
 // Mixins
 //
-@mixin control {
+@mixin control() {
 	display: block;
 	position: absolute;
 	color: $control-button-color;
@@ -29,12 +29,12 @@ $close-button-background: #d33333 !default;
 	line-height: 1em;
 }
 
-@mixin control-open {
+@mixin control-open() {
 	content: '+';
 	background-color: $open-button-background;
 }
 
-@mixin control-close {
+@mixin control-close() {
 	content: '-';
 	background-color: $close-button-background;
 }
