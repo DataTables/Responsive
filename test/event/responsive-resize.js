@@ -26,7 +26,7 @@ describe('Responsive - responsive-resize', function() {
 	it('First arg - event object', function() {
 		expect(args[0] instanceof $.Event).toBe(true);
 	});
-	it('Second arg - API', function() {
+	it('Second arg - API instance', function() {
 		expect(args[1] instanceof $.fn.dataTable.Api).toBe(true);
 	});
 	it('Third arg - row API', function() {
