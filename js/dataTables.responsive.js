@@ -1022,6 +1022,38 @@ $.extend( Responsive.prototype, {
 				_childNodesRestore( dt, idx.row, idx.column );
 			} );
 		}
+
+		var headerRows = $(dt.header()).children();
+
+		headerRows.slice(0, -1).each(function() {
+			var columnsCount = 0;
+
+			$(this).children().each(function() {
+				if (!$(this).data('original-colspan'))
+					$(this).data('original-colspan', $(this).attr('colspan'));
+
+				if (columnsCount > col)
+					return false;
+
+				var oldColumnsCount = columnsCount;
+
+				columnsCount += parseInt($(this).data('original-colspan'));
+
+				if (columnsCount <= col)
+					return;
+
+				var visibleColumnsSubsetCount = headerRows.eq(-1).children().slice(oldColumnsCount, columnsCount).filter(':visible').length;
+
+				if (visibleColumnsSubsetCount > 0)
+					$(this)
+						.attr('colspan', visibleColumnsSubsetCount)
+						.css('display', '');
+				else
+					$(this)
+						.attr('colspan', 1)
+						.css('display', 'none');
+			});
+		});
 	},
 
 
