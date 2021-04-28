@@ -1032,15 +1032,9 @@ $.extend( Responsive.prototype, {
 				if (!$(this).data('original-colspan'))
 					$(this).data('original-colspan', $(this).attr('colspan'));
 
-				if (columnsCount > col)
-					return false;
-
 				var oldColumnsCount = columnsCount;
 
 				columnsCount += parseInt($(this).data('original-colspan'));
-
-				if (columnsCount <= col)
-					return;
 
 				var visibleColumnsSubsetCount = headerRows.eq(-1).children().slice(oldColumnsCount, columnsCount).filter(':visible').length;
 
