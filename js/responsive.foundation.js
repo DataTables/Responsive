@@ -46,12 +46,21 @@ _display.modal = function ( options ) {
 		}
 		else {
 			if ( ! update ) {
-				$( '<div class="reveal-modal" data-reveal/>' )
-					.append( '<a class="close-reveal-modal" aria-label="Close">&#215;</a>' )
+				var	modalContainer = $('<div class="reveal-overlay" style="display:block"/>');
+				$( '<div class="reveal reveal-modal" style="display:block; top: 150px;" data-reveal/>' )
+					.append( '<button class="close-button" aria-label="Close">&#215;</button>' )
 					.append( options && options.header ? '<h4>'+options.header( row )+'</h4>' : null )
 					.append( render() )
-					.appendTo( 'body' )
-					.foundation( 'reveal', 'open' );
+					.appendTo( modalContainer );
+				
+				modalContainer.appendTo('body');
+
+				$('button.close-button').on('click', function() {
+					$('.reveal-overlay').remove();
+				})
+				$('.reveal-overlay').on('click', function() {
+					$('.reveal-overlay').remove();
+				})
 			}
 		}
 	};
