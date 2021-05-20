@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="html-wide" table-class="display responsive nowrap" order="4" framework="bulma">
 
-<css lib="datatables responsive"/>
+<css lib="datatables responsive">
+	div.container {
+		width: 960px;
+	}
+</css>
 <js lib="jquery datatables responsive">
 <![CDATA[
 
