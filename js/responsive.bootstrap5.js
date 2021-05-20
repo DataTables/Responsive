@@ -50,9 +50,7 @@ var _modal = $(
 		'</div>'+
 	'</div>'
 );
-var modal = new bootstrap.Modal(_modal[0], {
-	backdrop: "static",
-});
+var modal = new bootstrap.Modal(_modal[0]);
 
 _display.modal = function ( options ) {
 	return function ( row, update, render ) {
