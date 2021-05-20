@@ -2,7 +2,7 @@
 <dt-example table-type="html-wide" table-class="display dt-responsive nowrap" order="3" framework="bootstrap5">
 
 <css lib="datatables responsive"/>
-<js lib="jquery datatables responsive">
+<js lib="jquery bootstrap5 datatables responsive">
 <![CDATA[
 
 $(document).ready(function() {
