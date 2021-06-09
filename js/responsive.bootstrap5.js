@@ -50,7 +50,12 @@ var _modal = $(
 		'</div>'+
 	'</div>'
 );
-var modal = new bootstrap.Modal(_modal[0]);
+var modal;
+
+// Need to wait for the document to be ready for Boostrap 5 to be able to initialise to modal
+$(function () {
+	modal = new bootstrap.Modal(_modal[0]);
+});
 
 _display.modal = function ( options ) {
 	return function ( row, update, render ) {
