@@ -9,7 +9,7 @@
 			<![CDATA[
 			Column index to which the show / hide control should be attached. This can be `>=0` to count columns from the left, or `<0` to count from the right.
 
-			Please note that the column defined here should have the class `-string control` added to it. This allows the Responsive CSS to display a control icon to the end user.
+			Please note that the column defined here should have the class `-string dtr-control` added to it. This allows the Responsive CSS to display a control icon to the end user.
 			]]>
 		</description>
 	</type>
@@ -42,7 +42,7 @@ $('#example').DataTable( {
 		}
 	},
 	columnDefs: [ {
-		className: 'control',
+		className: 'dtr-control',
 		orderable: false,
 		targets:   -1
 	} ]

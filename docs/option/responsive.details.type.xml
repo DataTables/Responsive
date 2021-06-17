@@ -9,7 +9,7 @@
 			The child row display type to use. This can be one of:
 
 			* `-string inline` - Use the first column to display the control element
-			* `-string column` - Use a whole column to display the control element. Note that if used as a column type and the `target` option is set to be a column index, the class assigned to that column in the DataTable should be `control` to allow the CSS to display a visual show / hide control to the end user.
+			* `-string column` - Use a whole column to display the control element. Note that if used as a column type and the `target` option is set to be a column index, the class assigned to that column in the DataTable should be `dtr-control` to allow the CSS to display a visual show / hide control to the end user.
 			* `-string none` - Don't show the show / hide icons
 		</description>
 	</type>
@@ -37,7 +37,7 @@ $('#example').DataTable( {
 		}
 	},
 	columnDefs: [ {
-		className: 'control',
+		className: 'dtr-control',
 		orderable: false,
 		targets:   0
 	} ],

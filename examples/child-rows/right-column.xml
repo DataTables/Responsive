@@ -14,7 +14,7 @@ $(document).ready(function() {
 			}
 		},
 		columnDefs: [ {
-			className: 'control',
+			className: 'dtr-control',
 			orderable: false,
 			targets:   -1
 		} ]
