@@ -52,12 +52,20 @@ var _modal = $(
 );
 var modal;
 
-// Need to wait for the document to be ready for Boostrap 5 to be able to initialise to modal
-$(function () {
-	modal = new bootstrap.Modal(_modal[0]);
-});
+// Note this could be undefined at the time of initialisation - the
+// DataTable.Responsive.bootstrap function can be used to set a different
+// bootstrap object
+var _bs = window.bootstrap;
+
+DataTable.Responsive.bootstrap = function (bs) {
+	_bs = bs;
+}
 
 _display.modal = function ( options ) {
+	if (! modal) {
+		modal = new _bs.Modal(_modal[0]);
+	}
+
 	return function ( row, update, render ) {
 		if ( ! $.fn.modal ) {
 			_original( row, update, render );
