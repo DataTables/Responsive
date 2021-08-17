@@ -22,7 +22,7 @@
 	<description>
 		The visibility of columns in a DataTable with Responsive enabled can be controlled by breakpoints and class names matching those breakpoints (and other logical operations) . This provides the ability to exactly control which columns in a table will be visible for each device type. [See the Responsive manual](/extensions/responsive/classes) for more information.
 
-		The breakpoints that are used by a Responsive instance are unique to that instance (i.e. each table) allowing different breakpoints to be set for different tables is needed.
+		The breakpoints that are used by a Responsive instance are unique to that instance (i.e. each table) allowing different breakpoints to be set for different tables is needed. The table can be "in" only a single breakpoint mode at any one time. If you wish a column to appear over multiple breakpoints, the classes assigned to the column must reflect that (e.g. `className: 'tablet desktop'`).
 
 		The default breakpoints defined by `$.fn.dataTable.Responsive.breakpoints` is:
 
