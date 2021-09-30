@@ -248,6 +248,19 @@ $.extend( Responsive.prototype, {
 			that._resize();
 		});
 
+		// DT2 let's us tell it if we are hiding columns
+		dt.on( 'column-calc.dt', function (e, d) {
+			var curr = that.s.current;
+
+			for (var i=0 ; i<curr.length ; i++) {
+				var idx = d.visible.indexOf(i);
+
+				if (curr[i] === false && idx >= 0) {
+					d.visible.splice(idx, 1);
+				}
+			}
+		} );
+
 		// On Ajax reload we want to reopen any child rows which are displayed
 		// by responsive
 		dt.on( 'preXhr.dtr', function () {
