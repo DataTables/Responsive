@@ -476,7 +476,7 @@ $.extend( Responsive.prototype, {
 				includeIn: [],
 				auto:      false,
 				control:   false,
-				never:     className.match(/\bnever\b/) ? true : false,
+				never:     className.match(/\b(dtr\-)?never\b/) ? true : false,
 				priority:  priority
 			};
 		} );
@@ -537,7 +537,7 @@ $.extend( Responsive.prototype, {
 			for ( var k=0, ken=classNames.length ; k<ken ; k++ ) {
 				var className = classNames[k].trim();
 
-				if ( className === 'all' ) {
+				if ( className === 'all' || className === 'dtr-all' ) {
 					// Include in all
 					hasClass = true;
 					col.includeIn = $.map( breakpoints, function (a) {
@@ -545,7 +545,7 @@ $.extend( Responsive.prototype, {
 					} );
 					return;
 				}
-				else if ( className === 'none' || col.never ) {
+				else if ( className === 'none' || className === 'dtr-none' || col.never ) {
 					// Include in none (default) and no auto
 					hasClass = true;
 					return;
@@ -633,8 +633,12 @@ $.extend( Responsive.prototype, {
 		var details = this.c.details;
 
 		if ( details && details.type !== false ) {
+			var renderer = typeof details.renderer === 'string'
+				? Responsive.renderer[details.renderer]()
+				: details.renderer;
+
 			var res = details.display( row, update, function () {
-				return details.renderer(
+				return renderer(
 					dt, row[0], that._detailsObj(row[0])
 				);
 			} );
