@@ -1029,9 +1029,17 @@ $.extend( Responsive.prototype, {
 		var dt = this.s.dt;
 		var display = showHide ? '' : 'none'; // empty string will remove the attr
 
-		$( dt.column( col ).header() ).css( 'display', display );
-		$( dt.column( col ).footer() ).css( 'display', display );
-		dt.column( col ).nodes().to$().css( 'display', display );
+		$( dt.column( col ).header() )
+			.css( 'display', display )
+			.toggleClass('dtr-hidden', !showHide);
+
+		$( dt.column( col ).footer() )
+			.css( 'display', display )
+			.toggleClass('dtr-hidden', !showHide);
+
+		dt.column( col ).nodes().to$()
+			.css( 'display', display )
+			.toggleClass('dtr-hidden', !showHide);
 
 		// If the are child nodes stored, we might need to reinsert them
 		if ( ! $.isEmptyObject( _childNodeStore ) ) {

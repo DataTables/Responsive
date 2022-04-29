@@ -7,3 +7,10 @@ div.dtr-bs-modal table.table tr:first-child td {
 	border-top: none;
 }
 
+table.dataTable.table-bordered {
+	// First column is hidden and that is what gives the table is border
+	th.dtr-control.dtr-hidden + *,
+	td.dtr-control.dtr-hidden + * {
+		border-left-width: 1px;
+	}
+}
