@@ -1,15 +1,14 @@
-/*! Responsive 2.2.9
- * 2014-2021 SpryMedia Ltd - datatables.net/license
+/*! Responsive 2.3.0
+ * 2014-2022 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Responsive
  * @description Responsive tables plug-in for DataTables
- * @version     2.2.9
- * @file        dataTables.responsive.js
+ * @version     2.3.0
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
- * @copyright   Copyright 2014-2021 SpryMedia Ltd.
+ * @copyright   SpryMedia Ltd.
  *
  * This source file is free software, available under the following license:
  *   MIT license - http://datatables.net/license/mit
@@ -1468,7 +1467,7 @@ Api.registerPlural( 'columns().responsiveHidden()', 'column().responsiveHidden()
  * @name Responsive.version
  * @static
  */
-Responsive.version = '2.2.9';
+Responsive.version = '2.3.0';
 
 
 $.fn.dataTable.Responsive = Responsive;
