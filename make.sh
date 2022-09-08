@@ -32,8 +32,8 @@ css_frameworks responsive $OUT_DIR/css
 
 # Copy JS
 rsync -r js $OUT_DIR
-js_compress $OUT_DIR/js/dataTables.responsive.js
-js_frameworks responsive $OUT_DIR/js
+js_wrap $OUT_DIR/js/dataTables.responsive.js "jquery datatables.net"
+js_frameworks responsive $OUT_DIR/js "jquery datatables.net-FW datatables.net-responsive"
 
 # Copy Types
 if [ -d $OUT_DIR/types ]; then
