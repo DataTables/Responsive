@@ -26,7 +26,7 @@ declare module 'datatables.net' {
 		/**
 		 * Set column's visibility priority
 		 */
-		responsivePriority: number;
+		responsivePriority?: number;
 	}
 
 	interface Api<T> {
