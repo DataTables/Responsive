@@ -14,9 +14,9 @@ var _modal = $(
 );
 
 _display.modal = function ( options ) {
-	return function ( row, update, render ) {
+	return function ( row, update, render, closeCallback ) {
 		if ( ! $.fn.modal ) {
-			_original( row, update, render );
+			return _original( row, update, render, closeCallback );
 		}
 		else {
 			if ( ! update ) {
@@ -37,6 +37,8 @@ _display.modal = function ( options ) {
 
 				_modal.modal('show');
 			}
+
+			return true;
 		}
 	};
 };

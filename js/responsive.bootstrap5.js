@@ -32,9 +32,9 @@ _display.modal = function ( options ) {
 		modal = new _bs.Modal(_modal[0]);
 	}
 
-	return function ( row, update, render ) {
+	return function ( row, update, render, closeCallback ) {
 		if ( ! $.fn.modal ) {
-			_original( row, update, render );
+			return _original( row, update, render, closeCallback );
 		}
 		else {
 			if ( ! update ) {
@@ -53,11 +53,14 @@ _display.modal = function ( options ) {
 					.append( render() );
 
 				_modal
+					.one('hidden.bs.modal', closeCallback)
 					.appendTo( 'body' )
 					.modal();
 
 				modal.show();
 			}
+
+			return true;
 		}
 	};
 };

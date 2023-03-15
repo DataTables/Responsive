@@ -6,9 +6,9 @@ var _display = DataTable.Responsive.display;
 var _original = _display.modal;
 
 _display.modal = function ( options ) {
-	return function ( row, update, render ) {
+	return function ( row, update, render, closeCallback ) {
 		if ( ! $.fn.dialog ) {
-			_original( row, update, render );
+			return _original( row, update, render, closeCallback );
 		}
 		else {
 			if ( ! update ) {
@@ -20,6 +20,8 @@ _display.modal = function ( options ) {
 						width: 500
 					}, options.dialog ) );
 			}
+
+			return true;
 		}
 	};
 };

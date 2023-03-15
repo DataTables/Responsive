@@ -659,20 +659,30 @@ $.extend( Responsive.prototype, {
 		var that = this;
 		var dt = this.s.dt;
 		var details = this.c.details;
+		var event = function (res) {
+			$(dt.table().node()).triggerHandler( 'responsive-display.dt', [dt, row, res, update] );
+		};
 
 		if ( details && details.type !== false ) {
 			var renderer = typeof details.renderer === 'string'
 				? Responsive.renderer[details.renderer]()
 				: details.renderer;
 
-			var res = details.display( row, update, function () {
-				return renderer.call(
-					that, dt, row[0], that._detailsObj(row[0])
-				);
-			} );
+			var res = details.display(
+				row,
+				update,
+				function () {
+					return renderer.call(
+						that, dt, row[0], that._detailsObj(row[0])
+					);
+				},
+				function () {
+					event(false);
+				}
+			);
 
 			if ( res === true || res === false ) {
-				$(dt.table().node()).triggerHandler( 'responsive-display.dt', [dt, row, res, update] );
+				event(res);
 			}
 		}
 	},
@@ -1193,12 +1203,14 @@ Responsive.display = {
 	// have options passed into them. This specific one doesn't need to be a
 	// function but it is for consistency in the `modal` name
 	modal: function ( options ) {
-		return function ( row, update, render ) {
+		return function ( row, update, render, closeCallback ) {
 			if ( ! update ) {
 				// Show a modal
 				var close = function () {
 					modal.remove(); // will tidy events for us
 					$(document).off( 'keypress.dtr' );
+
+					closeCallback();
 				};
 
 				var modal = $('<div class="dtr-modal"/>')
@@ -1238,6 +1250,8 @@ Responsive.display = {
 					'<h2>'+options.header( row )+'</h2>'
 				);
 			}
+
+			return true;
 		};
 	}
 };
