@@ -97,10 +97,11 @@ describe('Responsive - responsive.details.display', function() {
 			expect($('td.child ul li').length).toBe(30);
 		});
 		it('Check arguments', function() {
-			expect(args.length).toBe(3);
+			expect(args.length).toBe(4);
 			expect(args[0] instanceof $.fn.dataTable.Api).toBe(true);
 			expect(typeof args[1]).toBe('boolean');
 			expect(typeof args[2]).toBe('function');
+			expect(typeof args[3]).toBe('function');
 		});
 		it('Close a parent', function() {
 			$('tbody tr:eq(2) td:eq(0)').click();
