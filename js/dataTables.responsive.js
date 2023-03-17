@@ -681,7 +681,7 @@ $.extend( Responsive.prototype, {
 				}
 			);
 
-			if ( res === true || res === false ) {
+			if ( typeof res === 'boolean' ) {
 				event(res);
 			}
 		}
@@ -833,8 +833,6 @@ $.extend( Responsive.prototype, {
 		var dt = this.s.dt;
 
 		dt.rows( {page: 'current'} ).iterator( 'row', function ( settings, idx ) {
-			var row = dt.row( idx );
-
 			that._detailsDisplay( dt.row( idx ), true );
 		} );
 	},
@@ -1216,6 +1214,7 @@ Responsive.display = {
 				var modal = $('<div class="dtr-modal"/>')
 					.append( $('<div class="dtr-modal-display"/>')
 						.append( $('<div class="dtr-modal-content"/>')
+							.data('dtr-row-idx', row.index())
 							.append( render() )
 						)
 						.append( $('<div class="dtr-modal-close">&times;</div>' )
@@ -1240,9 +1239,17 @@ Responsive.display = {
 				} );
 			}
 			else {
-				$('div.dtr-modal-content')
-					.empty()
-					.append( render() );
+				var modal = $('div.dtr-modal-content');
+
+				if (modal.length && row.index() === modal.data('dtr-row-idx')) {
+					modal
+						.empty()
+						.append( render() );
+				}
+				else {
+					// Modal not shown, nothing to update
+					return null;
+				}
 			}
 
 			if ( options && options.header ) {

@@ -53,11 +53,23 @@ _display.modal = function ( options ) {
 					.append( render() );
 
 				_modal
+					.data('dtr-row-idx', row.index())
 					.one('hidden.bs.modal', closeCallback)
 					.appendTo( 'body' )
 					.modal();
 
 				modal.show();
+			}
+			else {
+				if ( $.contains(document, _modal[0]) && row.index() === _modal.data('dtr-row-idx') ) {
+					_modal.find( 'div.modal-body' )
+						.empty()
+						.append( render() );
+				}
+				else {
+					// Modal not shown for this row - do nothing
+					return null;
+				}
 			}
 
 			return true;
