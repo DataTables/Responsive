@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-type="html-wide" table-class="display dt-responsive nowrap" order="2" framework="bootstrap4">
+<dt-example table-type="html-wide" table-class="display nowrap" order="2" framework="bootstrap4">
 
 <css lib="datatables responsive"/>
 <js lib="jquery datatables responsive">
 <![CDATA[
 
-$(document).ready(function() {
-	$('#example').DataTable();
-} );
+$('#example').DataTable({
+	responsive: true
+});
 
 ]]>
 </js>
 
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	responsive: true
+});
+
+]]>
+</js-vanilla>
 <title lib="Responsive">Bootstrap 4 styling</title>
 
 <info><![CDATA[
 
 This example shows DataTables and the Responsive extension being used with [Bootstrap 4](http://getbootstrap.com) providing the styling. The DataTables / Bootstrap integration provides seamless integration for DataTables to be used in a Bootstrap 4 page.
-
-Note that the `dt-responsive` class is used to indicate to the extension that it should be enabled on this page, as `responsive` [has special meaning in Bootstrap](http://getbootstrap.com/css/#tables-responsive). The `r-init responsive` option could be used as an alternative if you prefer to use Javascript initialisation options.
 
 ]]></info>
 

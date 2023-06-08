@@ -5,24 +5,46 @@
 <js lib="jquery datatables responsive">
 <![CDATA[
 
-$(document).ready(function() {
-	$('#example').DataTable( {
-		responsive: {
-			details: {
-				type: 'column'
-			}
-		},
-		columnDefs: [ {
+$('#example').DataTable({
+	columnDefs: [
+		{
 			className: 'dtr-control',
 			orderable: false,
-			targets:   0
-		} ],
-		order: [ 1, 'asc' ]
-	} );
-} );
+			targets: 0
+		}
+	],
+	order: [1, 'asc'],
+	responsive: {
+		details: {
+			type: 'column'
+		}
+	}
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	columnDefs: [
+		{
+			className: 'dtr-control',
+			orderable: false,
+			targets: 0
+		}
+	],
+	order: [1, 'asc'],
+	responsive: {
+		details: {
+			type: 'column'
+		}
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Responsive">Column controlled child rows</title>
 

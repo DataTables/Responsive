@@ -5,25 +5,48 @@
 <js lib="jquery datatables responsive">
 <![CDATA[
 
-$(document).ready(function() {
-	$('#example').DataTable( {
-		responsive: {
-			details: {
-				type: 'column',
-				target: 'tr'
-			}
-		},
-		columnDefs: [ {
-			className: 'control',
+$('#example').DataTable({
+	columnDefs: [
+		{
+			className: 'dtr-control',
 			orderable: false,
-			targets:   0
-		} ],
-		order: [ 1, 'asc' ]
-	} );
-} );
+			target: 0
+		}
+	],
+	order: [1, 'asc'],
+	responsive: {
+		details: {
+			type: 'column',
+			target: 'tr'
+		}
+	}
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	columnDefs: [
+		{
+			className: 'dtr-control',
+			orderable: false,
+			target: 0
+		}
+	],
+	order: [1, 'asc'],
+	responsive: {
+		details: {
+			type: 'column',
+			target: 'tr'
+		}
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Responsive">Whole row child row control</title>
 
@@ -31,7 +54,7 @@ $(document).ready(function() {
 
 When using the `column` details type in Responsive the `r-init responsive.details.target` option provides the ability to control what element is used to show / hide the child rows when the table is collapsed.
 
-This example uses the `tr` selector to have the whole row act as the control.
+This example uses the `tr` selector to have the whole row act as the control and the `dtr-control` class on the first cell in each row to indicate the child row state.
 
 ]]></info>
 

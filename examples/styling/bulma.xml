@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-type="html-wide" table-class="display responsive nowrap" order="4" framework="bulma">
+<dt-example table-type="html-wide" table-class="display nowrap" order="4" framework="bulma">
 
 <css lib="datatables responsive">
 	div.container {
@@ -9,12 +9,22 @@
 <js lib="jquery datatables responsive">
 <![CDATA[
 
-$(document).ready(function() {
-	$('#example').DataTable();
-} );
+$('#example').DataTable({
+	responsive: true
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	responsive: true
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Responsive">Bulma styling</title>
 

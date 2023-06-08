@@ -7,14 +7,22 @@
 <js lib="jquery datatables responsive">
 <![CDATA[
 
-$(document).ready(function() {
-	var table = $('#example').DataTable( {
-		responsive: true
-	} );
-} );
+$('#example').DataTable({
+	responsive: true
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	responsive: true
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Responsive">Compact styling</title>
 

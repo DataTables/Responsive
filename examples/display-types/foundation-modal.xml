@@ -5,24 +5,43 @@
 <js lib="jquery foundation datatables responsive">
 <![CDATA[
 
-$(document).ready(function() {
-	$('#example').DataTable( {
-		responsive: {
-			details: {
-				display: $.fn.dataTable.Responsive.display.modal( {
-					header: function ( row ) {
-						var data = row.data();
-						return 'Details for '+data[0]+' '+data[1];
-					}
-				} ),
-				renderer: $.fn.dataTable.Responsive.renderer.tableAll()
-			}
+$('#example').DataTable({
+	responsive: {
+		details: {
+			display: DataTable.Responsive.display.modal({
+				header: function (row) {
+					var data = row.data();
+					return 'Details for ' + data[0] + ' ' + data[1];
+				}
+			}),
+			renderer: DataTable.Responsive.renderer.tableAll()
 		}
-	} );
-} );
+	}
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	responsive: {
+		details: {
+			display: DataTable.Responsive.display.modal({
+				header: function (row) {
+					var data = row.data();
+					return 'Details for ' + data[0] + ' ' + data[1];
+				}
+			}),
+			renderer: DataTable.Responsive.renderer.tableAll()
+		}
+	}
+});
+
+]]>
+</js-vanilla>
+
 
 <title lib="Responsive">Foundation modal</title>
 

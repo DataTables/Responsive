@@ -7,17 +7,26 @@
 <js lib="jquery datatables responsive fixedheader">
 <![CDATA[
 
-$(document).ready(function() {
-	var table = $('#example').DataTable( {
-		responsive: true,
-		paging: false
-	} );
-
-	new $.fn.dataTable.FixedHeader( table );
-} );
+$('#example').DataTable({
+	fixedHeader: true,
+	paging: false,
+	responsive: true
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	fixedHeader: true,
+	paging: false,
+	responsive: true
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Responsive">With FixedHeader</title>
 

@@ -5,20 +5,34 @@
 <js lib="jquery datatables responsive">
 <![CDATA[
 
-$(document).ready(function() {
-	$('#example').DataTable( {
-		responsive: {
-			details: {
-				display: $.fn.dataTable.Responsive.display.childRowImmediate,
-				type: 'none',
-				target: ''
-			}
+$('#example').DataTable({
+	responsive: {
+		details: {
+			display: DataTable.Responsive.display.childRowImmediate,
+			target: '',
+			type: 'none'
 		}
-	} );
-} );
+	}
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	responsive: {
+		details: {
+			display: DataTable.Responsive.display.childRowImmediate,
+			target: '',
+			type: 'none'
+		}
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Responsive">Immediately show hidden details</title>
 

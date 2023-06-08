@@ -5,32 +5,52 @@
 <js lib="jquery bootstrap datatables responsive">
 <![CDATA[
 
-$(document).ready(function() {
-	$('#example').DataTable( {
-		responsive: {
-			details: {
-				display: $.fn.dataTable.Responsive.display.modal( {
-					header: function ( row ) {
-						var data = row.data();
-						return 'Details for '+data[0]+' '+data[1];
-					}
-				} ),
-				renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
-					tableClass: 'table'
-				} )
-			}
+$('#example').DataTable({
+	responsive: {
+		details: {
+			display: DataTable.Responsive.display.modal({
+				header: function (row) {
+					var data = row.data();
+					return 'Details for ' + data[0] + ' ' + data[1];
+				}
+			}),
+			renderer: DataTable.Responsive.renderer.tableAll({
+				tableClass: 'table'
+			})
 		}
-	} );
-} );
+	}
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	responsive: {
+		details: {
+			display: DataTable.Responsive.display.modal({
+				header: function (row) {
+					var data = row.data();
+					return 'Details for ' + data[0] + ' ' + data[1];
+				}
+			}),
+			renderer: DataTable.Responsive.renderer.tableAll({
+				tableClass: 'table'
+			})
+		}
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Responsive">Bootstrap modal</title>
 
 <info><![CDATA[
 
-This example shows the `r-init responsive.details.display` option being used with the `modal` option, which, when used with the Bootstrap integration for Responsive, will use Bootstrap's native modal display.
+This example shows the `r-init responsive.details.display` option being used with the `modal` option, which, when used with the Bootstrap 3 integration for Responsive, will use Bootstrap 3's native modal display.
 
 The built-in `modal` display option should be executed as a function with optional parameters passed in to control the behaviour of the modal display. In the case of Bootstrap it has only a `header` option which is a function that should return the title for the modal. If you do not wish to display a title, simply don't use this option.
 

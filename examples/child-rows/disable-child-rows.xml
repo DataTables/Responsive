@@ -5,16 +5,26 @@
 <js lib="jquery datatables responsive">
 <![CDATA[
 
-$(document).ready(function() {
-	$('#example').DataTable( {
-		responsive: {
-			details: false
-		}
-	} );
-} );
+$('#example').DataTable({
+	responsive: {
+		details: false
+	}
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	responsive: {
+		details: false
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Responsive">Disable child rows</title>
 

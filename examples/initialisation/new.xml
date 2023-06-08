@@ -7,22 +7,30 @@
 <js lib="jquery datatables responsive">
 <![CDATA[
 
-$(document).ready(function() {
-	var table = $('#example').DataTable();
+var table = $('#example').DataTable();
 
-	new $.fn.dataTable.Responsive( table );
-} );
+new DataTable.Responsive(table);
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+let table = new DataTable('#example', {
+
+new DataTable.Responsive(table);
+
+]]>
+</js-vanilla>
 
 <title lib="Responsive">`new` constructor</title>
 
 <info><![CDATA[
 
-Responsive will automatically detect new DataTable instances being created on a page and initialise itself if it finds the `r-init responsive` option or `responsive` class name on the table, as shown in the other examples.
+Responsive will automatically detect new DataTable instances being created on a page and initialise itself if it finds the `r-init responsive` option as was of the initialisation parameters, as shown in the other examples.
 
-The third way of initialising Responsive is by manually creating a new instance using the `$.fn.dataTable.Responsive` class, as shown in this example (the other two methods are provided using this constructor in an `dt-event init` event handler!).
+Another way of initialising Responsive is by manually creating a new instance using the `DataTable.Responsive` class, as shown in this example (the other two methods are provided using this constructor in an `dt-event init` event handler!).
 
 ]]></info>
 

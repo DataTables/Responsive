@@ -1,27 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-class="display responsive nowrap" order="4">
+<dt-example table-class="display nowrap" order="4">
 
 <css lib="datatables responsive">
 </css>
 <js lib="jquery datatables responsive">
 <![CDATA[
 
-$(document).ready(function() {
-	$('#example').DataTable( {
-		"ajax": "../../../../examples/ajax/data/objects.txt",
-		"columns": [
-			{ "data": "name",       className: "all" },
-			{ "data": "position",   className: "min-phone-l" },
-			{ "data": "office",     className: "min-tablet" },
-			{ "data": "start_date", className: "never" },
-			{ "data": "salary",     className: "desktop" },
-			{ "data": "extn",       className: "none" }
-		]
-	} );
-} );
+$('#example').DataTable({
+	ajax: '../../../../examples/ajax/data/objects.txt',
+	columns: [
+		{ data: 'name', className: 'all' },
+		{ data: 'position', className: 'min-phone-l' },
+		{ data: 'office', className: 'min-tablet' },
+		{ data: 'start_date', className: 'never' },
+		{ data: 'salary', className: 'desktop' },
+		{ data: 'extn', className: 'none' }
+	],
+	responsive: true
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	ajax: '../../../../examples/ajax/data/objects.txt',
+	columns: [
+		{ data: 'name', className: 'all' },
+		{ data: 'position', className: 'min-phone-l' },
+		{ data: 'office', className: 'min-tablet' },
+		{ data: 'start_date', className: 'never' },
+		{ data: 'salary', className: 'desktop' },
+		{ data: 'extn', className: 'none' }
+	],
+	responsive: true
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Responsive">Assigned class control</title>
 
@@ -33,7 +51,7 @@ This example exactly matches the functionality of the [class control example](cl
 
 <custom-table>
 	<div id="breakpoint"> </div>
-	<table id="example" class="display responsive" width="100%">
+	<table id="example" class="display" width="100%">
 		<thead>
 			<tr>
 				<th>Name</th>

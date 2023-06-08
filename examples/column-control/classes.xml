@@ -1,27 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-class="display responsive nowrap" order="3">
+<dt-example table-class="display nowrap" order="3">
 
 <css lib="datatables responsive">
 </css>
 <js lib="jquery datatables responsive">
 <![CDATA[
 
-$(document).ready(function() {
-	$('#example').DataTable( {
-		"ajax": "../../../../examples/ajax/data/objects.txt",
-		"columns": [
-			{ "data": "name" },
-			{ "data": "position" },
-			{ "data": "office" },
-			{ "data": "start_date" },
-			{ "data": "salary" },
-			{ "data": "extn" }
-		]
-	} );
-} );
+$('#example').DataTable({
+	ajax: '../../../../examples/ajax/data/objects.txt',
+	columns: [
+		{ data: 'name' },
+		{ data: 'position' },
+		{ data: 'office' },
+		{ data: 'start_date' },
+		{ data: 'salary' },
+		{ data: 'extn' }
+	],
+	responsive: true
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	ajax: '../../../../examples/ajax/data/objects.txt',
+	columns: [
+		{ data: 'name' },
+		{ data: 'position' },
+		{ data: 'office' },
+		{ data: 'start_date' },
+		{ data: 'salary' },
+		{ data: 'extn' }
+	],
+	responsive: true
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Responsive">Class control</title>
 

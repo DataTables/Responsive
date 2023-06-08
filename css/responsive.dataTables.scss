@@ -55,6 +55,10 @@ table.dataTable {
 				@include control;
 				@include control-open;
 			}
+
+			&.arrow-right::before {
+				content: "◄";
+			}
 		}
 
 		> tr.parent {
@@ -85,6 +89,10 @@ table.dataTable {
 			&:before {
 				@include control;
 				@include control-open;
+			}
+
+			&.arrow-right::before {
+				content: "◄";
 			}
 		}
 
@@ -133,8 +141,6 @@ table.dataTable {
 			min-width: 75px;
 			font-weight: bold;
 		}
-
-		span.dtr-data {}
 	}
 }
 

@@ -5,17 +5,24 @@
 <js lib="jquery datatables responsive buttons buttons-colvis">
 <![CDATA[
 
-$(document).ready(function() {
-	$('#example').DataTable( {
-		dom: 'Bfrtip',
-		buttons: [
-			'colvis'
-		]
-	} );
-} );
+$('#example').DataTable({
+	dom: 'Bfrtip',
+	buttons: ['colvis']
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	dom: 'Bfrtip',
+	buttons: ['colvis']
+});
+
+]]>
+</js-vanilla>
 
 <title lib="Responsive">With Buttons - Column visibility</title>
 
