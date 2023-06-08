@@ -17,7 +17,7 @@ describe('Responsive - responsive.details.target', function() {
 			}
 		});
 		let el = window.getComputedStyle(document.querySelector('tr td'), ':before');
-		expect(el.getPropertyValue('content')).toBe('"+"');
+		expect(el.getPropertyValue('content')).toBe('"►"');
 	});
 	it('Clicking on first column opens child row', function() {
 		$('tbody tr td:eq(0)').click();
@@ -40,7 +40,7 @@ describe('Responsive - responsive.details.target', function() {
 			]
 		});
 		let el = window.getComputedStyle(document.querySelector('tr td:nth-child(2)'), ':before');
-		expect(el.getPropertyValue('content')).toBe('"+"');
+		expect(el.getPropertyValue('content')).toBe('"►"');
 	});
 
 	dt.html('basic_wide');
