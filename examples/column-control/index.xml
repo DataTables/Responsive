@@ -3,6 +3,7 @@
 
 <title lib="Responsive">Column control</title>
 
+<js lib="jquery" />
 <info><![CDATA[
 
 Responsive has two modes of operation for controlling the visibility of columns at different display sizes. These two modes can be used separately or combined together:

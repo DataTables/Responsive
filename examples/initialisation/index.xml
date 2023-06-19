@@ -3,6 +3,7 @@
 
 <title lib="Responsive">Initialisation</title>
 
+<js lib="jquery" />
 <info><![CDATA[
 
 Responsive can be run on a DataTable in a number of different ways:
