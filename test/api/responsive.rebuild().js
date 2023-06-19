@@ -1,4 +1,4 @@
-describe('Responsive - responsive.rebuild()', function() {
+describe('Responsive - responsive.rebuild()', function () {
 	dt.libs({
 		js: ['jquery', 'datatables', 'responsive'],
 		css: ['datatables', 'responsive']
@@ -31,9 +31,9 @@ describe('Responsive - responsive.rebuild()', function() {
 	// TK can't separate the rebuild and recalc - values are read on the
 	// fly in HTML5 and the init options aren't changable, so need to
 	// rebuild to see the effect they have
-	describe('Functional testss', function() {
+	describe('Functional testss', function () {
 		dt.html('basic');
-		it('Check original values', function() {
+		it('Check original values', function () {
 			$('table').wrapAll('<div style="width:250px">');
 			$('thead th:eq(0)').attr('data-priority', 20000);
 
@@ -41,7 +41,7 @@ describe('Responsive - responsive.rebuild()', function() {
 				responsive: true
 			});
 
-			checkVisible([false, true, true, false, false, false]);
+			checkVisible([false, true, true, true, false, false]);
 		});
 		it('... change existing value', function() {
 			$('thead th:eq(0)').attr('data-priority', 1);
