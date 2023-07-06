@@ -216,7 +216,8 @@ div.dtr-modal {
 }
 
 
-html.dark {
+html.dark,
+html[data-bs-theme="dark"] {
 	table.dataTable > tbody {
 		> tr > td.dtr-control {
 			&:before {
