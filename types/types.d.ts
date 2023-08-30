@@ -52,7 +52,7 @@ declare module 'datatables.net' {
 		responsiveHidden(): Api<boolean>;
 	}
 
-	interface ApiStatic {
+	interface DataTablesStatic {
 		/**
 		 * Responsive class
 		 */
