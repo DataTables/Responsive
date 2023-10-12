@@ -19,7 +19,7 @@ $close-button-background: #d33333 !default;
 }
 
 @mixin control-open() {
-	content: "►";
+	content: "▶";
 }
 
 @mixin control-close() {
