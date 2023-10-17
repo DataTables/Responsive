@@ -60,7 +60,7 @@ declare module 'datatables.net' {
 			/**
 			 * Create a new Responsive instance for the target DataTable
 			 */
-			new (dt: Api<any>, settings: boolean | ConfigResponsive);
+			new (dt: Api<any>, settings: boolean | ConfigResponsive): void;
 
 			/**
 			 * Default configuration values
