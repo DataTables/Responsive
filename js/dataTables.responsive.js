@@ -323,16 +323,18 @@ $.extend(Responsive.prototype, {
 
 		var node = dt.cell(row, col).node();
 		var store = this.s.childNodeStore[name];
-		var parent = store[0].parentNode;
-		var parentChildren = parent.childNodes;
-		var a = [];
+		if (store.length > 0) {
+			var parent = store[0].parentNode;
+			var parentChildren = parent.childNodes;
+			var a = [];
 
-		for (var i = 0, ien = parentChildren.length; i < ien; i++) {
-			a.push(parentChildren[i]);
-		}
+			for (var i = 0, ien = parentChildren.length; i < ien; i++) {
+				a.push(parentChildren[i]);
+			}
 
-		for (var j = 0, jen = a.length; j < jen; j++) {
-			node.appendChild(a[j]);
+			for (var j = 0, jen = a.length; j < jen; j++) {
+				node.appendChild(a[j]);
+			}
 		}
 
 		this.s.childNodeStore[name] = undefined;
