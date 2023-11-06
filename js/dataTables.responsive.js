@@ -988,7 +988,9 @@ $.extend(Responsive.prototype, {
 				})
 				.to$()
 				.clone(false)
-				.css('display', 'table-cell');
+				.css('display', 'table-cell')
+				.css('width', 'auto')
+				.css('min-width', 0);
 
 			$('<tr/>').append(footerCells).appendTo(clonedFooter);
 		}
