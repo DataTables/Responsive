@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-complex-header-wide" table-class="display nowrap" order="6">
+
+<css lib="datatables responsive">
+	div.container { max-width: 1200px }
+</css>
+<js lib="jquery datatables responsive">
+<![CDATA[
+
+$('#example').DataTable({
+	responsive: true
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	responsive: true
+});
+
+]]>
+</js-vanilla>
+
+<title lib="Responsive">Complex headers</title>
+
+<info><![CDATA[
+
+This example demonstrates Responsive being used with a complex header (i.e. multi-row and `rowspan` / `colspan` attributes). Note that no special initialisation is required - it works automatically.
+
+]]></info>
+
+</dt-example>
+

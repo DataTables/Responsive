@@ -946,22 +946,37 @@ $.extend(Responsive.prototype, {
 		// Clone the table with the current data in it
 		var clonedTable = dt.table().node().cloneNode(false);
 		var clonedHeader = $(dt.table().header().cloneNode(false)).appendTo(clonedTable);
+		var clonedFooter = $(dt.table().footer().cloneNode(false)).appendTo(clonedTable);
 		var clonedBody = $(dt.table().body()).clone(false, false).empty().appendTo(clonedTable); // use jQuery because of IE8
 
 		clonedTable.style.width = 'auto';
 
 		// Header
-		var headerCells = dt
-			.columns()
-			.header()
-			.filter(function (idx) {
-				return dt.column(idx).visible();
-			})
-			.to$()
-			.clone(false)
-			.css('display', 'table-cell')
-			.css('width', 'auto')
-			.css('min-width', 0);
+		dt.table().header.structure(':visible').forEach(row => {
+			var cells = row
+				.filter(function (el) {
+					return el ? true : false;
+				})
+				.map(function (el) {
+					return $(el.cell)
+						.clone(false)
+						.css('display', 'table-cell')
+						.css('width', 'auto')
+						.css('min-width', 0);
+				});
+
+			$('<tr/>')
+				.append(cells)
+				.appendTo(clonedHeader);
+		});
+
+		// Always need an empty row that we can read widths from
+		var visibleColumns = dt.columns(':visible').count();
+		var emptyRow = $('<tr/>').appendTo(clonedBody);
+
+		for (var i=0 ; i<visibleColumns ; i++) {
+			emptyRow.append('<td/>');
+		}
 
 		// Body rows - we don't need to take account of DataTables' column
 		// visibility since we implement our own here (hence the `display` set)
@@ -970,29 +985,25 @@ $.extend(Responsive.prototype, {
 			.find('th, td')
 			.css('display', '');
 
+
 		// Footer
-		var footerCells = dt
-			.columns()
-			.footer()
-			.filter(function (node, idx) {
-				return node && dt.column(idx).visible();
-			});
+		dt.table().footer.structure(':visible').forEach(row => {
+			var cells = row
+				.filter(function (el) {
+					return el ? true : false;
+				})
+				.map(function (el) {
+					return $(el.cell)
+						.clone(false)
+						.css('display', 'table-cell')
+						.css('width', 'auto')
+						.css('min-width', 0);
+				});
 
-		if (footerCells.any()) {
-			var footer = dt.table().footer();
-			var clonedFooter = $(footer.cloneNode(false)).appendTo(clonedTable);
-
-			footerCells
-				.to$()
-				.clone(false)
-				.css('display', 'table-cell')
-				.css('width', 'auto')
-				.css('min-width', 0);
-
-			$('<tr/>').append(footerCells).appendTo(clonedFooter);
-		}
-
-		$('<tr/>').append(headerCells).appendTo(clonedHeader);
+			$('<tr/>')
+				.append(cells)
+				.appendTo(clonedFooter);
+		});
 
 		// In the inline case extra padding is applied to the first column to
 		// give space for the show / hide icon. We need to use this in the
@@ -1021,8 +1032,8 @@ $.extend(Responsive.prototype, {
 
 		inserted.insertBefore(dt.table().node());
 
-		// The cloned header now contains the smallest that each column can be
-		headerCells.each(function (i) {
+		// The cloned table now contains the smallest that each column can be
+		emptyRow.children().each(function (i) {
 			var idx = dt.column.index('fromVisible', i);
 			columns[idx].minWidth = this.offsetWidth || 0;
 		});
@@ -1063,9 +1074,8 @@ $.extend(Responsive.prototype, {
 		var dt = this.s.dt;
 		var display = showHide ? '' : 'none'; // empty string will remove the attr
 
-		$(dt.column(col).header()).css('display', display).toggleClass('dtr-hidden', !showHide);
-
-		$(dt.column(col).footer()).css('display', display).toggleClass('dtr-hidden', !showHide);
+		this._setHeaderVis(col, showHide, dt.table().header.structure());
+		this._setHeaderVis(col, showHide, dt.table().footer.structure());
 
 		dt.column(col).nodes().to$().css('display', display).toggleClass('dtr-hidden', !showHide);
 
@@ -1077,6 +1087,61 @@ $.extend(Responsive.prototype, {
 					that._childNodesRestore(dt, idx.row, idx.column);
 				});
 		}
+	},
+
+	/**
+	 * Set the a column's visibility, taking into account multiple rows
+	 * in a header / footer and colspan attributes
+	 * @param {*} col 
+	 * @param {*} showHide 
+	 * @param {*} structure 
+	 */
+	_setHeaderVis: function (col, showHide, structure) {
+		var that = this;
+		var display = showHide ? '' : 'none';
+
+		structure.forEach(function (row) {
+			if (row[col]) {
+				$(row[col].cell).css('display', display).toggleClass('dtr-hidden', !showHide);
+			}
+			else {
+				// In a colspan - need to rewind calc the new span since
+				// display:none elements do not count as being spanned over
+				var search = col;
+
+				while (search >= 0) {
+					if (row[search]) {
+						row[search].cell.colSpan = that._colspan(row, search);
+						break;
+					}
+
+					search--;
+				}
+			}
+		});
+	},
+
+	/**
+	 * How many columns should this cell span
+	 *
+	 * @param {*} row Header structure row
+	 * @param {*} idx The column index of the cell to span
+	 */
+	_colspan: function (row, idx) {
+		var colspan = 1;
+	
+		for (var col=idx+1 ; col < row.length ; col++) {
+			if (row[col] === null && this.s.current[col]) {
+				// colspan and not hidden by Responsive
+				colspan++;
+			}
+			else if (row[col]) {
+				// Got the next cell, jump out
+				break;
+			}
+		}
+
+		return colspan;
 	},
 
 	/**
