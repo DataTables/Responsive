@@ -3,7 +3,6 @@
  */
 
 var _display = DataTable.Responsive.display;
-var _original = _display.modal;
 var _modal = $(
 	'<div class="modal DTED">' +
 		'<div class="modal-background"></div>' +

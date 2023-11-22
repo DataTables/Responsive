@@ -484,7 +484,6 @@ $.extend(Responsive.prototype, {
 	 */
 	_classLogic: function () {
 		var that = this;
-		var calc = {};
 		var breakpoints = this.c.breakpoints;
 		var dt = this.s.dt;
 		var columns = dt
@@ -948,8 +947,6 @@ $.extend(Responsive.prototype, {
 		}
 
 		// Clone the table with the current data in it
-		var tableWidth = dt.table().node().offsetWidth;
-		var columnWidths = dt.columns;
 		var clonedTable = dt.table().node().cloneNode(false);
 		var clonedHeader = $(dt.table().header().cloneNode(false)).appendTo(clonedTable);
 		var clonedBody = $(dt.table().body()).clone(false, false).empty().appendTo(clonedTable); // use jQuery because of IE8
@@ -1189,6 +1186,8 @@ Responsive.display = {
 	// function but it is for consistency in the `modal` name
 	modal: function (options) {
 		return function (row, update, render, closeCallback) {
+			var modal;
+
 			if (!update) {
 				// Show a modal
 				var close = function () {
@@ -1199,7 +1198,7 @@ Responsive.display = {
 					closeCallback();
 				};
 
-				var modal = $('<div class="dtr-modal"/>')
+				modal = $('<div class="dtr-modal"/>')
 					.append(
 						$('<div class="dtr-modal-display"/>')
 							.append(
@@ -1231,7 +1230,7 @@ Responsive.display = {
 				});
 			}
 			else {
-				var modal = $('div.dtr-modal-content');
+				modal = $('div.dtr-modal-content');
 
 				if (modal.length && row.index() === modal.data('dtr-row-idx')) {
 					modal.empty().append(render());
@@ -1266,7 +1265,7 @@ Responsive.renderer = {
 			var ul = $('<ul data-dtr-index="' + rowIdx + '" class="dtr-details"/>');
 			var found = false;
 
-			var data = $.each(columns, function (i, col) {
+			$.each(columns, function (i, col) {
 				if (col.hidden) {
 					var klass = col.className ? 'class="' + col.className + '"' : '';
 
