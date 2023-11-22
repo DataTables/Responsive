@@ -1,11 +1,11 @@
-/*! Responsive 2.5.0
+/*! Responsive 3.0.0-dev
  * © SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Responsive
  * @description Responsive tables plug-in for DataTables
- * @version     2.5.0
+ * @version     3.0.0-dev
  * @author      SpryMedia Ltd
  * @copyright   SpryMedia Ltd.
  *
@@ -66,8 +66,8 @@
  */
 var Responsive = function (settings, opts) {
 	// Sanity check that we are using DataTables 1.10 or newer
-	if (!DataTable.versionCheck || !DataTable.versionCheck('1.10.10')) {
-		throw 'DataTables Responsive requires DataTables 1.10.10 or newer';
+	if (!DataTable.versionCheck || !DataTable.versionCheck('2')) {
+		throw 'DataTables Responsive requires DataTables 2 or newer';
 	}
 
 	this.s = {
@@ -112,7 +112,6 @@ $.extend(Responsive.prototype, {
 	_constructor: function () {
 		var that = this;
 		var dt = this.s.dt;
-		var dtPrivateSettings = dt.settings()[0];
 		var oldWindowWidth = $(window).innerWidth();
 
 		dt.settings()[0]._responsive = this;
@@ -133,24 +132,20 @@ $.extend(Responsive.prototype, {
 			})
 		);
 
-		// DataTables doesn't currently trigger an event when a row is added, so
-		// we need to hook into its private API to enforce the hidden rows when
-		// new data is added
-		dtPrivateSettings.oApi._fnCallbackReg(
-			dtPrivateSettings,
-			'aoRowCreatedCallback',
-			function (tr, data, idx) {
-				if ($.inArray(false, that.s.current) !== -1) {
-					$('>td, >th', tr).each(function (i) {
-						var idx = dt.column.index('toData', i);
+		// Handle new rows being dynamically added - needed as responsive
+		// updates all rows (shown or not) a responsive change, rather than
+		// per draw.
+		dt.on('row-created.dtr', function (e, tr, data, idx) {
+			if ($.inArray(false, that.s.current) !== -1) {
+				$('>td, >th', tr).each(function (i) {
+					var idx = dt.column.index('toData', i);
 
-						if (that.s.current[idx] === false) {
-							$(this).css('display', 'none');
-						}
-					});
-				}
+					if (that.s.current[idx] === false) {
+						$(this).css('display', 'none');
+					}
+				});
 			}
-		);
+		});
 
 		// Destroy event handler
 		dt.on('destroy.dtr', function () {
@@ -256,22 +251,24 @@ $.extend(Responsive.prototype, {
 			});
 		});
 
-		dt.on('draw.dtr', function () {
-			that._controlClass();
-		}).on('init.dtr', function (e, settings, details) {
-			if (e.namespace !== 'dt') {
-				return;
-			}
+		dt
+			.on('draw.dtr', function () {
+				that._controlClass();
+			})
+			.on('init.dtr', function (e, settings, details) {
+				if (e.namespace !== 'dt') {
+					return;
+				}
 
-			that._resizeAuto();
-			that._resize();
+				that._resizeAuto();
+				that._resize();
 
-			// If columns were hidden, then DataTables needs to adjust the
-			// column sizing
-			if ($.inArray(false, that.s.current)) {
-				dt.columns.adjust();
-			}
-		});
+				// If columns were hidden, then DataTables needs to adjust the
+				// column sizing
+				if ($.inArray(false, that.s.current)) {
+					dt.columns.adjust();
+				}
+			});
 
 		// First pass - draw the table for the current viewport size
 		this._resize();
@@ -492,7 +489,7 @@ $.extend(Responsive.prototype, {
 			.map(function (i) {
 				var column = this.column(i);
 				var className = column.header().className;
-				var priority = dt.settings()[0].aoColumns[i].responsivePriority;
+				var priority = column.init().responsivePriority;
 				var dataPriority = column.header().getAttribute('data-priority');
 
 				if (priority === undefined) {
@@ -787,7 +784,7 @@ $.extend(Responsive.prototype, {
 				data: dt.cell(rowIdx, i).render(that.c.orthogonal),
 				hidden: dt.column(i).visible() && !that.s.current[i],
 				rowIndex: rowIdx,
-				title: dtCol.sTitle !== null ? dtCol.sTitle : $(dt.column(i).header()).text()
+				title: dt.column(i).title()
 			};
 		});
 	},
@@ -974,15 +971,18 @@ $.extend(Responsive.prototype, {
 			.css('display', '');
 
 		// Footer
-		var footer = dt.table().footer();
-		if (footer) {
+		var footerCells = dt
+			.columns()
+			.footer()
+			.filter(function (node, idx) {
+				return node && dt.column(idx).visible();
+			});
+
+		if (footerCells.any()) {
+			var footer = dt.table().footer();
 			var clonedFooter = $(footer.cloneNode(false)).appendTo(clonedTable);
-			var footerCells = dt
-				.columns()
-				.footer()
-				.filter(function (idx) {
-					return dt.column(idx).visible();
-				})
+
+			footerCells
 				.to$()
 				.clone(false)
 				.css('display', 'table-cell')
@@ -1494,7 +1494,7 @@ Api.registerPlural('columns().responsiveHidden()', 'column().responsiveHidden()'
  * @name Responsive.version
  * @static
  */
-Responsive.version = '2.5.0';
+Responsive.version = '3.0.0-dev';
 
 $.fn.dataTable.Responsive = Responsive;
 $.fn.DataTable.Responsive = Responsive;
