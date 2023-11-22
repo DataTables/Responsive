@@ -29,20 +29,17 @@
 	</description>
 
 	<example title="Give priority to the first and last columns"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	responsive: true,
 	columnDefs: [
 		{ responsivePriority: 1, targets: 0 },
 		{ responsivePriority: 2, targets: -1 }
 	]
-} );
-
+});
 ]]></example>
 
 	<example title="Hide columns from the left to the right"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	responsive: true,
 	columns: [
 		{ responsivePriority: 6 },
@@ -52,8 +49,7 @@ $('#example').DataTable( {
 		{ responsivePriority: 2 },
 		{ responsivePriority: 1 }
 	]
-} );
-
+});
 ]]></example>
 
 </dt-option>

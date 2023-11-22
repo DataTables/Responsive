@@ -6,8 +6,11 @@
 <![CDATA[
 
 $('#example').DataTable({
-	dom: 'Bfrtip',
-	buttons: ['colvis']
+	layout: {
+		topStart: {
+			buttons: ['colvis']
+		}
+	}
 });
 
 ]]>
@@ -17,8 +20,11 @@ $('#example').DataTable({
 <![CDATA[
 
 new DataTable('#example', {
-	dom: 'Bfrtip',
-	buttons: ['colvis']
+	layout: {
+		topStart: {
+			buttons: ['colvis']
+		}
+	}
 });
 
 ]]>

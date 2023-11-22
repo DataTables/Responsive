@@ -23,18 +23,16 @@
 	</description>
 
 	<example title="Listen for responsive resize event using `dt-api on()`"><![CDATA[
-
-var table = $('#example').DataTable( {
+var table = new DataTable('#myTable', {
 	responsive: true
-} );
+});
 
-table.on( 'responsive-resize', function ( e, datatable, columns ) {
-	var count = columns.reduce( function (a,b) {
-		return b === false ? a+1 : a;
-	}, 0 );
+table.on('responsive-resize', function (e, datatable, columns) {
+	var count = columns.reduce(function (a, b) {
+		return b === false ? a + 1 : a;
+	}, 0);
 
-	console.log( count +' column(s) are hidden' );
-} );
-
+	console.log(count + ' column(s) are hidden');
+});
 ]]></example>
 </dt-event>

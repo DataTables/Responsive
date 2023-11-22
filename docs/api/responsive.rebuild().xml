@@ -17,14 +17,12 @@
 	</description>
 
 	<example title="Hide a column completely by adding a class name and rebuilding"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#example').DataTable();
-
-$( table.column( 2 ).header() ).addClass( 'never' );
+$(table.column(2).header()).addClass('never');
 
 table.responsive.rebuild();
 table.responsive.recalc();
-
 ]]></example>
 
 </dt-api>

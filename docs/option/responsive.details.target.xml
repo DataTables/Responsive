@@ -33,34 +33,32 @@
 	</description>
 
 	<example title="Use the `column` control type and target the right most column"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	responsive: {
 		details: {
 			type: 'column',
 			target: -1
 		}
 	},
-	columnDefs: [ {
-		className: 'dtr-control',
-		orderable: false,
-		targets:   -1
-	} ]
-} );
-
+	columnDefs: [
+		{
+			className: 'dtr-control',
+			orderable: false,
+			targets: -1
+		}
+	]
+});
 ]]></example>
 
 	<example title="Use the whole row to show / hide the details row"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	responsive: {
 		details: {
 			type: 'column',
 			target: 'tr'
 		}
 	}
-} );
-
+});
 ]]></example>
 
 </dt-option>

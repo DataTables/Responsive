@@ -44,45 +44,39 @@
 	</description>
 
 	<example title="Use the `childRowImmediate` display option"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	responsive: {
 		details: {
-			display: $.fn.dataTable.Responsive.display.childRowImmediate,
+			display: DataTable.Responsive.display.childRowImmediate,
 			type: ''
 		}
 	}
-} );
-
+});
 ]]></example>
 
 	<example title="Using `modal` without any options"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	responsive: {
 		details: {
-			display: $.fn.dataTable.Responsive.display.modal()
+			display: DataTable.Responsive.display.modal()
 		}
 	}
-} );
-
+});
 ]]></example>
 
 	<example title="Using `modal` specifying a header"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	responsive: {
 		details: {
-			display: $.fn.dataTable.Responsive.display.modal( {
-				header: function ( row ) {
+			display: DataTable.Responsive.display.modal({
+				header: function (row) {
 					var data = row.data();
-					return 'Details for '+data.clientName;
+					return 'Details for ' + data.clientName;
 				}
-			} )
+			})
 		}
 	}
-} );
-
+});
 ]]></example>
 
 </dt-option>

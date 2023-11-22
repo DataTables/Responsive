@@ -29,21 +29,21 @@
 	</description>
 
 	<example title="Use the `column` control type"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	responsive: {
 		details: {
 			type: 'column'
 		}
 	},
-	columnDefs: [ {
-		className: 'dtr-control',
-		orderable: false,
-		targets:   0
-	} ],
-	order: [ 1, 'asc' ]
-} );
-
+	columnDefs: [
+		{
+			className: 'dtr-control',
+			orderable: false,
+			targets: 0
+		}
+	],
+	order: [1, 'asc']
+});
 ]]></example>
 
 </dt-option>

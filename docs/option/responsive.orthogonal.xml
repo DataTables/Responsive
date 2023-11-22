@@ -23,13 +23,11 @@
 	</description>
 
 	<example title="Set a specific data request type for the information display"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	responsive: {
 		orthogonal: 'responsive'
 	}
-} );
-
+});
 ]]></example>
 
 </dt-option>

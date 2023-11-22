@@ -29,25 +29,21 @@
 	</description>
 
 	<example title="Disable the details row display"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	responsive: {
 		details: false
 	}
-} );
-
+});
 ]]></example>
 
 	<example title="Set the `type` option for the details display"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	responsive: {
 		details: {
 			type: 'column'
 		}
 	}
-} );
-
+});
 ]]></example>
 
 </dt-option>

@@ -17,7 +17,7 @@ new DataTable.Responsive(table);
 <js-vanilla>
 <![CDATA[
 
-let table = new DataTable('#example', {
+let table = new DataTable('#example');
 
 new DataTable.Responsive(table);
 

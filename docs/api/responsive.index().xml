@@ -38,15 +38,12 @@ $('#example').on( 'click', 'li', function () {
 	</description>
 
 	<example title="Add a class name to the host cell for data when clicked on"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#example').DataTable();
+$('#example').on('click', 'li', function () {
+	var cellIndx = table.responsive.index(this);
 
-$('#example').on( 'click', 'li', function () {
-	var cellIndx = table.responsive.index( this );
-
-	$( table.cell( cellIndex ).node() )
-		.addClass( 'highlight' );
-} );
-
+	$(table.cell(cellIndex).node()).addClass('highlight');
+});
 ]]></example>
 </dt-api>

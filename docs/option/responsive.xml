@@ -29,21 +29,17 @@
 	</description>
 
 	<example title="Enable Responsive for a table"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	responsive: true
-} );
-
+});
 ]]></example>
 
 	<example title="Enable Responsive with configuration options"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	responsive: {
 		details: false
 	}
-} );
-
+});
 ]]></example>
 
 </dt-option>

@@ -42,33 +42,29 @@
 	</description>
 
 	<example title="Set custom breakpoints in the DataTables initialisation"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	responsive: {
 		breakpoints: [
 			{ name: 'desktop', width: Infinity },
-			{ name: 'tablet',  width: 1024 },
-			{ name: 'fablet',  width: 768 },
-			{ name: 'phone',   width: 480 }
+			{ name: 'tablet', width: 1024 },
+			{ name: 'fablet', width: 768 },
+			{ name: 'phone', width: 480 }
 		]
 	}
-} );
-
+});
 ]]></example>
 
 	<example title="Set custom breakpoints using the defaults"><![CDATA[
-
-$.fn.dataTable.Responsive.breakpoints = [
+DataTable.Responsive.breakpoints = [
 	{ name: 'desktop', width: Infinity },
-	{ name: 'tablet',  width: 1024 },
-	{ name: 'fablet',  width: 768 },
-	{ name: 'phone',   width: 480 }
+	{ name: 'tablet', width: 1024 },
+	{ name: 'fablet', width: 768 },
+	{ name: 'phone', width: 480 }
 ];
 
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	responsive: true
-} );
-
+});
 ]]></example>
 
 </dt-option>

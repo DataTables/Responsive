@@ -15,18 +15,16 @@
 	</description>
 
 	<example title="Hide a column completely by adding a class name and rebuilding"><![CDATA[
+var table = new DataTable('#myTable', {
+	responsive: true
+});
 
-var table = $('#example').DataTable( {
-    responsive: true
-} );
-
-if ( table.responsive.hasHidden() ) {
-    console.log( 'In Responsive state' );
+if (table.responsive.hasHidden()) {
+	console.log('In Responsive state');
 }
 else {
-    console.log( 'Not in Responsive state' );
+	console.log('Not in Responsive state');
 }
-
 ]]></example>
 
 </dt-api>

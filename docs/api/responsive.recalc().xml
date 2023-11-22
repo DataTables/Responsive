@@ -19,20 +19,14 @@
 	</description>
 
 	<example title="Recalculate the responsive actions once the table is made visible"><![CDATA[
+var table = new DataTable('#myTable');
 
-var table = $('#example').DataTable();
-
-$('#example').css( 'display', 'table' );
+$('#example').css('display', 'table');
 
 table.responsive.recalc();
-
 ]]></example>
 
 	<example title="Use `columns.adjust()` and `responsive.recalc()`"><![CDATA[
-
-$('#example').DataTable()
-	.columns.adjust()
-	.responsive.recalc();
-
+new DataTable('#myTable').columns.adjust().responsive.recalc();
 ]]></example>
 </dt-api>
