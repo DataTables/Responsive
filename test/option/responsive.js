@@ -45,4 +45,102 @@ describe('Responsive - responsive', function() {
 
 		expect($('tbody tr td.dtr-control').length).toBe(10);
 	});
+
+	dt.html('complex-header-footer');
+
+	it('Complex header and footer initialises', function() {
+		table = $('#example').DataTable({
+			responsive: true
+		});
+
+		expect($('table.collapsed tbody tr td.dtr-control').length).toBe(0);
+	});
+
+	it('Resize to remove last column - activates child display control', function() {
+		table.table().container().style.width = '450px';
+		table.columns.adjust();
+
+		expect($('table.collapsed tbody tr td.dtr-control').length).toBe(10);
+	});
+
+	it('Last column was removed', function() {
+		expect($('tbody tr').eq(0).children(':visible').length).toBe(5);
+	});
+
+	it('Header has expected number of cells', function() {
+		expect($('thead tr').eq(0).children(':visible').length).toBe(3);
+		expect($('thead tr').eq(1).children(':visible').length).toBe(2);
+	});
+
+	it('Colspan updated for header rows', function() {
+		expect($('thead tr').eq(0).children().eq(2).attr('colspan')).toBe('2');
+		expect($('thead tr').eq(1).children().eq(1).attr('colspan')).toBe('1');
+	});
+
+	it('Remove second last column as well', function() {
+		table.table().container().style.width = '400px';
+		table.columns.adjust();
+
+		expect($('tbody tr').eq(0).children(':visible').length).toBe(4);
+	});
+
+	it('Header has expected number of cells', function() {
+		expect($('thead tr').eq(0).children(':visible').length).toBe(3);
+		expect($('thead tr').eq(1).children(':visible').length).toBe(1);
+	});
+
+	it('Colspan updated for header rows', function() {
+		expect($('thead tr').eq(0).children().eq(2).attr('colspan')).toBe('1');
+		expect($('thead tr').eq(1).children().eq(0).attr('colspan')).toBe('3');
+	});
+
+	it('Remove third last column as well', function() {
+		table.table().container().style.width = '300px';
+		table.columns.adjust();
+
+		expect($('tbody tr').eq(0).children(':visible').length).toBe(3);
+	});
+
+	it('Header has expected number of cells', function() {
+		expect($('thead tr').eq(0).children(':visible').length).toBe(2);
+		expect($('thead tr').eq(1).children(':visible').length).toBe(1);
+	});
+
+	it('Colspan updated for header rows', function() {
+		expect($('thead tr').eq(0).children().eq(1).attr('colspan')).toBe('2');
+		expect($('thead tr').eq(1).children().eq(0).attr('colspan')).toBe('2');
+	});
+
+	it('And the fourth last column', function() {
+		table.table().container().style.width = '200px';
+		table.columns.adjust();
+
+		expect($('tbody tr').eq(0).children(':visible').length).toBe(2);
+	});
+
+	it('Header has expected number of cells', function() {
+		expect($('thead tr').eq(0).children(':visible').length).toBe(2);
+		expect($('thead tr').eq(1).children(':visible').length).toBe(1);
+	});
+
+	it('Colspan updated for header rows', function() {
+		expect($('thead tr').eq(0).children().eq(1).attr('colspan')).toBe('1');
+		expect($('thead tr').eq(1).children().eq(0).attr('colspan')).toBe('1');
+	});
+
+	it('And the fifth last column', function() {
+		table.table().container().style.width = '100px';
+		table.columns.adjust();
+
+		expect($('tbody tr').eq(0).children(':visible').length).toBe(1);
+	});
+
+	it('Header has expected number of cells', function() {
+		expect($('thead tr').eq(0).children(':visible').length).toBe(1);
+		expect($('thead tr').eq(1).children(':visible').length).toBe(0);
+	});
+
+	it('Colspan updated for header rows', function() {
+		expect($('thead tr').eq(0).children().eq(0).attr('colspan')).toBe('1');
+	});
 });
