@@ -672,7 +672,7 @@ $.extend(Responsive.prototype, {
 				row,
 				update,
 				function () {
-					return renderer.call(that, dt, row[0], that._detailsObj(row[0]));
+					return renderer.call(that, dt, row[0][0], that._detailsObj(row[0]));
 				},
 				function () {
 					event(false);

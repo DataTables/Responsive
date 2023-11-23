@@ -97,18 +97,15 @@ describe('Responsive - responsive.details.renderer', function() {
 
 			expect(args.length).toBe(3);
 			expect(args[0] instanceof $.fn.dataTable.Api).toBe(true);
-			// Note this should be an integer (see DD-755)
-			expect(args[1] instanceof Array).toBe(true);
+			expect(typeof args[1]).toBe('number');
 			expect(args[2] instanceof Array).toBe(true);
 			expect(args[2].length).toBe(11);
 		});
 		it('Arg values as expected', function() {
-			// Note this should be an integer (see DD-755)
-			expect(args[1][0]).toBe(2);
+			expect(args[1]).toBe(2);
 			expect(args[2][0].data).toBe('Ashton');
 		});
 		it('Renders as expected', function() {
-			// Note this should be an integer (see DD-755)
 			returnVal = "<p class='test'>unitTest</p>";
 			$('tbody tr:eq(2) td:eq(0)').click();
 			expect($('p.test').text()).toBe('unitTest');
