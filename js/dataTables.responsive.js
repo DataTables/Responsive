@@ -1217,7 +1217,7 @@ Responsive.breakpoints = [
 Responsive.display = {
 	childRow: function (row, update, render) {
 		if (update) {
-			if ($(row.node()).hasClass('parent')) {
+			if (row.child.isShown()) {
 				row.child(render(), 'child').show();
 
 				return true;
@@ -1225,8 +1225,13 @@ Responsive.display = {
 		}
 		else {
 			if (!row.child.isShown()) {
-				row.child(render(), 'child').show();
+				var rendered = render();
 
+				if (rendered === false) {
+					return false;
+				}
+
+				row.child(rendered, 'child').show();
 				return true;
 			}
 			else {
@@ -1246,7 +1251,13 @@ Responsive.display = {
 		}
 		else {
 			// Display
-			row.child(render(), 'child').show();
+			var rendered = render();
+
+			if (rendered === false) {
+				return false;
+			}
+
+			row.child(rendered, 'child').show();
 
 			return true;
 		}
@@ -1258,6 +1269,11 @@ Responsive.display = {
 	modal: function (options) {
 		return function (row, update, render, closeCallback) {
 			var modal;
+			var rendered = render();
+
+			if (rendered === false) {
+				return false;
+			}
 
 			if (!update) {
 				// Show a modal
@@ -1275,7 +1291,7 @@ Responsive.display = {
 							.append(
 								$('<div class="dtr-modal-content"/>')
 									.data('dtr-row-idx', row.index())
-									.append(render())
+									.append(rendered)
 							)
 							.append(
 								$('<div class="dtr-modal-close">&times;</div>').click(function () {
@@ -1304,7 +1320,7 @@ Responsive.display = {
 				modal = $('div.dtr-modal-content');
 
 				if (modal.length && row.index() === modal.data('dtr-row-idx')) {
-					modal.empty().append(render());
+					modal.empty().append(rendered);
 				}
 				else {
 					// Modal not shown, nothing to update

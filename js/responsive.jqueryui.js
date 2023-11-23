@@ -11,9 +11,15 @@ _display.modal = function (options) {
 			return _original(row, update, render, closeCallback);
 		}
 		else {
+			var rendered = render();
+
+			if (rendered === false) {
+				return false;
+			}
+
 			if (!update) {
 				$('<div/>')
-					.append(render())
+					.append(rendered)
 					.appendTo('body')
 					.dialog(
 						$.extend(

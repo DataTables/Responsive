@@ -19,6 +19,12 @@ _display.modal = function (options) {
 			return _original(row, update, render, closeCallback);
 		}
 		else {
+			var rendered = render();
+
+			if (rendered === false) {
+				return false;
+			}
+
 			if (!update) {
 				if (options && options.header) {
 					_modal
@@ -27,7 +33,7 @@ _display.modal = function (options) {
 						.append('<h4 class="title">' + options.header(row) + '</h4>');
 				}
 
-				_modal.find('div.content').empty().append(render());
+				_modal.find('div.content').empty().append(rendered);
 
 				// Only need to attach the first time
 				if (!_modal.parent().hasClass('dimmer')) {

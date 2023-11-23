@@ -11,6 +11,12 @@ _display.modal = function (options) {
 			return _original(row, update, render, closeCallback);
 		}
 		else {
+			var rendered = render();
+
+			if (rendered === false) {
+				return false;
+			}
+
 			if (!update) {
 				var modalContainer = $('<div class="reveal-overlay" style="display:block"/>');
 				$(
@@ -20,7 +26,7 @@ _display.modal = function (options) {
 					.append(
 						options && options.header ? '<h4>' + options.header(row) + '</h4>' : null
 					)
-					.append(render())
+					.append(rendered)
 					.appendTo(modalContainer);
 
 				modalContainer.appendTo('body');
