@@ -53,6 +53,8 @@
 		* `listHidden` - Show the data that has been hidden in an `-tag ul` / `-tag li` list.
 		  * No additional options
 		  * Default renderer
+		* `listHiddenNodes` - Same as `listHidden` but to moves the DOM nodes from the table cells into the list. This can be useful to preserve event handlers on cell contents if needed.
+		  * No additional options
 		* `tableAll` - Show the data for all columns (regardless of if they have been hidden or not) in a `-tag table`.
 		  * Single option: `tableClass` - the class name to apply to the created table.
 

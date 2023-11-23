@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-wide" table-class="display nowrap" order="2">
+
+<css lib="datatables responsive" />
+<js lib="jquery datatables responsive">
+<![CDATA[
+
+$('#example').DataTable({
+	responsive: {
+		details: {
+			renderer:  DataTable.Responsive.renderer.listHiddenNodes()
+		}
+	}
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	responsive: {
+		details: {
+			renderer:  DataTable.Responsive.renderer.listHiddenNodes()
+		}
+	}
+});
+
+]]>
+</js-vanilla>
+
+<title lib="Responsive">Moving nodes (no clone)</title>
+
+<info><![CDATA[
+
+This example demonstrates an advanced renderer for Responsive that moves the elements from the table row when they are hidden into the child row. By default Responsive will clone the original cells for display in the child row and then dispose of them when no longer needed - the original data remains in the original table at all times.
+
+The technique shown here can be really useful if you have events attached to those elements. Visually you will see no difference between this example and other standard renderer - it is all about the DOM elements being moved!
+
+]]></info>
+
+</dt-example>
+
