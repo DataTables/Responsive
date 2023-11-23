@@ -916,6 +916,12 @@ $.extend(Responsive.prototype, {
 		var dt = this.s.dt;
 		var columns = this.s.columns;
 		var that = this;
+		var visibleColumns = dt
+			.columns()
+			.indexes()
+			.filter(function (idx) {
+				return dt.column(idx).visible();
+			});
 
 		// Are we allowed to do auto sizing?
 		if (!this.c.auto) {
@@ -953,7 +959,7 @@ $.extend(Responsive.prototype, {
 		clonedTable.style.width = 'auto';
 
 		// Header
-		dt.table().header.structure(':visible').forEach(row => {
+		dt.table().header.structure(visibleColumns).forEach(row => {
 			var cells = row
 				.filter(function (el) {
 					return el ? true : false;
@@ -972,10 +978,9 @@ $.extend(Responsive.prototype, {
 		});
 
 		// Always need an empty row that we can read widths from
-		var visibleColumns = dt.columns(':visible').count();
 		var emptyRow = $('<tr/>').appendTo(clonedBody);
 
-		for (var i=0 ; i<visibleColumns ; i++) {
+		for (var i=0 ; i<visibleColumns.count() ; i++) {
 			emptyRow.append('<td/>');
 		}
 
@@ -988,7 +993,7 @@ $.extend(Responsive.prototype, {
 
 
 		// Footer
-		dt.table().footer.structure(':visible').forEach(row => {
+		dt.table().footer.structure(visibleColumns).forEach(row => {
 			var cells = row
 				.filter(function (el) {
 					return el ? true : false;

@@ -39,6 +39,8 @@ describe('Responsive - responsive.details.display', function() {
 		});
 		it('Close a parent', function() {
 			$('tbody tr:eq(2) td:eq(0)').click();
+
+			debugger;
 			expect($('tr.child').length).toBe(9);
 			expect($('td.child ul li').length).toBe(27);
 		});
