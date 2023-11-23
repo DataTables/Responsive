@@ -893,7 +893,7 @@ $.extend(Responsive.prototype, {
 
 		if (changed) {
 			// Inform listeners of the change
-			$(dt.table().node()).trigger('responsive-resize.dt', [dt, this.s.current]);
+			$(dt.table().node()).trigger('responsive-resize.dt', [dt, this._responsiveOnlyHidden()]);
 
 			// If no records, update the "No records" display element
 			if (dt.page.info().recordsDisplay === 0) {
