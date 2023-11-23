@@ -153,6 +153,7 @@ $.extend(Responsive.prototype, {
 			$(dt.table().body()).off('.dtr');
 			$(window).off('resize.dtr orientationchange.dtr');
 			dt.cells('.dtr-control').nodes().to$().removeClass('dtr-control');
+			$(dt.table().node()).removeClass('dtr-inline collapsed');
 
 			// Restore the columns that we've hidden
 			$.each(that.s.current, function (i, val) {

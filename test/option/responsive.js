@@ -46,6 +46,13 @@ describe('Responsive - responsive', function() {
 		expect($('tbody tr td.dtr-control').length).toBe(10);
 	});
 
+	it('Classes are removed on destroy', function() {
+		table.destroy();
+
+		expect($('table.dtr-inline').length).toBe(0);
+		expect($('table.collapsed').length).toBe(0);
+	});
+
 	dt.html('complex-header-footer');
 
 	it('Complex header and footer initialises', function() {
