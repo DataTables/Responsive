@@ -658,7 +658,7 @@ $.extend(Responsive.prototype, {
 		var dt = this.s.dt;
 		var details = this.c.details;
 		var event = function (res) {
-			$(row.node()).toggleClass('parent', res !== false);
+			$(row.node()).toggleClass('dtr-expanded', res !== false);
 			$(dt.table().node()).triggerHandler('responsive-display.dt', [dt, row, res, update]);
 		};
 
@@ -1216,15 +1216,17 @@ Responsive.breakpoints = [
  */
 Responsive.display = {
 	childRow: function (row, update, render) {
+		var rowNode = $(row.node());
+
 		if (update) {
-			if (row.child.isShown()) {
+			if (rowNode.hasClass('dtr-expanded')) {
 				row.child(render(), 'child').show();
 
 				return true;
 			}
 		}
 		else {
-			if (!row.child.isShown()) {
+			if (! rowNode.hasClass('dtr-expanded')) {
 				var rendered = render();
 
 				if (rendered === false) {
@@ -1243,7 +1245,9 @@ Responsive.display = {
 	},
 
 	childRowImmediate: function (row, update, render) {
-		if ((!update && row.child.isShown()) || !row.responsive.hasHidden()) {
+		var rowNode = $(row.node());
+
+		if ((!update && rowNode.hasClass('dtr-expanded')) || !row.responsive.hasHidden()) {
 			// User interaction and the row is show, or nothing to show
 			row.child(false);
 
@@ -1280,7 +1284,7 @@ Responsive.display = {
 				var close = function () {
 					modal.remove(); // will tidy events for us
 					$(document).off('keypress.dtr');
-					$(row.node()).removeClass('parent');
+					$(row.node()).removeClass('dtr-expanded');
 
 					closeCallback();
 				};
@@ -1306,7 +1310,7 @@ Responsive.display = {
 					)
 					.appendTo('body');
 
-				$(row.node()).addClass('parent');
+				$(row.node()).addClass('dtr-expanded');
 
 				$(document).on('keyup.dtr', function (e) {
 					if (e.keyCode === 27) {

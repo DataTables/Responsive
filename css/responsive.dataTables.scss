@@ -61,7 +61,7 @@ table.dataTable {
 			}
 		}
 
-		> tr.parent {
+		> tr.dtr-expanded {
 			> td.dtr-control:before,
 			> th.dtr-control:before {
 				@include control-close;
@@ -96,7 +96,7 @@ table.dataTable {
 			}
 		}
 
-		> tr.parent {
+		> tr.dtr-expanded {
 			td.dtr-control:before,
 			th.dtr-control:before,
 			td.control:before,

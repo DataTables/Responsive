@@ -27,6 +27,7 @@ describe('Responsive - responsive', function() {
 	});
 
 	dt.html('basic_wide');
+
 	it('+ icons are displayed on all rows on first page', function() {
 		table = $('#example').DataTable({
 			responsive: true,
@@ -40,10 +41,33 @@ describe('Responsive - responsive', function() {
 
 		expect($('tbody tr td.dtr-control').length).toBe(10);
 	});
+
 	it('... and second page', function() {
 		table.page(1).draw(false);
 
 		expect($('tbody tr td.dtr-control').length).toBe(10);
+	});
+
+	it('Row expands when clicked', function() {
+		$('tbody tr td.dtr-control').eq(0).trigger('click');
+
+		expect($('tbody tr').length).toBe(11);
+	});
+
+	it('Row has dtr-expanded class when expanded', function() {
+		expect($('tbody tr').eq(0).hasClass('dtr-expanded')).toBe(true);
+		expect($('tbody tr.dtr-expanded').length).toBe(1);
+	});
+
+	it('Row contracts when clicked', function() {
+		$('tbody tr td.dtr-control').eq(0).trigger('click');
+
+		expect($('tbody tr').length).toBe(10);
+	});
+
+	it('Row has dtr-expanded class removed when contracted', function() {
+		expect($('tbody tr').eq(0).hasClass('dtr-expanded')).toBe(false);
+		expect($('tbody tr.dtr-expanded').length).toBe(0);
 	});
 
 	it('Classes are removed on destroy', function() {
@@ -52,6 +76,7 @@ describe('Responsive - responsive', function() {
 		expect($('table.dtr-inline').length).toBe(0);
 		expect($('table.collapsed').length).toBe(0);
 	});
+
 
 	dt.html('complex-header-footer');
 
