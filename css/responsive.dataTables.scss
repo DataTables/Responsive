@@ -3,27 +3,27 @@
 // Variables
 //
 
-$control-button-top: 9px !default;
-$control-button-size: 1em !default;
-$control-button-color: white !default;
-$open-button-background: #31b131 !default;
-$close-button-background: #d33333 !default;
-
-
 //
 // Mixins
 //
 @mixin control() {
 	display: inline-block;
-	color: rgba(0, 0, 0, 0.5);
+	box-sizing: border-box;
+	content: '';
 }
 
 @mixin control-open() {
-	content: "▶";
+	border-top: 5px solid transparent;
+	border-left: 10px solid rgba(0, 0, 0, 0.5);
+	border-bottom: 5px solid transparent;
+	border-right: 0px solid transparent;
 }
 
 @mixin control-close() {
-	content: "▼";
+	border-top: 10px solid rgba(0, 0, 0, 0.5);
+	border-left: 5px solid transparent;
+	border-bottom: 0px solid transparent;
+	border-right: 5px solid transparent;
 }
 
 
@@ -57,7 +57,10 @@ table.dataTable {
 			}
 
 			&.arrow-right::before {
-				content: "◄";
+				border-top: 5px solid transparent;
+				border-left: 0px solid transparent;
+				border-bottom: 5px solid transparent;
+				border-right: 10px solid rgba(0, 0, 0, 0.5);
 			}
 		}
 
@@ -92,7 +95,10 @@ table.dataTable {
 			}
 
 			&.arrow-right::before {
-				content: "◄";
+				border-top: 5px solid transparent;
+				border-left: 0px solid transparent;
+				border-bottom: 5px solid transparent;
+				border-right: 10px solid rgba(0, 0, 0, 0.5);
 			}
 		}
 
