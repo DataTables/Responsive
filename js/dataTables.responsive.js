@@ -887,11 +887,9 @@ $.extend(Responsive.prototype, {
 				}
 			});
 
-		// Always need to update the display, regardless of if it has changed or not, so nodes
-		// can be re-inserted for listHiddenNodes
-		this._redrawChildren();
-
 		if (changed) {
+			this._redrawChildren();
+
 			// Inform listeners of the change
 			$(dt.table().node()).trigger('responsive-resize.dt', [dt, this._responsiveOnlyHidden()]);
 
@@ -941,15 +939,6 @@ $.extend(Responsive.prototype, {
 			return;
 		}
 
-		// Need to restore all children. They will be reinstated by a re-render
-		if (!$.isEmptyObject(this.s.childNodeStore)) {
-			$.each(this.s.childNodeStore, function (key) {
-				var idx = key.split('-');
-
-				that._childNodesRestore(dt, idx[0] * 1, idx[1] * 1);
-			});
-		}
-
 		// Clone the table with the current data in it
 		var clonedTable = dt.table().node().cloneNode(false);
 		var clonedHeader = $(dt.table().header().cloneNode(false)).appendTo(clonedTable);
@@ -986,11 +975,33 @@ $.extend(Responsive.prototype, {
 
 		// Body rows - we don't need to take account of DataTables' column
 		// visibility since we implement our own here (hence the `display` set)
-		$(clonedBody)
-			.append($(dt.rows({ page: 'current' }).nodes()).clone(false))
+		dt.rows({page: 'current'}).every(function (rowIdx) {
+			// We clone the table's rows and cells to create the sizing table
+			var tr = this.node().cloneNode(false);
+
+			dt.cells(rowIdx, '*').every(function (rowIdx2, colIdx) {
+				// If nodes have been moved out (listHiddenNodes), we need to
+				// clone from the store
+				var store = that.s.childNodeStore[rowIdx + '-' + colIdx];
+
+				if (store) {
+					$(this.node().cloneNode(false))
+						.append($(store).clone())
+						.appendTo(tr);
+				}
+				else {
+					$(this.node())
+						.clone(false)
+						.appendTo(tr)
+				}
+			});
+
+			clonedBody.append(tr);
+		});
+		
+		clonedBody
 			.find('th, td')
 			.css('display', '');
-
 
 		// Footer
 		dt.table().footer.structure(visibleColumns).forEach(row => {
