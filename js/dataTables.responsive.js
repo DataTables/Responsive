@@ -122,10 +122,9 @@ $.extend(Responsive.prototype, {
 
 		dt.settings()[0]._responsive = this;
 
-		// Use DataTables' throttle function to avoid processor thrashing on
-		// resize
+		// Use DataTables' throttle function to avoid processor thrashing
 		$(window).on(
-			'resize.dtr orientationchange.dtr',
+			'orientationchange.dtr',
 			DataTable.util.throttle(function () {
 				// iOS has a bug whereby resize can fire when only scrolling
 				// See: http://stackoverflow.com/questions/8898412
@@ -940,6 +939,13 @@ $.extend(Responsive.prototype, {
 				if (forceRedraw || columnsVis[i] !== oldVis[i]) {
 					changed = true;
 					that._setColumnVis(colIdx, columnsVis[i]);
+				}
+
+				// DataTables 2 uses `col` to define the width for a column
+				// and this needs to run each time, as DataTables will change
+				// the column width
+				if (! columnsVis[i]) {
+					$('colgroup > col', dt.table().node()).eq(visible).css('width', 0);
 				}
 			});
 
