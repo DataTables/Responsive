@@ -12,15 +12,15 @@
 	content: '';
 }
 
-@mixin control-open() {
+@mixin control-open($color) {
 	border-top: 5px solid transparent;
-	border-left: 10px solid rgba(0, 0, 0, 0.5);
+	border-left: 10px solid $color;
 	border-bottom: 5px solid transparent;
 	border-right: 0px solid transparent;
 }
 
-@mixin control-close() {
-	border-top: 10px solid rgba(0, 0, 0, 0.5);
+@mixin control-close($color) {
+	border-top: 10px solid $color;
 	border-left: 5px solid transparent;
 	border-bottom: 0px solid transparent;
 	border-right: 5px solid transparent;
@@ -53,7 +53,7 @@ table.dataTable {
 				margin-right: 0.5em;
 
 				@include control;
-				@include control-open;
+				@include control-open(rgba(0, 0, 0, 0.5));
 			}
 
 			&.arrow-right::before {
@@ -67,7 +67,7 @@ table.dataTable {
 		> tr.dtr-expanded {
 			> td.dtr-control:before,
 			> th.dtr-control:before {
-				@include control-close;
+				@include control-close(rgba(0, 0, 0, 0.5));
 			}
 		}
 	}
@@ -91,7 +91,7 @@ table.dataTable {
 
 			&:before {
 				@include control;
-				@include control-open;
+				@include control-open(rgba(0, 0, 0, 0.5));
 			}
 
 			&.arrow-right::before {
@@ -107,7 +107,7 @@ table.dataTable {
 			th.dtr-control:before,
 			td.control:before,
 			th.control:before {
-				@include control-close;
+				@include control-close(rgba(0, 0, 0, 0.5));
 			}
 		}
 	}
@@ -227,7 +227,20 @@ html[data-bs-theme="dark"] {
 	table.dataTable > tbody {
 		> tr > td.dtr-control {
 			&:before {
-				color: rgba(255, 255, 255, 0.5) !important;
+				border-left-color: rgba(255, 255, 255, 0.5) !important;
+			}
+
+			&.arrow-right::before {
+				border-right-color: rgba(255, 255, 255, 0.5) !important;
+			}
+		}
+
+		> tr.dtr-expanded {
+			> td.dtr-control:before,
+			> th.dtr-control:before {
+				border-top-color: rgba(255, 255, 255, 0.5) !important;
+				border-left-color: transparent !important;
+				border-right-color: transparent !important;
 			}
 		}
 
