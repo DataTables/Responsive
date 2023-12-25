@@ -1524,7 +1524,7 @@ Responsive.renderer = {
 						'<ul data-dtr-index="' +
 							rowIdx +
 							'" class="dtr-details"/>'
-				  ).append(data)
+				).append(data)
 				: false;
 		};
 	},

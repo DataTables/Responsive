@@ -40,6 +40,9 @@ _display.modal = function (options) {
 					closeCallback();
 				});
 			}
+			else {
+				return false;
+			}
 
 			return true;
 		}

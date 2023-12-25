@@ -25,12 +25,16 @@ _display.modal = function (options) {
 						$.extend(
 							true,
 							{
+								close: closeCallback,
 								title: options && options.header ? options.header(row) : '',
 								width: 500
 							},
 							options.dialog
 						)
 					);
+			}
+			else {
+				return false;
 			}
 
 			return true;

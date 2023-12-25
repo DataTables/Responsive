@@ -1,4 +1,4 @@
-/*! Bootstrap integration for DataTables' Responsive
+/*! Fomantic integration for DataTables' Responsive
  * © SpryMedia Ltd - datatables.net/license
  */
 
@@ -40,7 +40,15 @@ _display.modal = function (options) {
 					_modal.appendTo('body');
 				}
 
-				_modal.modal('show');
+				_modal
+					.modal({
+						onHide: closeCallback
+					})
+					.modal('show');
+			}
+			else {
+				// Modal not shown for this row - do nothing
+				return false;
 			}
 
 			return true;
