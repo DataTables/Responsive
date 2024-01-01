@@ -928,10 +928,18 @@ $.extend(Responsive.prototype, {
 
 		var changed = false;
 		var visible = 0;
+		var corrector = 0;
 
 		dt.columns()
 			.eq(0)
 			.each(function (colIdx, i) {
+				// Do nothing on DataTables' hidden column - DT removes it from the table
+				// so we need to slide back
+				if (! dt.column(colIdx).visible()) {
+					corrector++;
+					return;
+				}
+
 				if (columnsVis[i] === true) {
 					visible++;
 				}
@@ -945,7 +953,7 @@ $.extend(Responsive.prototype, {
 				// and this needs to run each time, as DataTables will change
 				// the column width
 				if (! columnsVis[i]) {
-					$('colgroup > col', dt.table().node()).eq(visible).css('width', 0);
+					$('colgroup > col', dt.table().node()).eq(i - corrector).css('width', 0);
 				}
 			});
 
