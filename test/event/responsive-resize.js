@@ -19,8 +19,9 @@ describe('Responsive - responsive-resize', function() {
 		});
 		expect(count).toBe(0);
 	});
-	it('Check correct number of args', function() {
+	it('Check correct number of args', async function() {
 		table.column(2).visible(false);
+		await dt.sleep(300); // Responsive's update is async
 		expect(args.length).toBe(3);
 	});
 	it('First arg - event object', function() {
@@ -32,7 +33,7 @@ describe('Responsive - responsive-resize', function() {
 	it('Third arg - row API', function() {
 		expect(args[2] instanceof Array).toBe(true);
 
-		let visible = [true, true, true, true, true, true, true, true, true, false, false];
+		let visible = [true, true, true, true, true, true, true, true, false, false, false];
 		for (let i = 0; i < visible.length; i++) {
 			expect(args[2][i]).toBe(visible[i]);
 		}

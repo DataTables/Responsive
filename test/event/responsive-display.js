@@ -39,10 +39,11 @@ describe('Responsive - responsive-display', function() {
 		$('tbody tr:eq(2) td:eq(0)').click();
 		expect(args[3]).toBe(false);
 	});
-	it('Fifth arg - update', function() {
+	it('Fifth arg - update', async function() {
 		expect(args[4]).toBe(false);
 		$('tbody tr:eq(2) td:eq(0)').click();
 		table.column(2).visible(false);
+		await dt.sleep(300); // Responsive is async in its response to column visibility change
 		expect(args[4]).toBe(true);
 	});
 });

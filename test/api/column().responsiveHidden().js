@@ -32,8 +32,9 @@ describe('Responsive - column().responsiveHidden()', function() {
 			expect(table.column(8).responsiveHidden()).toBe(false);
 		});
 
-		it('Doesnt care about visible columns', function() {
+		it('Doesnt care about visible columns', async function() {
 			table.column(0).visible(false);
+			await dt.sleep(300); // Responsive is async in its response to column visibility change
 
 			for (let i = 0; i < 8; i++) {
 				expect(table.column(i).responsiveHidden()).toBe(true);

@@ -12,7 +12,7 @@ describe('Responsive - responsive.details.type', function() {
 			responsive: true
 		});
 		let el = window.getComputedStyle(document.querySelector('tr td'), ':before');
-		expect(el.getPropertyValue('content')).toBe('"▶"');
+		expect(el.getPropertyValue('border-top-width')).toBe('5px');
 	});
 
 	dt.html('basic_wide');
@@ -25,7 +25,7 @@ describe('Responsive - responsive.details.type', function() {
 			}
 		});
 		let el = window.getComputedStyle(document.querySelector('tr td'), ':before');
-		expect(el.getPropertyValue('content')).toBe('"▶"');
+		expect(el.getPropertyValue('border-top-width')).toBe('5px');
 	});
 
 	dt.html('basic_wide');
@@ -38,6 +38,6 @@ describe('Responsive - responsive.details.type', function() {
 			}
 		});
 		let el = window.getComputedStyle(document.querySelector('tr td'), ':before');
-		expect(el.getPropertyValue('content')).toBe('none');
+		expect(el.getPropertyValue('border-top-width')).toBe('0px');
 	});
 });

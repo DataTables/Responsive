@@ -8,9 +8,8 @@ describe('Responsive - responsive.rebuild()', function () {
 
 	function checkVisible(expected) {
 		for (let i = 0; i < expected.length; i++) {
-			let invisible = $('thead th:eq(' + i + ')')
-				.attr('style')
-				.includes('display: none;');
+			let style = $('thead th:eq(' + i + ')').attr('style') || '';
+			let invisible = style.includes('display: none;');
 			expect(!invisible).toBe(expected[i]);
 		}
 	}
