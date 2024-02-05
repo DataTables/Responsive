@@ -1055,8 +1055,14 @@ $.extend(Responsive.prototype, {
 		// Body rows - we don't need to take account of DataTables' column
 		// visibility since we implement our own here (hence the `display` set)
 		dt.rows({ page: 'current' }).every(function (rowIdx) {
+			var node = this.node();
+
+			if (! node) {
+				return;
+			}
+
 			// We clone the table's rows and cells to create the sizing table
-			var tr = this.node().cloneNode(false);
+			var tr = node.cloneNode(false);
 
 			dt.cells(rowIdx, '*').every(function (rowIdx2, colIdx) {
 				// If nodes have been moved out (listHiddenNodes), we need to
