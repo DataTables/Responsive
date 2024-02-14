@@ -6,7 +6,7 @@
 
 /// <reference types="jquery" />
 
-import DataTables, {Api} from 'datatables.net';
+import DataTables, {Api, ApiRow} from 'datatables.net';
 
 export default DataTables;
 
@@ -38,14 +38,14 @@ declare module 'datatables.net' {
 		responsive: ApiResponsiveMethods<T>;
 	}
 
-	interface ApiColumnMethods {
+	interface ApiColumnMethods<T> {
 		/**
 		 * Get the responsive visibility state of a column in the table
 		 */
 		responsiveHidden(): boolean;
 	}
 
-	interface ApiColumnsMethods {
+	interface ApiColumnsMethods<T> {
 		/**
 		 * Get the responsive visibility state of columns in the table
 		 */
@@ -60,7 +60,7 @@ declare module 'datatables.net' {
 			/**
 			 * Create a new Responsive instance for the target DataTable
 			 */
-			new (dt: Api<any>, settings: boolean | ConfigResponsive): void;
+			new (dt: Api<any>, settings: boolean | ConfigResponsive): DataTablesStatic['Responsive'];
 
 			/**
 			 * Default configuration values
@@ -132,7 +132,7 @@ interface ApiResponsiveMethods<T> extends Api<T> {
 	 * @param li The li node (or a jQuery collection containing the node) to get the cell index for.
 	 * @returns Cell object that contains the properties row and column. This object can be used as a DataTables cell-selector.
 	 */
-	index(li): object;
+	index(li: HTMLElement): object;
 	
 	/**
 	 * Recalculate the column breakpoints based on the class information of the column header cells
@@ -159,17 +159,17 @@ interface ConfigResponsiveDetails {
 	 * @param render The data to be shown - this is given as a function so it will be executed only when required (i.e. there is no point in gather data to display if the display function is simply going to hide it). The string returned by this function is that given by the responsive.details.renderer function. It accepts no input parameters.
 	 * @returns boolean true if the display function has shown the hidden data, false
 	 */
-	display?(row, update, render): boolean;
+	display?(row: ApiRow<any>, update: boolean, render: () => string): boolean;
 	
 	/**
 	 * Define the renderer used to display the child rows.
 	 * 
 	 * @param api DataTables API instance for the table in question
 	 * @param rowIdx Row index for the row that the renderer is being asked to render. Use the row() and / or cells() methods to get information from the API about the row so the information can be rendered.
-	 * @param columns Since 2.0.0: An array of objects containing information about each column in the DataTable. The array length is exactly equal to the number of columns in the DataTable, with each column represented by a DataTable in index order. Additionally, the structure of each object in the array is:
+	 * @param columns Since 2.0.0: An array of objects containing information about each column in the DataTable. The array length is exactly equal to the number of columns in the DataTable, with each column represented by a DataTable in index order.
 	 * @returns boolean | string  `false` - Do not display a child row. Or a string - The information to be shown in the details display, including any required HTML.
 	 */
-	renderer?(api, rowIdx, columns): Node | false;
+	renderer?(api: Api, rowIdx: number, columns: ResponsiveColumn): Node | false;
 	
 	/**
 	 * As a number it is a column index to the show / hide control should be attached. This can be >=0 to count columns from the left, or <0 to count from the right.
