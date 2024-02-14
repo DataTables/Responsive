@@ -24,7 +24,7 @@
 	</type>
 
 
-	<default value="$.fn.dataTable.Responsive.display.childRow"/>
+	<default value="DataTable.Responsive.display.childRow"/>
 
 	<description>
 		Responsive provides the ability to show information about the columns it has hidden using DataTables child rows feature (`dt-api row().child()`), but you may wish to display the data in a different manner (potentially so you can use the child rows for other actions such as editing) - this parameter provides that ability.

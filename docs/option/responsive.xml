@@ -14,7 +14,7 @@
 
 	<type type="object">
 		<description>
-			If given as an object, Responsive will be enabled on the target DataTable, with the Responsive defaults (`$.fn.dataTable.Responsive.defaults`) extended, and potentially overwritten, by the options provided in this object. This is how Responsive can be configured on an individual table basis, or through the defaults.
+			If given as an object, Responsive will be enabled on the target DataTable, with the Responsive defaults (`DataTable.Responsive.defaults`) extended, and potentially overwritten, by the options provided in this object. This is how Responsive can be configured on an individual table basis, or through the defaults.
 		</description>
 	</type>
 
@@ -23,7 +23,7 @@
 	</default>
 
 	<description>
-		This option provides the ability to enable and configure Responsive for DataTables. In its simplest form as the boolean `true` it will enable Responsive with the default configuration options (as defined by `$.fn.dataTable.Responsive.defaults`). It can also be used as an object to provide custom configuration options as described below.
+		This option provides the ability to enable and configure Responsive for DataTables. In its simplest form as the boolean `true` it will enable Responsive with the default configuration options (as defined by `DataTable.Responsive.defaults`). It can also be used as an object to provide custom configuration options as described below.
 
 		Please note that as with all other configuration options for Responsive, this option is an extension to the [default set of DataTables options](/reference/option). This property should be set in the DataTables initialisation object.
 	</description>

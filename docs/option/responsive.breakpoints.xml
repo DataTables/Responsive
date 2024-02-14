@@ -15,7 +15,7 @@
 		</description>
 	</type>
 
-	<default value="$.fn.dataTable.Responsive.breakpoints">
+	<default value="DataTable.Responsive.breakpoints">
 		The default breakpoints used by Responsive are defined by the static array defined in this object. This provides the ability to set common breakpoints that are used by all tables easily, if required.
 	</default>
 
@@ -24,7 +24,7 @@
 
 		The breakpoints that are used by a Responsive instance are unique to that instance (i.e. each table) allowing different breakpoints to be set for different tables is needed. The table can be "in" only a single breakpoint mode at any one time. If you wish a column to appear over multiple breakpoints, the classes assigned to the column must reflect that (e.g. `className: 'tablet desktop'`).
 
-		The default breakpoints defined by `$.fn.dataTable.Responsive.breakpoints` is:
+		The default breakpoints defined by `DataTable.Responsive.breakpoints` is:
 
 		```js
 		[

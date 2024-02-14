@@ -6,7 +6,7 @@
 
 	<type type="boolean">
 		<description>
-			As a `-type boolean` value, this option will enable and disable the child row display of Responsive. `false` will disable the child rows completely (columns will simply be removed from the disable and their content not be accessible other than through the DataTables API), while `true` will enable the child rows, using the default values defined by the object `$.fn.dataTables.Responsive.defaults.details`.
+			As a `-type boolean` value, this option will enable and disable the child row display of Responsive. `false` will disable the child rows completely (columns will simply be removed from the disable and their content not be accessible other than through the DataTables API), while `true` will enable the child rows, using the default values defined by the object `DataTables.Responsive.defaults.details`.
 		</description>
 	</type>
 

@@ -46,7 +46,7 @@
 
 		Please note that as with all other configuration options for Responsive, this option is an extension to the [default set of DataTables options](/reference/option). This property should be set in the DataTables initialisation object.
 
-		Since v2.1.0 Responsive has a number of built in rendering functions which can be accessed from the `$.fn.dataTable.Responsive.renderer` object. The built in renderers are provided as functions that must be executed and will return the required renderer. This provides the ability to pass in options to the renderer.
+		Since v2.1.0 Responsive has a number of built in rendering functions which can be accessed from the `DataTable.Responsive.renderer` object. The built in renderers are provided as functions that must be executed and will return the required renderer. This provides the ability to pass in options to the renderer.
 
 		The built in options are:
 
