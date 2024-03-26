@@ -73,9 +73,14 @@ declare module 'datatables.net' {
 			breakpoints: ResponsiveBreakpoint[];
 
 			display: {
-				childRow: ResponsiveDisplay,
-				childRowImmediate: ResponsiveDisplay,
-				modal: ResponsiveDisplay,
+				/** Display details as a child row, when requested (click) */
+				childRow: ResponsiveDisplay;
+
+				/** Display details as a child row, immediately (no-click) */
+				childRowImmediate: ResponsiveDisplay;
+
+				/** Display details as a modal */
+				modal: (options?: ResponsiveModalOptions) => ResponsiveDisplay;
 			};
 
 			/**
@@ -91,6 +96,13 @@ declare module 'datatables.net' {
 			 * Responsive version
 			 */
 			version: string;
+
+			/**
+			 * Set the Bootstrap library to use
+			 *
+			 * @param bs Bootstrap - from `import * as bootstrap from 'bootstrap';`
+			 */
+			bootstrap: (bs: any) => void;
 		}
 	}
 }
@@ -159,7 +171,7 @@ interface ConfigResponsiveDetails {
 	 * @param render The data to be shown - this is given as a function so it will be executed only when required (i.e. there is no point in gather data to display if the display function is simply going to hide it). The string returned by this function is that given by the responsive.details.renderer function. It accepts no input parameters.
 	 * @returns boolean true if the display function has shown the hidden data, false
 	 */
-	display?(row: ApiRow<any>, update: boolean, render: () => string): boolean;
+	display?: ResponsiveDisplay;
 	
 	/**
 	 * Define the renderer used to display the child rows.
@@ -217,6 +229,10 @@ interface ResponsiveDisplay {
 	 * @param render Rendering function to be executed to get the data to show for the row
 	 */
 	(row: Api<any>, update: boolean, render: () => Node): boolean;
+}
+
+interface ResponsiveModalOptions {
+	header?(row: any): string;
 }
 
 interface ResponsiveColumn {
