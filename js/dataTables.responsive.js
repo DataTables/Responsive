@@ -283,6 +283,38 @@ $.extend(Responsive.prototype, {
 	 */
 
 	/**
+	 * Insert a `col` tag into the correct location in a `colgroup`.
+	 *
+	 * @param {jQuery} colGroup The `colgroup` tag
+	 * @param {jQuery} colEl The `col` tag
+	 */
+	_colGroupAttach: function (colGroup, colEls, idx) {
+		var found = null;
+
+		// No need to do anything if already attached
+		if (colEls[idx].get(0).parentNode === colGroup[0]) {
+			return;
+		}
+
+		// Find the first `col` after our own which is already attached
+		for (var i = idx+1; i < colEls.length; i++) {
+			if (colGroup[0] === colEls[i].get(0).parentNode) {
+				found = i;
+				break;
+			}
+		}
+
+		if (found !== null) {
+			// Insert before
+			colEls[idx].insertBefore(colEls[found][0]);
+		}
+		else {
+			// If wasn't found, insert at the end
+			colGroup.append(colEls[idx]);
+		}
+	},
+
+	/**
 	 * Get and store nodes from a cell - use for node moving renderers
 	 *
 	 * @param {*} dt DT instance
@@ -929,10 +961,15 @@ $.extend(Responsive.prototype, {
 		var changed = false;
 		var visible = 0;
 		var dtSettings = dt.settings()[0];
+		var colGroup = $(dt.table().node()).children('colgroup');
+		var colEls = dtSettings.aoColumns.map(function (col) {
+			return col.colEl;
+		});
 
 		dt.columns()
 			.eq(0)
 			.each(function (colIdx, i) {
+				//console.log(colIdx, i);
 				// Do nothing on DataTables' hidden column - DT removes it from the table
 				// so we need to slide back
 				if (! dt.column(colIdx).visible()) {
@@ -950,9 +987,13 @@ $.extend(Responsive.prototype, {
 
 				// DataTables 2 uses `col` to define the width for a column
 				// and this needs to run each time, as DataTables will change
-				// the column width
+				// the column width. We may need to reattach if we've removed
+				// an element previously.
 				if (! columnsVis[i]) {
-					$(dtSettings.aoColumns[colIdx].colEl).detach();
+					colEls[i].detach();
+				}
+				else {
+					that._colGroupAttach(colGroup, colEls, i);
 				}
 			});
 
