@@ -33,7 +33,7 @@ describe('Responsive - responsive-resize', function() {
 	it('Third arg - row API', function() {
 		expect(args[2] instanceof Array).toBe(true);
 
-		let visible = [true, true, true, true, true, true, true, true, false, false, false];
+		let visible = [true, true, true, true, true, true, true, true, true, false, false];
 		for (let i = 0; i < visible.length; i++) {
 			expect(args[2][i]).toBe(visible[i]);
 		}
