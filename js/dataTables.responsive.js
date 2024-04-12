@@ -146,7 +146,9 @@ $.extend(Responsive.prototype, {
 					var idx = dt.column.index('toData', i);
 
 					if (that.s.current[idx] === false) {
-						$(this).css('display', 'none');
+						$(this)
+							.css('display', 'none')
+							.addClass('dtr-hidden');
 					}
 				});
 			}
@@ -266,12 +268,6 @@ $.extend(Responsive.prototype, {
 
 			that._resizeAuto();
 			that._resize();
-
-			// If columns were hidden, then DataTables needs to adjust the
-			// column sizing
-			if ($.inArray(false, that.s.current)) {
-				dt.columns.adjust();
-			}
 		});
 
 		// First pass - draw the table for the current viewport size
@@ -998,6 +994,8 @@ $.extend(Responsive.prototype, {
 			});
 
 		if (changed) {
+			dt.columns.adjust();
+
 			this._redrawChildren();
 
 			// Inform listeners of the change
