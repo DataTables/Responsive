@@ -1091,8 +1091,7 @@ $.extend(Responsive.prototype, {
 			emptyRow.append('<td/>');
 		}
 
-		// Body rows - we don't need to take account of DataTables' column
-		// visibility since we implement our own here (hence the `display` set)
+		// Body rows
 		dt.rows({ page: 'current' }).every(function (rowIdx) {
 			var node = this.node();
 
@@ -1103,7 +1102,7 @@ $.extend(Responsive.prototype, {
 			// We clone the table's rows and cells to create the sizing table
 			var tr = node.cloneNode(false);
 
-			dt.cells(rowIdx, '*').every(function (rowIdx2, colIdx) {
+			dt.cells(rowIdx, visibleColumns).every(function (rowIdx2, colIdx) {
 				// If nodes have been moved out (listHiddenNodes), we need to
 				// clone from the store
 				var store = that.s.childNodeStore[rowIdx + '-' + colIdx];
@@ -1121,6 +1120,8 @@ $.extend(Responsive.prototype, {
 			clonedBody.append(tr);
 		});
 
+		// Any cells which were hidden by Responsive in the host table, need to
+		// be visible here for the calculations
 		clonedBody.find('th, td').css('display', '');
 
 		// Footer
