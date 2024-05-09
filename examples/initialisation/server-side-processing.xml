@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="ajax" table-class="display nowrap" order="6">
+
+<css lib="datatables responsive">
+	div.dt-container {
+		max-width: 600px;
+		margin: 0 auto;
+	}
+</css>
+<js lib="jquery datatables responsive">
+<![CDATA[
+$('#example').DataTable({
+	ajax: '../../../../examples/server_side/scripts/server_processing.php',
+	processing: true,
+	responsive: true,
+	serverSide: true
+});
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+new DataTable('#example', {
+	ajax: '../../../../examples/server_side/scripts/server_processing.php',
+	processing: true,
+	responsive: true,
+	serverSide: true
+});
+]]>
+</js-vanilla>
+
+<title lib="Responsive">Server-side processing</title>
+
+<info><![CDATA[
+
+This example shows how Responsive can be used with server-side processing in DataTables to cope with very large tables. No special considerations are required, just initialise Responsive as you normally would!
+
+Please note that the table's container has been artificially reduced in width for this example to make sure that Responsive hides columns for the demo!
+
+]]></info>
+
+</dt-example>
