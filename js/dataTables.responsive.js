@@ -177,7 +177,6 @@ $.extend(Responsive.prototype, {
 		});
 
 		this._classLogic();
-		this._resizeAuto();
 
 		// Details handler
 		var details = this.c.details;
@@ -214,18 +213,6 @@ $.extend(Responsive.prototype, {
 			$(dt.table().node()).addClass('dtr-' + details.type);
 		}
 
-		dt.on('column-reorder.dtr', function (e, settings, details) {
-			that._classLogic();
-			that._resizeAuto();
-			that._resize(true);
-		});
-
-		// Change in column sizes means we need to calc
-		dt.on('column-sizing.dtr', function () {
-			that._resizeAuto();
-			that._resize();
-		});
-
 		// DT2 let's us tell it if we are hiding columns
 		dt.on('column-calc.dt', function (e, d) {
 			var curr = that.s.current;
@@ -259,19 +246,28 @@ $.extend(Responsive.prototype, {
 			});
 		});
 
-		dt.on('draw.dtr', function () {
-			that._controlClass();
-		}).on('init.dtr', function (e, settings, details) {
-			if (e.namespace !== 'dt') {
-				return;
-			}
+		// First pass when the table is ready
+		dt
+			.on('draw.dtr', function () {
+				that._controlClass();
+			})
+			.ready(function () {
+				that._resizeAuto();
+				that._resize();
 
-			that._resizeAuto();
-			that._resize();
-		});
+				// Attach listeners after first pass
+				dt.on('column-reorder.dtr', function (e, settings, details) {
+					that._classLogic();
+					that._resizeAuto();
+					that._resize(true);
+				});
 
-		// First pass - draw the table for the current viewport size
-		this._resize();
+				// Change in column sizes means we need to calc
+				dt.on('column-sizing.dtr', function () {
+					that._resizeAuto();
+					that._resize();
+				});
+			});
 	},
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
