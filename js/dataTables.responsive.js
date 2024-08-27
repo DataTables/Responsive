@@ -1092,33 +1092,42 @@ $.extend(Responsive.prototype, {
 		}
 
 		// Body rows
-		dt.rows({ page: 'current' }).every(function (rowIdx) {
-			var node = this.node();
+		if (this.c.details.renderer._responsiveMovesNodes) {
+			// Slow but it allows for moving elements around the document
+			dt.rows({ page: 'current' }).every(function (rowIdx) {
+				var node = this.node();
 
-			if (! node) {
-				return;
-			}
-
-			// We clone the table's rows and cells to create the sizing table
-			var tr = node.cloneNode(false);
-
-			dt.cells(rowIdx, visibleColumns).every(function (rowIdx2, colIdx) {
-				// If nodes have been moved out (listHiddenNodes), we need to
-				// clone from the store
-				var store = that.s.childNodeStore[rowIdx + '-' + colIdx];
-
-				if (store) {
-					$(this.node().cloneNode(false))
-						.append($(store).clone())
-						.appendTo(tr);
+				if (! node) {
+					return;
 				}
-				else {
-					$(this.node()).clone(false).appendTo(tr);
-				}
+
+				// We clone the table's rows and cells to create the sizing table
+				var tr = node.cloneNode(false);
+
+				dt.cells(rowIdx, visibleColumns).every(function (rowIdx2, colIdx) {
+					// If nodes have been moved out (listHiddenNodes), we need to
+					// clone from the store
+					var store = that.s.childNodeStore[rowIdx + '-' + colIdx];
+
+					if (store) {
+						$(this.node().cloneNode(false))
+							.append($(store).clone())
+							.appendTo(tr);
+					}
+					else {
+						$(this.node()).clone(false).appendTo(tr);
+					}
+				});
+
+				clonedBody.append(tr);
 			});
-
-			clonedBody.append(tr);
-		});
+		}
+		else {
+			// This is much faster, but it doesn't account for moving nodes around
+			$(clonedBody)
+				.append( $(dt.rows( { page: 'current' } ).nodes()).clone( false ) )
+				.find( 'th, td' ).css( 'display', '' );
+		}
 
 		// Any cells which were hidden by Responsive in the host table, need to
 		// be visible here for the calculations
@@ -1498,7 +1507,7 @@ Responsive.display = {
  */
 Responsive.renderer = {
 	listHiddenNodes: function () {
-		return function (api, rowIdx, columns) {
+		var fn = function (api, rowIdx, columns) {
 			var that = this;
 			var ul = $(
 				'<ul data-dtr-index="' + rowIdx + '" class="dtr-details"/>'
@@ -1543,6 +1552,10 @@ Responsive.renderer = {
 
 			return found ? ul : false;
 		};
+
+		fn._responsiveMovesNodes = true;
+
+		return fn;
 	},
 
 	listHidden: function () {
