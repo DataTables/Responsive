@@ -21,7 +21,7 @@
 	</default>
 
 	<description>
-		Responsive has the ability to use DataTables' child rows feature to show information about any columns which have been removed from the display as a child row, which can be particularly useful for displaying complex information on small screen devices. Please see the [Responsive manual on the details rows](/extensions/responsive/details-rows) for further information.
+		Responsive has the ability to use DataTables' child rows feature to show information about any columns which have been removed from the display as a child row, which can be particularly useful for displaying complex information on small screen devices. Please see the [Responsive manual on the details rows](/extensions/responsive/details-views) for further information.
 
 		This options provides the ability to configure how the details rows are handled by Responsive. In its simplest form as a boolean value, the details row display can be enabled or disabled, while as an object you have the ability to control how the rows are displayed and the control to show / hide the child rows.
 
