@@ -950,6 +950,16 @@ $.extend(Responsive.prototype, {
 
 		$(dt.table().node()).toggleClass('collapsed', collapsedClass);
 
+		//Add aria-expanded and title for screen readers
+		if( ! $(dt.table().node()).hasClass("collapsed") ){
+			$( dt.table().node() ).find("tbody").children().find("tr").removeAttr('aria-expanded');
+			$( dt.table().node() ).find("tbody").children().find("tr").first("td").removeAttr('title');
+		}
+		else{
+			$( dt.table().node() ).find("tbody").children().find("tr").attr('aria-expanded','false');
+			$( dt.table().node() ).find("tbody").children().find("tr").first("td").attr('title','Click to expand row');
+		}
+
 		var changed = false;
 		var visible = 0;
 		var dtSettings = dt.settings()[0];
@@ -1326,6 +1336,13 @@ $.extend(Responsive.prototype, {
 			$(target, dt.rows({ page: 'current' }).nodes())
 				.attr('tabIndex', ctx.iTabIndex)
 				.data('dtr-keyboard', 1);
+
+			//Add aria-expanded and title for screen readers
+			if( $(dt.table().node()).hasClass("collapsed") ){
+				$( target, dt.rows( { page: 'current' } ).nodes() )
+					.attr('title','Click to expand row')
+					.parents('tr').attr('aria-expanded','false');
+			}
 		}
 	}
 });
@@ -1360,9 +1377,29 @@ Responsive.display = {
 	childRow: function (row, update, render) {
 		var rowNode = $(row.node());
 
+		//Add aria-expanded and title for screen readers
+		var dt = $ (row.node()).parent().parent();
+		
 		if (update) {
+
+			//Add aria-expanded and title for screen readers
+			if( ! $(dt).hasClass("collapsed") ){
+				$( row.node() ).find("td:first").removeAttr('title');
+				$( row.node() ).first('td').removeAttr('aria-expanded');
+			}
+			else {
+				$( row.node() ).first('td').attr('aria-expanded','false');
+				$( row.node() ).find("td:first").attr('title','Click to expand row');
+			}
+			
 			if (rowNode.hasClass('dtr-expanded')) {
 				row.child(render(), 'child').show();
+
+				//Add aria-expanded and title for screen readers
+				if( $(dt).hasClass("collapsed") ){
+					$( row.node() ).find("td:first").attr('title','Click to collapse row');
+					$( row.node() ).first('td').attr('aria-expanded','true');
+				}
 
 				return true;
 			}
@@ -1376,11 +1413,24 @@ Responsive.display = {
 				}
 
 				row.child(rendered, 'child').show();
+
+				//Add aria-expanded and title for screen readers
+				if( $(dt).hasClass("collapsed") ){
+					$( row.node() ).find("td:first").attr('title','Click to collapse row');
+					$( row.node() ).first('td').attr('aria-expanded','true');
+				}
+				
 				return true;
 			}
 			else {
 				row.child(false);
 
+				//Add aria-expanded and title for screen readers
+				if( $(dt).hasClass("collapsed") ){
+					$( row.node() ).first('td').attr('aria-expanded','false');
+					$( row.node() ).find("td:first").attr('title','Click to expand row');
+				}
+				
 				return false;
 			}
 		}
