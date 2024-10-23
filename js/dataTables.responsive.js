@@ -696,11 +696,15 @@ $.extend(Responsive.prototype, {
 				.filter('.dtr-control')
 				.removeClass('dtr-control');
 
-			dt.cells(null, firstVisible, { page: 'current' })
-				.nodes()
-				.to$()
-				.addClass('dtr-control');
+			if (firstVisible >= 0) {
+				dt.cells(null, firstVisible, { page: 'current' })
+					.nodes()
+					.to$()
+					.addClass('dtr-control');
+			}
 		}
+
+		this._tabIndexes();
 	},
 
 	/**
@@ -766,12 +770,6 @@ $.extend(Responsive.prototype, {
 		if (details.type === 'inline') {
 			details.target = 'td.dtr-control, th.dtr-control';
 		}
-
-		// Keyboard accessibility
-		dt.on('draw.dtr', function () {
-			that._tabIndexes();
-		});
-		that._tabIndexes(); // Initial draw has already happened
 
 		$(dt.table().body()).on('keyup.dtr', 'td, th', function (e) {
 			if (e.keyCode === 13 && $(this).data('dtr-keyboard')) {
@@ -1323,7 +1321,12 @@ $.extend(Responsive.prototype, {
 				target = '>td:first-child, >th:first-child';
 			}
 
-			$(target, dt.rows({ page: 'current' }).nodes())
+			var rows = dt.rows({ page: 'current' }).nodes();
+			var nodes = target === 'tr'
+				? $(rows)
+				: $(target, rows);
+
+			nodes
 				.attr('tabIndex', ctx.iTabIndex)
 				.data('dtr-keyboard', 1);
 		}
