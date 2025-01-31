@@ -1768,7 +1768,6 @@ Api.registerPlural(
 Responsive.version = '3.0.3';
 
 $.fn.dataTable.Responsive = Responsive;
-$.fn.DataTable.Responsive = Responsive;
 
 // Attach a listener to the document which listens for DataTables initialisation
 // events so we can automatically initialise
