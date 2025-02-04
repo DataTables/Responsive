@@ -1244,8 +1244,24 @@ $.extend(Responsive.prototype, {
 		var that = this;
 		var display = showHide ? '' : 'none';
 
+		// We use the `null`s in the structure array to indicate that a cell
+		// should expand over that one if there is a colspan, but it might
+		// also have been filled by a rowspan, so we need to expand the
+		// rowspan cells down through the structure
+		structure.forEach(function (row, rowIdx) {
+			for (var col = 0; col < row.length; col++) {
+				if (row[col] && row[col].rowspan > 1) {
+					var span = row[col].rowspan;
+
+					for (var i=1 ; i<span ; i++) {
+						structure[rowIdx + i][col] = {};
+					}
+				}
+			}
+		});
+
 		structure.forEach(function (row) {
-			if (row[col]) {
+			if (row[col] && row[col].cell) {
 				$(row[col].cell)
 					.css('display', display)
 					.toggleClass('dtr-hidden', !showHide);
@@ -1256,7 +1272,7 @@ $.extend(Responsive.prototype, {
 				var search = col;
 
 				while (search >= 0) {
-					if (row[search]) {
+					if (row[search] && row[search].cell) {
 						row[search].cell.colSpan = that._colspan(row, search);
 						break;
 					}
