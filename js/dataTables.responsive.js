@@ -1154,7 +1154,7 @@ $.extend(Responsive.prototype, {
 
 		// It is unsafe to insert elements with the same name into the DOM
 		// multiple times. For example, cloning and inserting a checked radio
-		// clears the chcecked state of the original radio.
+		// clears the checked state of the original radio.
 		$(clonedTable).find('[name]').removeAttr('name');
 
 		// A position absolute table would take the table out of the flow of
