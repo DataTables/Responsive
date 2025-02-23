@@ -377,7 +377,7 @@ $.extend(Responsive.prototype, {
 	 *   column.
 	 *  @private
 	 */
-	_columnsVisiblity: function (breakpoint) {
+	_columnsVisibility: function (breakpoint) {
 		var dt = this.s.dt;
 		var columns = this.s.columns;
 		var i, iLen;
@@ -926,7 +926,7 @@ $.extend(Responsive.prototype, {
 		}
 
 		// Show the columns for that break point
-		var columnsVis = this._columnsVisiblity(breakpoint);
+		var columnsVis = this._columnsVisibility(breakpoint);
 		this.s.current = columnsVis;
 
 		// Set the class before the column visibility is changed so event
