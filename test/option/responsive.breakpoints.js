@@ -81,7 +81,7 @@ describe('Responsive - responsive.breakpoints', function() {
 		// });
 
 		// dt.html('basic');
-		// it('Initalise options always take priority over HTML5', function() {
+		// it('Initialise options always take priority over HTML5', function() {
 		// 	$('table').wrapAll('<div style="width:250px">');
 		// 	$('thead th:eq(0)').attr('data-priority', 20000);
 
@@ -155,7 +155,7 @@ describe('Responsive - responsive.breakpoints', function() {
 	// 	});
 
 	// 	dt.html('basic');
-	// 	it('Initalise options always take priority over HTML5', function() {
+	// 	it('Initialise options always take priority over HTML5', function() {
 	// 		$('table').wrapAll('<div style="width:250px">');
 	// 		$('thead th:eq(0)').attr('data-priority', 20000);
 
