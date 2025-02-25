@@ -7,7 +7,7 @@
 	<type type="function">
 		<signature>display( row, update, render )</signature>
 		<parameter type="DataTables.Api" name="row">
-			DataTables API instance for the table in question which is pre-populated with the row that is being acted upon - i.e. the result from `dt-api row()`.
+			DataTables API instance for the table in question which is prepopulated with the row that is being acted upon - i.e. the result from `dt-api row()`.
 		</parameter>
 		<parameter type="boolean" name="update">
 			This parameter is used to inform the function what has triggered the function call:
