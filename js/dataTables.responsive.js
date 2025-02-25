@@ -1234,7 +1234,7 @@ $.extend(Responsive.prototype, {
 	},
 
 	/**
-	 * Set the a column's visibility, taking into account multiple rows
+	 * Set a column's visibility, taking into account multiple rows
 	 * in a header / footer and colspan attributes
 	 * @param {*} col
 	 * @param {*} showHide
