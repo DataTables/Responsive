@@ -35,7 +35,7 @@
 
 		* `childRow` - Show hidden information in a child row, the visibility of which can be toggled by an end user.
 		* `childRowImmediate` - Show information in a child row, but don't wait for user request to show the data, just show it immediately.
-		* `modal()` - Show information in a modal pop-up - please note that this is a **function** and should be executed when being assigned (see example below). This is to allow options to be passed into the modal library being used. When used with the Bootstrap, Foundation and jQuery UI integration options, Responsive will use use the styling framework's native modal display to ensure a consistent interface is displayed to the end user. The options that can be passed into the function depend upon the styling framework used:
+		* `modal()` - Show information in a modal pop-up - please note that this is a **function** and should be executed when being assigned (see example below). This is to allow options to be passed into the modal library being used. When used with the Bootstrap, Foundation and jQuery UI integration options, Responsive will use the styling framework's native modal display to ensure a consistent interface is displayed to the end user. The options that can be passed into the function depend upon the styling framework used:
 		  * DataTables, Bootstrap and Foundation:
 		    * `header` - a function that should return a string of what will be shown in the modal's header. A single parameter is passed in, the `dt-api row()` instance of the row whose details are being shown.
 		  * jQuery UI:
