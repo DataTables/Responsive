@@ -323,7 +323,7 @@ $.extend(Responsive.prototype, {
 		// https://jsperf.com/childnodes-array-slice-vs-loop
 		var nodes = [];
 		var children = dt.cell(row, col).node().childNodes;
-		for (var i = 0, ien = children.length; i < ien; i++) {
+		for (var i = 0, iLen = children.length; i < iLen; i++) {
 			nodes.push(children[i]);
 		}
 
@@ -353,7 +353,7 @@ $.extend(Responsive.prototype, {
 			var parentChildren = parent.childNodes;
 			var a = [];
 
-			for (var i = 0, ien = parentChildren.length; i < ien; i++) {
+			for (var i = 0, iLen = parentChildren.length; i < iLen; i++) {
 				a.push(parentChildren[i]);
 			}
 
@@ -380,7 +380,7 @@ $.extend(Responsive.prototype, {
 	_columnsVisiblity: function (breakpoint) {
 		var dt = this.s.dt;
 		var columns = this.s.columns;
-		var i, ien;
+		var i, iLen;
 
 		// Create an array that defines the column ordering based first on the
 		// column's priority, and secondly the column index. This allows the
@@ -416,7 +416,7 @@ $.extend(Responsive.prototype, {
 		// Auto column control - first pass: how much width is taken by the
 		// ones that must be included from the non-auto columns
 		var requiredWidth = 0;
-		for (i = 0, ien = display.length; i < ien; i++) {
+		for (i = 0, iLen = display.length; i < iLen; i++) {
 			if (display[i] === true) {
 				requiredWidth += columns[i].minWidth;
 			}
@@ -437,7 +437,7 @@ $.extend(Responsive.prototype, {
 		// thrashing or overflow. Also we need to account for the control column
 		// width first so we know how much width is available for the other
 		// columns, since the control column might not be the first one shown
-		for (i = 0, ien = display.length; i < ien; i++) {
+		for (i = 0, iLen = display.length; i < iLen; i++) {
 			if (columns[i].control) {
 				usedWidth -= columns[i].minWidth;
 			}
@@ -446,7 +446,7 @@ $.extend(Responsive.prototype, {
 		// Allow columns to be shown (counting by priority and then right to
 		// left) until we run out of room
 		var empty = false;
-		for (i = 0, ien = order.length; i < ien; i++) {
+		for (i = 0, iLen = order.length; i < iLen; i++) {
 			var colIdx = order[i].columnIdx;
 
 			if (
@@ -476,7 +476,7 @@ $.extend(Responsive.prototype, {
 		// first , before the action in the second can be taken
 		var showControl = false;
 
-		for (i = 0, ien = columns.length; i < ien; i++) {
+		for (i = 0, iLen = columns.length; i < iLen; i++) {
 			if (
 				!columns[i].control &&
 				!columns[i].never &&
@@ -487,7 +487,7 @@ $.extend(Responsive.prototype, {
 			}
 		}
 
-		for (i = 0, ien = columns.length; i < ien; i++) {
+		for (i = 0, iLen = columns.length; i < iLen; i++) {
 			if (columns[i].control) {
 				display[i] = showControl;
 			}
@@ -558,7 +558,7 @@ $.extend(Responsive.prototype, {
 		};
 
 		var column = function (colIdx, name, operator, matched) {
-			var size, i, ien;
+			var size, i, iLen;
 
 			if (!operator) {
 				columns[colIdx].includeIn.push(name);
@@ -567,7 +567,7 @@ $.extend(Responsive.prototype, {
 				// Add this breakpoint and all smaller
 				size = that._find(name).width;
 
-				for (i = 0, ien = breakpoints.length; i < ien; i++) {
+				for (i = 0, iLen = breakpoints.length; i < iLen; i++) {
 					if (breakpoints[i].width <= size) {
 						add(colIdx, breakpoints[i].name);
 					}
@@ -577,7 +577,7 @@ $.extend(Responsive.prototype, {
 				// Add this breakpoint and all larger
 				size = that._find(name).width;
 
-				for (i = 0, ien = breakpoints.length; i < ien; i++) {
+				for (i = 0, iLen = breakpoints.length; i < iLen; i++) {
 					if (breakpoints[i].width >= size) {
 						add(colIdx, breakpoints[i].name);
 					}
@@ -585,7 +585,7 @@ $.extend(Responsive.prototype, {
 			}
 			else if (operator === 'not-') {
 				// Add all but this breakpoint
-				for (i = 0, ien = breakpoints.length; i < ien; i++) {
+				for (i = 0, iLen = breakpoints.length; i < iLen; i++) {
 					if (breakpoints[i].name.indexOf(matched) === -1) {
 						add(colIdx, breakpoints[i].name);
 					}
@@ -877,7 +877,7 @@ $.extend(Responsive.prototype, {
 	_find: function (name) {
 		var breakpoints = this.c.breakpoints;
 
-		for (var i = 0, ien = breakpoints.length; i < ien; i++) {
+		for (var i = 0, iLen = breakpoints.length; i < iLen; i++) {
 			if (breakpoints[i].name === name) {
 				return breakpoints[i];
 			}
@@ -914,7 +914,7 @@ $.extend(Responsive.prototype, {
 		var breakpoints = this.c.breakpoints;
 		var breakpoint = breakpoints[0].name;
 		var columns = this.s.columns;
-		var i, ien;
+		var i, iLen;
 		var oldVis = this.s.current.slice();
 
 		// Determine what breakpoint we are currently at
@@ -934,7 +934,7 @@ $.extend(Responsive.prototype, {
 		// any columns that are not visible but can be shown
 		var collapsedClass = false;
 
-		for (i = 0, ien = columns.length; i < ien; i++) {
+		for (i = 0, iLen = columns.length; i < iLen; i++) {
 			if (
 				columnsVis[i] === false &&
 				!columns[i].never &&
