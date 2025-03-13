@@ -28,7 +28,7 @@ new DataTable('#example', {
 
 <info><![CDATA[
 
-DataTables' [default stylesheet](http://datatables.net/manual/styling/classes) has a number number of features available that can be enabled by including a class name on the DataTable. One of those options is `compact` which displays the DataTable with less whitespace padding that might other be used to increase the information density of the table. Responsive's own style has support for this `compact` styling as showing in this example.
+DataTables' [default stylesheet](http://datatables.net/manual/styling/classes) has a number of features available that can be enabled by including a class name on the DataTable. One of those options is `compact` which displays the DataTable with less whitespace padding that might other be used to increase the information density of the table. Responsive's own style has support for this `compact` styling as showing in this example.
 
 
 ]]></info>

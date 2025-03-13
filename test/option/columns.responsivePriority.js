@@ -69,7 +69,7 @@ describe('Responsive - columns.responsivePriority', function() {
 		});
 
 		dt.html('basic');
-		it('Initalisation options take priority over HTML5', function() {
+		it('Initialisation options take priority over HTML5', function() {
 			$('table').wrapAll('<div style="width:250px">');
 			$('thead th:eq(0)').attr('data-priority', 20000);
 

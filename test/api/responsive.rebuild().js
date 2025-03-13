@@ -30,7 +30,7 @@ describe('Responsive - responsive.rebuild()', function () {
 	// TK can't separate the rebuild and recalc - values are read on the
 	// fly in HTML5 and the init options aren't changable, so need to
 	// rebuild to see the effect they have
-	describe('Functional testss', function () {
+	describe('Functional tests', function () {
 		dt.html('basic');
 		it('Check original values', function () {
 			$('table').wrapAll('<div style="width:250px">');
