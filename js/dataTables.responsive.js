@@ -847,6 +847,8 @@ $.extend(Responsive.prototype, {
 	_detailsObj: function (rowIdx) {
 		var that = this;
 		var dt = this.s.dt;
+		var columnApis = [];
+		let settings = dt.settings()[0];
 
 		return $.map(this.s.columns, function (col, i) {
 			// Never and control columns should not be passed to the renderer
@@ -854,15 +856,19 @@ $.extend(Responsive.prototype, {
 				return;
 			}
 
-			var dtCol = dt.settings()[0].aoColumns[i];
+			var dtCol = settings.aoColumns[i];
+
+			if (!columnApis[i]) {
+				columnApis[i] = dt.column(i);
+			}
 
 			return {
 				className: dtCol.sClass,
 				columnIndex: i,
-				data: dt.cell(rowIdx, i).render(that.c.orthogonal),
-				hidden: dt.column(i).visible() && !that.s.current[i],
+				data: settings.fastData(rowIdx, i, that.c.orthogonal),
+				hidden: columnApis[i].visible() && !that.s.current[i],
 				rowIndex: rowIdx,
-				title: dt.column(i).title()
+				title: columnApis[i].title()
 			};
 		});
 	},
