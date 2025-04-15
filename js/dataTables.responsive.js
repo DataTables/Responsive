@@ -323,7 +323,7 @@ $.extend(Responsive.prototype, {
 		// https://jsperf.com/childnodes-array-slice-vs-loop
 		var nodes = [];
 		var children = dt.cell(row, col).node().childNodes;
-		for (var i = 0, ien = children.length; i < ien; i++) {
+		for (var i = 0, iLen = children.length; i < iLen; i++) {
 			nodes.push(children[i]);
 		}
 
@@ -353,7 +353,7 @@ $.extend(Responsive.prototype, {
 			var parentChildren = parent.childNodes;
 			var a = [];
 
-			for (var i = 0, ien = parentChildren.length; i < ien; i++) {
+			for (var i = 0, iLen = parentChildren.length; i < iLen; i++) {
 				a.push(parentChildren[i]);
 			}
 
@@ -377,10 +377,10 @@ $.extend(Responsive.prototype, {
 	 *   column.
 	 *  @private
 	 */
-	_columnsVisiblity: function (breakpoint) {
+	_columnsVisibility: function (breakpoint) {
 		var dt = this.s.dt;
 		var columns = this.s.columns;
-		var i, ien;
+		var i, iLen;
 
 		// Create an array that defines the column ordering based first on the
 		// column's priority, and secondly the column index. This allows the
@@ -416,7 +416,7 @@ $.extend(Responsive.prototype, {
 		// Auto column control - first pass: how much width is taken by the
 		// ones that must be included from the non-auto columns
 		var requiredWidth = 0;
-		for (i = 0, ien = display.length; i < ien; i++) {
+		for (i = 0, iLen = display.length; i < iLen; i++) {
 			if (display[i] === true) {
 				requiredWidth += columns[i].minWidth;
 			}
@@ -437,7 +437,7 @@ $.extend(Responsive.prototype, {
 		// thrashing or overflow. Also we need to account for the control column
 		// width first so we know how much width is available for the other
 		// columns, since the control column might not be the first one shown
-		for (i = 0, ien = display.length; i < ien; i++) {
+		for (i = 0, iLen = display.length; i < iLen; i++) {
 			if (columns[i].control) {
 				usedWidth -= columns[i].minWidth;
 			}
@@ -446,7 +446,7 @@ $.extend(Responsive.prototype, {
 		// Allow columns to be shown (counting by priority and then right to
 		// left) until we run out of room
 		var empty = false;
-		for (i = 0, ien = order.length; i < ien; i++) {
+		for (i = 0, iLen = order.length; i < iLen; i++) {
 			var colIdx = order[i].columnIdx;
 
 			if (
@@ -476,7 +476,7 @@ $.extend(Responsive.prototype, {
 		// first , before the action in the second can be taken
 		var showControl = false;
 
-		for (i = 0, ien = columns.length; i < ien; i++) {
+		for (i = 0, iLen = columns.length; i < iLen; i++) {
 			if (
 				!columns[i].control &&
 				!columns[i].never &&
@@ -487,7 +487,7 @@ $.extend(Responsive.prototype, {
 			}
 		}
 
-		for (i = 0, ien = columns.length; i < ien; i++) {
+		for (i = 0, iLen = columns.length; i < iLen; i++) {
 			if (columns[i].control) {
 				display[i] = showControl;
 			}
@@ -558,7 +558,7 @@ $.extend(Responsive.prototype, {
 		};
 
 		var column = function (colIdx, name, operator, matched) {
-			var size, i, ien;
+			var size, i, iLen;
 
 			if (!operator) {
 				columns[colIdx].includeIn.push(name);
@@ -567,7 +567,7 @@ $.extend(Responsive.prototype, {
 				// Add this breakpoint and all smaller
 				size = that._find(name).width;
 
-				for (i = 0, ien = breakpoints.length; i < ien; i++) {
+				for (i = 0, iLen = breakpoints.length; i < iLen; i++) {
 					if (breakpoints[i].width <= size) {
 						add(colIdx, breakpoints[i].name);
 					}
@@ -577,7 +577,7 @@ $.extend(Responsive.prototype, {
 				// Add this breakpoint and all larger
 				size = that._find(name).width;
 
-				for (i = 0, ien = breakpoints.length; i < ien; i++) {
+				for (i = 0, iLen = breakpoints.length; i < iLen; i++) {
 					if (breakpoints[i].width >= size) {
 						add(colIdx, breakpoints[i].name);
 					}
@@ -585,7 +585,7 @@ $.extend(Responsive.prototype, {
 			}
 			else if (operator === 'not-') {
 				// Add all but this breakpoint
-				for (i = 0, ien = breakpoints.length; i < ien; i++) {
+				for (i = 0, iLen = breakpoints.length; i < iLen; i++) {
 					if (breakpoints[i].name.indexOf(matched) === -1) {
 						add(colIdx, breakpoints[i].name);
 					}
@@ -847,6 +847,8 @@ $.extend(Responsive.prototype, {
 	_detailsObj: function (rowIdx) {
 		var that = this;
 		var dt = this.s.dt;
+		var columnApis = [];
+		let settings = dt.settings()[0];
 
 		return $.map(this.s.columns, function (col, i) {
 			// Never and control columns should not be passed to the renderer
@@ -854,15 +856,19 @@ $.extend(Responsive.prototype, {
 				return;
 			}
 
-			var dtCol = dt.settings()[0].aoColumns[i];
+			var dtCol = settings.aoColumns[i];
+
+			if (!columnApis[i]) {
+				columnApis[i] = dt.column(i);
+			}
 
 			return {
 				className: dtCol.sClass,
 				columnIndex: i,
-				data: dt.cell(rowIdx, i).render(that.c.orthogonal),
-				hidden: dt.column(i).visible() && !that.s.current[i],
+				data: settings.fastData(rowIdx, i, that.c.orthogonal),
+				hidden: columnApis[i].visible() && !that.s.current[i],
 				rowIndex: rowIdx,
-				title: dt.column(i).title()
+				title: columnApis[i].title()
 			};
 		});
 	},
@@ -877,7 +883,7 @@ $.extend(Responsive.prototype, {
 	_find: function (name) {
 		var breakpoints = this.c.breakpoints;
 
-		for (var i = 0, ien = breakpoints.length; i < ien; i++) {
+		for (var i = 0, iLen = breakpoints.length; i < iLen; i++) {
 			if (breakpoints[i].name === name) {
 				return breakpoints[i];
 			}
@@ -914,7 +920,7 @@ $.extend(Responsive.prototype, {
 		var breakpoints = this.c.breakpoints;
 		var breakpoint = breakpoints[0].name;
 		var columns = this.s.columns;
-		var i, ien;
+		var i, iLen;
 		var oldVis = this.s.current.slice();
 
 		// Determine what breakpoint we are currently at
@@ -926,7 +932,7 @@ $.extend(Responsive.prototype, {
 		}
 
 		// Show the columns for that break point
-		var columnsVis = this._columnsVisiblity(breakpoint);
+		var columnsVis = this._columnsVisibility(breakpoint);
 		this.s.current = columnsVis;
 
 		// Set the class before the column visibility is changed so event
@@ -934,7 +940,7 @@ $.extend(Responsive.prototype, {
 		// any columns that are not visible but can be shown
 		var collapsedClass = false;
 
-		for (i = 0, ien = columns.length; i < ien; i++) {
+		for (i = 0, iLen = columns.length; i < iLen; i++) {
 			if (
 				columnsVis[i] === false &&
 				!columns[i].never &&
@@ -1154,7 +1160,7 @@ $.extend(Responsive.prototype, {
 
 		// It is unsafe to insert elements with the same name into the DOM
 		// multiple times. For example, cloning and inserting a checked radio
-		// clears the chcecked state of the original radio.
+		// clears the checked state of the original radio.
 		$(clonedTable).find('[name]').removeAttr('name');
 
 		// A position absolute table would take the table out of the flow of
@@ -1234,7 +1240,7 @@ $.extend(Responsive.prototype, {
 	},
 
 	/**
-	 * Set the a column's visibility, taking into account multiple rows
+	 * Set a column's visibility, taking into account multiple rows
 	 * in a header / footer and colspan attributes
 	 * @param {*} col
 	 * @param {*} showHide
@@ -1722,7 +1728,7 @@ Responsive.defaults = {
  */
 var Api = $.fn.dataTable.Api;
 
-// Doesn't do anything - work around for a bug in DT... Not documented
+// Doesn't do anything - workaround for a bug in DT... Not documented
 Api.register('responsive()', function () {
 	return this;
 });

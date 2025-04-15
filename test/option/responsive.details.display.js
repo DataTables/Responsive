@@ -6,7 +6,7 @@ describe('Responsive - responsive.details.display', function() {
 
 	let table;
 
-	describe('Functional tests - hildRowImmediate (default)', function() {
+	describe('Functional tests - childRowImmediate (default)', function() {
 		dt.html('basic_wide');
 		it('Check nothing open originally', function() {
 			table = $('#example').DataTable({

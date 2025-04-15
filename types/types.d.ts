@@ -166,7 +166,7 @@ interface ConfigResponsiveDetails {
 	/**
 	 * Define how the hidden information should be displayed to the end user.
 	 * 
-	 * @param row DataTables API instance for the table in question which is pre-populated with the row that is being acted upon - i.e. the result from row().
+	 * @param row DataTables API instance for the table in question which is prepopulated with the row that is being acted upon - i.e. the result from row().
 	 * @param update This parameter is used to inform the function what has triggered the function call:
 	 * @param render The data to be shown - this is given as a function so it will be executed only when required (i.e. there is no point in gather data to display if the display function is simply going to hide it). The string returned by this function is that given by the responsive.details.renderer function. It accepts no input parameters.
 	 * @returns boolean true if the display function has shown the hidden data, false
