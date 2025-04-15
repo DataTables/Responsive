@@ -181,7 +181,7 @@ interface ConfigResponsiveDetails {
 	 * @param columns Since 2.0.0: An array of objects containing information about each column in the DataTable. The array length is exactly equal to the number of columns in the DataTable, with each column represented by a DataTable in index order.
 	 * @returns boolean | string  `false` - Do not display a child row. Or a string - The information to be shown in the details display, including any required HTML.
 	 */
-	renderer?(api: Api, rowIdx: number, columns: ResponsiveColumn): Node | false;
+	renderer?(api: Api, rowIdx: number, columns: ResponsiveColumn[]): Node | false;
 	
 	/**
 	 * As a number it is a column index to the show / hide control should be attached. This can be >=0 to count columns from the left, or <0 to count from the right.
