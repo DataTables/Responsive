@@ -255,19 +255,19 @@ $.extend(Responsive.prototype, {
 				that._resizeAuto();
 				that._resize();
 
-				// Attach listeners after first pass
-				dt.on('column-reorder.dtr', function (e, settings, details) {
-					that._classLogic();
-					that._resizeAuto();
-					that._resize(true);
-				});
-
 				// Change in column sizes means we need to calc
 				dt.on('column-sizing.dtr', function () {
 					that._resizeAuto();
 					that._resize();
 				});
 			});
+
+		// Attach listeners after first pass
+		dt.on('column-reorder.dtr', function (e, settings, details) {
+			that._classLogic();
+			that._resizeAuto();
+			that._resize(true);
+		});
 	},
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
