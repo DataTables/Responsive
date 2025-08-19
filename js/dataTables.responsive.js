@@ -249,6 +249,13 @@ $.extend(Responsive.prototype, {
 		// First pass when the table is ready
 		dt
 			.on('draw.dtr', function () {
+				// For server-side tables, each draw needs the child node
+				// cache to be cleared since it is no longer relevant. We can
+				// create a new object for speed in this case - no mutation.
+				if (dt.page.info().serverSide) {
+					that.s.childNodeStore = {};
+				}
+
 				that._controlClass();
 			})
 			.ready(function () {
