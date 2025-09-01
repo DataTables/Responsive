@@ -780,7 +780,13 @@ $.extend(Responsive.prototype, {
 		}
 
 		$(dt.table().body()).on('keyup.dtr', 'td, th', function (e) {
-			if (e.keyCode === 13 && $(this).data('dtr-keyboard')) {
+			let activeNodeName = document.activeElement.nodeName.toLowerCase();
+
+			if (
+				e.keyCode === 13 &&
+				$(this).data('dtr-keyboard') &&
+				(activeNodeName === 'td' || activeNodeName === 'th')
+			) {
 				$(this).click();
 			}
 		});
