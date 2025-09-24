@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="html-wide" table-class="display nowrap" order="2">
 
-<css lib="datatables responsive">
+<css lib="datatables responsive keytable">
 	div.container { max-width: 1200px }
 </css>
-<js lib="jquery datatables responsive">
+<js lib="jquery datatables responsive keytable">
 <![CDATA[
 
 $('#example').DataTable({
@@ -17,9 +17,13 @@ $('#example').DataTable({
 <js-vanilla>
 <![CDATA[
 
-new DataTable('#example', {
-	responsive: true
+
+var table = $('#example').DataTable({
+  responsive: true,
+  keys: true,
 });
+
+
 
 ]]>
 </js-vanilla>

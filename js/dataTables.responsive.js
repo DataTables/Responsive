@@ -366,7 +366,6 @@ $.extend(Responsive.prototype, {
 
 			for (var j = 0, jen = a.length; j < jen; j++) {
 				node.appendChild(a[j]);
-				console.log('restore', name, node, a[j]);
 			}
 		}
 
