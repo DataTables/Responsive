@@ -795,11 +795,17 @@ $.extend(Responsive.prototype, {
 		var selector = typeof target === 'string' ? target : 'td, th';
 
 		if (target !== undefined || target !== null) {
+			var dtSelectSelector = (dt.select && dt.select.selector());
 			// Click handler to show / hide the details rows when they are available
 			$(dt.table().body()).on(
 				'click.dtr mousedown.dtr mouseup.dtr',
 				selector,
 				function (e) {
+          // If the Select extension is in use and the user clicked something
+          // matching Select's selector, ignore the event
+          if (dtSelectSelector && $(e.target).is(dtSelectSelector))
+						return;
+
 					// If the table is not collapsed (i.e. there is no hidden columns)
 					// then take no action
 					if (!$(dt.table().node()).hasClass('collapsed')) {
