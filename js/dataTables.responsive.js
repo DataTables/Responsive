@@ -1242,6 +1242,10 @@ $.extend(Responsive.prototype, {
 			.css('display', display)
 			.toggleClass('dtr-hidden', !showHide);
 
+		// We need to set a variable that DT can use when selecting visible
+		// columns without needing to query the DOM
+		dt.settings()[0].aoColumns[col].responsiveVisible = showHide;
+
 		// If the are child nodes stored, we might need to reinsert them
 		if (!$.isEmptyObject(this.s.childNodeStore)) {
 			dt.cells(null, col)
