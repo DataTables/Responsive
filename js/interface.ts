@@ -6,7 +6,8 @@
 
 /// <reference types="jquery" />
 
-import DataTables, {Api, ApiRow} from 'datatables.net';
+import DataTables, { Api } from 'datatables.net';
+import Responsive from './Responsive';
 
 export default DataTables;
 
@@ -19,7 +20,14 @@ declare module 'datatables.net' {
 		/**
 		 * Responsive extension options
 		 */
-		responsive?: boolean | ConfigResponsive;
+		responsive?: boolean | Options;
+	}
+
+	interface Defaults {
+		/**
+		 * Responsive extension defaults
+		 */
+		responsive?: Options;
 	}
 
 	interface ConfigColumns {
@@ -27,6 +35,10 @@ declare module 'datatables.net' {
 		 * Set column's visibility priority
 		 */
 		responsivePriority?: number;
+	}
+
+	interface Context {
+		responsive: Responsive;
 	}
 
 	interface Api<T> {
@@ -56,54 +68,7 @@ declare module 'datatables.net' {
 		/**
 		 * Responsive class
 		 */
-		Responsive: {
-			/**
-			 * Create a new Responsive instance for the target DataTable
-			 */
-			new (dt: Api<any>, settings: boolean | ConfigResponsive): DataTablesStatic['Responsive'];
-
-			/**
-			 * Default configuration values
-			 */
-			defaults: ConfigResponsive;
-
-			/**
-			 * List of default breakpoints
-			 */
-			breakpoints: ResponsiveBreakpoint[];
-
-			display: {
-				/** Display details as a child row, when requested (click) */
-				childRow: ResponsiveDisplay;
-
-				/** Display details as a child row, immediately (no-click) */
-				childRowImmediate: ResponsiveDisplay;
-
-				/** Display details as a modal */
-				modal: (options?: ResponsiveModalOptions) => ResponsiveDisplay;
-			};
-
-			/**
-			 * Namespace to hold Responsive renderers
-			 */
-			renderer: {
-				listHiddenNodes(): ResponsiveRenderer,
-				listHidden(): ResponsiveRenderer,
-				tableAll(options?: {tableClass?: string}): ResponsiveRenderer,
-			};
-
-			/**
-			 * Responsive version
-			 */
-			version: string;
-
-			/**
-			 * Set the Bootstrap library to use
-			 *
-			 * @param bs Bootstrap - from `import * as bootstrap from 'bootstrap';`
-			 */
-			bootstrap: (bs: any) => void;
-		}
+		Responsive: typeof Responsive
 	}
 }
 
@@ -111,22 +76,34 @@ declare module 'datatables.net' {
  * Options
  */
 
-interface ConfigResponsive {
+export interface Defaults {
 	/**
 	 * Set the breakpoints for a responsive instance
 	 */
-	breakpoints?: Array<Object>;
+	breakpoints: Array<ResponsiveBreakpoint>;
 
 	/**
-	 * Enable and configure the child rows shown by Responsive for collapsed tables.
+	 * Enable / disable auto hiding calculations. It can help to increase
+	 * performance slightly if you disable this option, but all columns would
+	 * need to have breakpoint classes assigned to them
 	 */
-	details?: boolean | ConfigResponsiveDetails;
+	auto: true,
 
 	/**
-	 * The data type to request when obtaining data from the DataTable for a specific cell. See the columns.render and cell().render() documentation for full details.
+	 * Enable and configure the child rows shown by Responsive for collapsed
+	 * tables.
 	 */
-	orthogonal?: string;
+	details: boolean | ConfigResponsiveDetails;
+
+	/**
+	 * The data type to request when obtaining data from the DataTable for a
+	 * specific cell. See the columns.render and cell().render() documentation
+	 * for full details.
+	 */
+	orthogonal: string;
 }
+
+export interface Options extends Partial<Defaults> {}
 
 
 interface ApiResponsiveMethods<T> extends Api<T> {
@@ -162,7 +139,7 @@ interface ApiResponsiveMethods<T> extends Api<T> {
 }
 
 
-interface ConfigResponsiveDetails {
+export interface ConfigResponsiveDetails {
 	/**
 	 * Define how the hidden information should be displayed to the end user.
 	 * 
@@ -193,7 +170,7 @@ interface ConfigResponsiveDetails {
 	/**
 	 * The child row display type to use. This can be one of: `inline`, `column` or `none`
 	 */
-	type?: string;
+	type: boolean | string;
 }
 
 
@@ -235,11 +212,30 @@ interface ResponsiveModalOptions {
 	header?(row: any): string;
 }
 
-interface ResponsiveColumn {
+export interface ResponsiveColumn {
 	className: string;
 	columnIndex: number;
 	data: any;
 	hidden: boolean;
 	rowIndex: number;
 	title: string;
+}
+
+export interface Column {
+	className: string;
+	includeIn: string[];
+	auto: boolean;
+	control: boolean;
+	minWidth: number;
+	never: boolean;
+	priority: number;
+}
+
+export interface Settings {
+	childNodeStore: Record<string, Node[]>;
+	columns: Column[];
+	current: boolean[];
+	details: ConfigResponsiveDetails;
+	dt: Api;
+	timer: ReturnType<typeof setTimeout> | null;
 }
