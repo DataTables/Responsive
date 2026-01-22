@@ -1,10 +1,19 @@
-import DataTable, { Api, ApiColumnMethods, ApiRowMethods, Context, Dom } from 'datatables.net';
+import DataTable, {
+	Api,
+	ApiColumnMethods,
+	ApiRowMethods,
+	Context,
+	Dom,
+	HeaderStructure
+} from 'datatables.net';
 import * as display from './display';
 import {
 	Column,
 	ConfigResponsiveDetails,
 	Defaults,
 	Options,
+	ResponsiveRenderer,
+	ResponsiveRowDetails,
 	Settings
 } from './interface';
 import * as renderers from './render';
@@ -43,7 +52,8 @@ export default class Responsive {
 
 	public static display = display;
 
-	public static renderer = renderers;
+	public static renderer: Record<string, () => ResponsiveRenderer> =
+		renderers;
 
 	public static version = '3.0.7';
 
@@ -262,6 +272,36 @@ export default class Responsive {
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Public methods
+	 */
+
+	/**
+	 * Get and store nodes from a cell - use for node moving renderers
+	 *
+	 * @param dt DT instance
+	 * @param row Row index
+	 * @param col Column index
+	 */
+	public childNodes(dt: Api, row: number, col: number) {
+		var name = row + '-' + col;
+
+		if (this.s.childNodeStore[name]) {
+			return this.s.childNodeStore[name];
+		}
+
+		// https://jsperf.com/childnodes-array-slice-vs-loop
+		var nodes = [];
+		var children = dt.cell(row, col).node().childNodes;
+		for (var i = 0, iLen = children.length; i < iLen; i++) {
+			nodes.push(children[i]);
+		}
+
+		this.s.childNodeStore[name] = nodes;
+
+		return nodes;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Private methods
 	 */
 
@@ -296,32 +336,6 @@ export default class Responsive {
 			// If wasn't found, insert at the end
 			colGroup.append(colEls[idx]);
 		}
-	}
-
-	/**
-	 * Get and store nodes from a cell - use for node moving renderers
-	 *
-	 * @param dt DT instance
-	 * @param row Row index
-	 * @param col Column index
-	 */
-	private _childNodes(dt: Api, row: number, col: number) {
-		var name = row + '-' + col;
-
-		if (this.s.childNodeStore[name]) {
-			return this.s.childNodeStore[name];
-		}
-
-		// https://jsperf.com/childnodes-array-slice-vs-loop
-		var nodes = [];
-		var children = dt.cell(row, col).node().childNodes;
-		for (var i = 0, iLen = children.length; i < iLen; i++) {
-			nodes.push(children[i]);
-		}
-
-		this.s.childNodeStore[name] = nodes;
-
-		return nodes;
 	}
 
 	/**
@@ -737,16 +751,18 @@ export default class Responsive {
 					? Responsive.renderer[details.renderer]()
 					: details.renderer;
 
-			var res = details.display(
+			var res = details.display!(
 				row,
 				update,
 				function () {
-					return renderer.call(
-						that,
-						dt,
-						row[0][0],
-						that._detailsObj(row[0])
-					);
+					return renderer
+						? renderer.call(
+								that,
+								dt,
+								row[0][0],
+								that._detailsObj(row[0])
+						  )
+						: false;
 				},
 				function () {
 					event(false);
@@ -858,33 +874,33 @@ export default class Responsive {
 	 * Get the details to pass to a renderer for a row
 	 * @param rowIdx Row index
 	 */
-	private _detailsObj(rowIdx: number) {
+	private _detailsObj(rowIdx: number): ResponsiveRowDetails[] {
 		var that = this;
 		var dt = this.s.dt;
 		var columnApis: ApiColumnMethods[] = [];
 		let settings = dt.settings()[0];
 
-		return this.s.columns.map(function (col, i) {
-			// Never and control columns should not be passed to the renderer
-			if (col.never || col.control) {
-				return;
-			}
+		return this.s.columns
+			.filter(function (col) {
+				// Never and control columns should not be passed to the renderer
+				return col.never || col.control ? false : true;
+			})
+			.map(function (col, i) {
+				var dtCol = settings.columns[i];
 
-			var dtCol = settings.columns[i];
+				if (!columnApis[i]) {
+					columnApis[i] = dt.column(i);
+				}
 
-			if (!columnApis[i]) {
-				columnApis[i] = dt.column(i);
-			}
-
-			return {
-				className: dtCol.className,
-				columnIndex: i,
-				data: settings.fastData(rowIdx, i, that.c.orthogonal!),
-				hidden: columnApis[i].visible() && !that.s.current[i],
-				rowIndex: rowIdx,
-				title: columnApis[i].title()
-			};
-		});
+				return {
+					className: dtCol.className,
+					columnIndex: i,
+					data: settings.fastData(rowIdx, i, that.c.orthogonal!),
+					hidden: columnApis[i].visible() && !that.s.current[i],
+					rowIndex: rowIdx,
+					title: columnApis[i].title()
+				};
+			});
 	}
 
 	/**
@@ -1017,7 +1033,10 @@ export default class Responsive {
 
 			// If no records, update the "No records" display element
 			if (dt.page.info().recordsDisplay === 0) {
-				dom.s(dt.table().body()).find('td').eq(0).attr('colspan', visible);
+				dom.s(dt.table().body())
+					.find('td')
+					.eq(0)
+					.attr('colspan', visible);
 			}
 		}
 
@@ -1048,29 +1067,23 @@ export default class Responsive {
 
 		// Are there any columns that actually need auto-sizing, or do they all
 		// have classes defined
-		if (
-			$.inArray(
-				true,
-				$.map(columns, function (c) {
-					return c.auto;
-				})
-			) === -1
-		) {
+		if (!columns.map(c => c.auto).includes(true)) {
 			return;
 		}
 
 		// Clone the table with the current data in it
-		var clonedTable = dt.table().node().cloneNode(false);
-		var clonedHeader = $(dt.table().header().cloneNode(false)).appendTo(
-			clonedTable
-		);
-		var clonedFooter = $(dt.table().footer().cloneNode(false)).appendTo(
-			clonedTable
-		);
-		var clonedBody = $(dt.table().body())
-			.clone(false, false)
+		var clonedTable = dt.table().node().cloneNode(false) as HTMLElement;
+		var clonedHeader = dom
+			.s(dt.table().header().cloneNode(false))
+			.appendTo(clonedTable);
+		var clonedFooter = dom
+			.s(dt.table().footer().cloneNode(false))
+			.appendTo(clonedTable);
+		var clonedBody = dom
+			.s(dt.table().body())
+			.clone(true)
 			.empty()
-			.appendTo(clonedTable); // use jQuery because of IE8
+			.appendTo(clonedTable);
 
 		clonedTable.style.width = 'auto';
 
@@ -1083,25 +1096,29 @@ export default class Responsive {
 						return el ? true : false;
 					})
 					.map(function (el) {
-						return $(el.cell)
-							.clone(false)
+						return dom
+							.s(el.cell)
+							.clone(true)
 							.css('display', 'table-cell')
 							.css('width', 'auto')
-							.css('min-width', 0);
+							.css('min-width', '0')
+							.get(0);
 					});
 
-				$('<tr/>').append(cells).appendTo(clonedHeader);
+				dom.c('tr').append(cells).appendTo(clonedHeader);
 			});
 
 		// Always need an empty row that we can read widths from
-		var emptyRow = $('<tr/>').appendTo(clonedBody);
+		var emptyRow = dom.c('tr').appendTo(clonedBody);
 
 		for (var i = 0; i < visibleColumns.count(); i++) {
-			emptyRow.append('<td/>');
+			emptyRow.append(dom.c('td'));
 		}
 
 		// Body rows
-		if (this.s.details.renderer._responsiveMovesNodes) {
+		let renderer = this.s.details.renderer;
+
+		if (typeof renderer === 'function' && renderer._responsiveMovesNodes) {
 			// Slow but it allows for moving elements around the document
 			dt.rows({ page: 'current' }).every(function (rowIdx) {
 				var node = this.node();
@@ -1122,12 +1139,12 @@ export default class Responsive {
 					var store = that.s.childNodeStore[rowIdx + '-' + colIdx];
 
 					if (store) {
-						$(this.node().cloneNode(false))
-							.append($(store).clone())
+						dom.s(this.node().cloneNode(false))
+							.append(dom.s(store).clone(true))
 							.appendTo(tr);
 					}
 					else {
-						$(this.node()).clone(false).appendTo(tr);
+						dom.s(this.node()).clone(true).appendTo(tr);
 					}
 				});
 
@@ -1136,8 +1153,9 @@ export default class Responsive {
 		}
 		else {
 			// This is much faster, but it doesn't account for moving nodes around
-			$(clonedBody)
-				.append($(dt.rows({ page: 'current' }).nodes()).clone(false))
+			clonedBody
+				.append(dt.rows({ page: 'current' }).nodes().toDom())
+				.clone(true)
 				.find('th, td')
 				.css('display', '');
 		}
@@ -1155,36 +1173,39 @@ export default class Responsive {
 						return el ? true : false;
 					})
 					.map(function (el) {
-						return $(el.cell)
+						return dom
+							.s(el.cell)
 							.clone(false)
 							.css('display', 'table-cell')
 							.css('width', 'auto')
-							.css('min-width', 0);
+							.css('min-width', '0')
+							.get(0);
 					});
 
-				$('<tr/>').append(cells).appendTo(clonedFooter);
+				dom.c('tr').append(cells).appendTo(clonedFooter);
 			});
 
 		// In the inline case extra padding is applied to the first column to
 		// give space for the show / hide icon. We need to use this in the
 		// calculation
 		if (this.s.details.type === 'inline') {
-			$(clonedTable).addClass('dtr-inline collapsed');
+			dom.s(clonedTable).classAdd('dtr-inline collapsed');
 		}
 
 		// It is unsafe to insert elements with the same name into the DOM
 		// multiple times. For example, cloning and inserting a checked radio
 		// clears the checked state of the original radio.
-		$(clonedTable).find('[name]').removeAttr('name');
+		dom.s(clonedTable).find('[name]').removeAttr('name');
 
 		// A position absolute table would take the table out of the flow of
 		// our container element, bypassing the height and width (Scroller)
-		$(clonedTable).css('position', 'relative');
+		dom.s(clonedTable).css('position', 'relative');
 
-		var inserted = $('<div/>')
+		var inserted = dom
+			.c('div')
 			.css({
-				width: 1,
-				height: 1,
+				width: '1px',
+				height: '1px',
 				overflow: 'hidden',
 				clear: 'both'
 			})
@@ -1193,9 +1214,12 @@ export default class Responsive {
 		inserted.insertBefore(dt.table().node());
 
 		// The cloned table now contains the smallest that each column can be
-		emptyRow.children().each(function (i) {
+		emptyRow.children().each(function (el, i) {
 			var idx = dt.column.index('fromVisible', i);
-			columns[idx].minWidth = this.offsetWidth || 0;
+
+			if (idx !== null) {
+				columns[idx].minWidth = el.offsetWidth || 0;
+			}
 		});
 
 		inserted.remove();
@@ -1207,12 +1231,13 @@ export default class Responsive {
 	private _responsiveOnlyHidden() {
 		var dt = this.s.dt;
 
-		return $.map(this.s.current, function (v, i) {
+		return this.s.current.map(function (v, i) {
 			// If the column is hidden by DataTables then it can't be hidden by
 			// Responsive!
 			if (dt.column(i).visible() === false) {
 				return true;
 			}
+
 			return v;
 		});
 	}
@@ -1225,10 +1250,10 @@ export default class Responsive {
 	 * supported (and all evergreen browsers of course) the control of the
 	 * display attribute works well.
 	 *
-	 * @param {integer} col      Column index
-	 * @param {boolean} showHide Show or hide (true or false)
+	 * @param col      Column index
+	 * @param showHide Show or hide (true or false)
 	 */
-	private _setColumnVis(col, showHide) {
+	private _setColumnVis(col: number, showHide: boolean) {
 		var that = this;
 		var dt = this.s.dt;
 		var display = showHide ? '' : 'none'; // empty string will remove the attr
@@ -1247,7 +1272,7 @@ export default class Responsive {
 		dt.settings()[0].columns[col].responsiveVisible = showHide;
 
 		// If the are child nodes stored, we might need to reinsert them
-		if (!$.isEmptyObject(this.s.childNodeStore)) {
+		if (Object.keys(this.s.childNodeStore).length !== 0) {
 			dt.cells(null, col)
 				.indexes()
 				.each(function (idx) {
@@ -1259,11 +1284,15 @@ export default class Responsive {
 	/**
 	 * Set a column's visibility, taking into account multiple rows
 	 * in a header / footer and colspan attributes
-	 * @param {*} col
-	 * @param {*} showHide
-	 * @param {*} structure
+	 * @param col
+	 * @param showHide
+	 * @param structure
 	 */
-	private _setHeaderVis(col, showHide, structure) {
+	private _setHeaderVis(
+		col: number,
+		showHide: boolean,
+		structure: HeaderStructure[][]
+	) {
 		var that = this;
 		var display = showHide ? '' : 'none';
 
@@ -1277,7 +1306,7 @@ export default class Responsive {
 					var span = row[col].rowspan;
 
 					for (var i = 1; i < span; i++) {
-						structure[rowIdx + i][col] = {};
+						(structure[rowIdx + i][col] as any) = {};
 					}
 				}
 			}
@@ -1285,9 +1314,9 @@ export default class Responsive {
 
 		structure.forEach(function (row) {
 			if (row[col] && row[col].cell) {
-				$(row[col].cell)
+				dom.s(row[col].cell)
 					.css('display', display)
-					.toggleClass('dtr-hidden', !showHide);
+					.classToggle('dtr-hidden', !showHide);
 			}
 			else {
 				// In a colspan - need to rewind calc the new span since
@@ -1296,7 +1325,10 @@ export default class Responsive {
 
 				while (search >= 0) {
 					if (row[search] && row[search].cell) {
-						row[search].cell.colSpan = that._colspan(row, search);
+						dom.s(row[search].cell).attr(
+							'colSpan',
+							that._colspan(row, search)
+						);
 						break;
 					}
 
@@ -1309,10 +1341,10 @@ export default class Responsive {
 	/**
 	 * How many columns should this cell span
 	 *
-	 * @param {*} row Header structure row
-	 * @param {*} idx The column index of the cell to span
+	 * @param row Header structure row
+	 * @param idx The column index of the cell to span
 	 */
-	private _colspan(row, idx: number) {
+	private _colspan(row: HeaderStructure[], idx: number) {
 		var colspan = 1;
 
 		for (var col = idx + 1; col < row.length; col++) {

@@ -1,5 +1,4 @@
-
-export function childRow (row, update, render) {
+export function childRow(row, update, render) {
 	var rowNode = $(row.node());
 
 	if (update) {
@@ -22,13 +21,13 @@ export function childRow (row, update, render) {
 		}
 		else {
 			row.child(false);
-
-			return false;
 		}
 	}
+
+	return false;
 }
 
-export function childRowImmediate (row, update, render) {
+export function childRowImmediate(row, update, render) {
 	var rowNode = $(row.node());
 
 	if (
@@ -57,7 +56,7 @@ export function childRowImmediate (row, update, render) {
 // This is a wrapper so the modal options for Bootstrap and jQuery UI can
 // have options passed into them. This specific one doesn't need to be a
 // function but it is for consistency in the `modal` name
-export function modal (options) {
+export function modal(options) {
 	return function (row, update, render, closeCallback) {
 		var modal;
 		var rendered = render();
@@ -93,11 +92,9 @@ export function modal (options) {
 						)
 				)
 				.append(
-					$('<div class="dtr-modal-background"/>').click(
-						function () {
-							close();
-						}
-					)
+					$('<div class="dtr-modal-background"/>').click(function () {
+						close();
+					})
 				)
 				.appendTo('body');
 
