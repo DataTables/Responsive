@@ -50,10 +50,17 @@ export default class Responsive {
 		orthogonal: 'display'
 	};
 
-	public static display = display;
+	public static display = {
+		childRow: display.childRow,
+		childRowImmediate: display.childRowImmediate,
+		modal: display.modal
+	};
 
-	public static renderer: Record<string, () => ResponsiveRenderer> =
-		renderers;
+	public static renderer: Record<string, () => ResponsiveRenderer> = {
+		listHidden: renderers.listHidden,
+		listHiddenNodes: renderers.listHiddenNodes,
+		tableAll: renderers.tableAll
+	}
 
 	public static version = '3.0.7';
 

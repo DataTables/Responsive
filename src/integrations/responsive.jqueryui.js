@@ -2,6 +2,7 @@
  * © SpryMedia Ltd - datatables.net/license
  */
 
+var $ = DataTable.use('jq');
 var _display = DataTable.Responsive.display;
 var _original = _display.modal;
 

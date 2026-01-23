@@ -2,12 +2,14 @@
  * © SpryMedia Ltd - datatables.net/license
  */
 
+// Foundation Reveal uses jQuery, so we might as well use it
+var jq = DataTable.use('jq');
 var _display = DataTable.Responsive.display;
 var _original = _display.modal;
 
 _display.modal = function (options) {
 	return function (row, update, render, closeCallback) {
-		if (!$.fn.foundation) {
+		if (!jq.fn.foundation) {
 			return _original(row, update, render, closeCallback);
 		}
 		else {
@@ -18,8 +20,8 @@ _display.modal = function (options) {
 			}
 
 			if (!update) {
-				var modalContainer = $('<div class="reveal-overlay" style="display:block"/>');
-				$(
+				var modalContainer = jq('<div class="reveal-overlay" style="display:block"/>');
+				jq(
 					'<div class="reveal reveal-modal" style="display:block; top: 150px;" data-reveal/>'
 				)
 					.append('<button class="close-button" aria-label="Close">&#215;</button>')
@@ -31,12 +33,12 @@ _display.modal = function (options) {
 
 				modalContainer.appendTo('body');
 
-				$('button.close-button').on('click', function () {
-					$('.reveal-overlay').remove();
+				jq('button.close-button').on('click', function () {
+					jq('.reveal-overlay').remove();
 					closeCallback();
 				});
-				$('.reveal-overlay').on('click', function () {
-					$('.reveal-overlay').remove();
+				jq('.reveal-overlay').on('click', function () {
+					jq('.reveal-overlay').remove();
 					closeCallback();
 				});
 			}

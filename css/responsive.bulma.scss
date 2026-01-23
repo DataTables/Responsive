@@ -1,5 +1,5 @@
 @use 'defaults.scss';
-@use 'shared.scss';
+@use 'shared.scss';Z
 
 table.dataTable > tbody > tr.child {
 	ul {
@@ -9,6 +9,8 @@ table.dataTable > tbody > tr.child {
 
 div.modal-content {
 	padding: 20px;
+	background: white;
+	border-radius: 5px;
 }
 
 html[data-theme="dark"] {
