@@ -23,31 +23,12 @@ DT_SRC=$(dirname $(dirname $(pwd)))
 DT_BUILT="${DT_SRC}/built/DataTables"
 . $DT_SRC/build/include.sh
 
-# Copy CSS
+# Build CSS
 rsync -r css $OUT_DIR
 css_frameworks responsive $OUT_DIR/css
 
-# Copy images
-#rsync -r images $OUT_DIR
-
-# Copy JS
-rsync -r js $OUT_DIR
-js_wrap $OUT_DIR/js/dataTables.responsive.js "jquery datatables.net"
-js_frameworks responsive $OUT_DIR/js "jquery datatables.net-FW datatables.net-responsive"
-
-# Copy Types
-if [ -d $OUT_DIR/types ]; then
-	rm -r $OUT_DIR/types		
-fi
-mkdir $OUT_DIR/types
-
-if [ -d types/ ]; then
-	cp types/* $OUT_DIR/types
-else
-	if [ -f types.d.ts ]; then
-		cp types.d.ts $OUT_DIR/types
-	fi
-fi
+# Build JS
+ts_extension Responsive responsive
 
 # Copy and build examples
 rsync -r examples $OUT_DIR

@@ -1,16 +1,16 @@
+import DataTable, { Context } from 'datatables.net';
+import Responsive from './Responsive';
 
-/*
- * API
- */
-var Api = $.fn.dataTable.Api;
+const Api = DataTable.Api;
+const dom = DataTable.dom;
+const util = DataTable.util;
 
-// Doesn't do anything - workaround for a bug in DT... Not documented
 Api.register('responsive()', function () {
-	return this;
+	return this.inst(this.context);
 });
 
 Api.register('responsive.index()', function (li) {
-	li = $(li);
+	li = dom.s(li);
 
 	return {
 		column: li.data('dtr-index'),
@@ -39,7 +39,7 @@ Api.register('responsive.hasHidden()', function () {
 	var ctx = this.context[0];
 
 	return ctx._responsive
-		? $.inArray(false, ctx._responsive._responsiveOnlyHidden()) !== -1
+		? ctx._responsive._responsiveOnlyHidden().includes(false)
 		: false;
 });
 
@@ -54,31 +54,30 @@ Api.registerPlural(
 					? settings._responsive._responsiveOnlyHidden()[column]
 					: false;
 			},
-			1
+			true
 		);
 	}
 );
 
-$.fn.dataTable.Responsive = Responsive;
-$.fn.DataTable.Responsive = Responsive;
+DataTable.Responsive = Responsive;
 
 // Attach a listener to the document which listens for DataTables initialisation
 // events so we can automatically initialise
-$(document).on('preInit.dt.dtr', function (e, settings, json) {
+dom.s(document).on('preInit.dt.dtr', function (e, settings: Context, json) {
 	if (e.namespace !== 'dt') {
 		return;
 	}
 
 	if (
-		$(settings.nTable).hasClass('responsive') ||
-		$(settings.nTable).hasClass('dt-responsive') ||
-		settings.oInit.responsive ||
+		dom.s(settings.table).classHas('responsive') ||
+		dom.s(settings.table).classHas('dt-responsive') ||
+		settings.init.responsive ||
 		DataTable.defaults.responsive
 	) {
-		var init = settings.oInit.responsive;
+		var init = settings.init.responsive;
 
 		if (init !== false) {
-			new Responsive(settings, $.isPlainObject(init) ? init : {});
+			new Responsive(settings, util.is.plainObject(init) ? init : {});
 		}
 	}
 });

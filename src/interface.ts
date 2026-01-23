@@ -1,11 +1,3 @@
-// Type definitions for DataTables Responsive
-//
-// Project: https://datatables.net/extensions/responsive/, https://datatables.net
-// Definitions by:
-//   SpryMedia
-
-/// <reference types="jquery" />
-
 import DataTables, { Api, ApiRowMethods } from 'datatables.net';
 import Responsive from './Responsive';
 
@@ -15,18 +7,22 @@ export default DataTables;
  * DataTables' types integration
  */
 declare module 'datatables.net' {
-	interface Config {
+	interface Options {
 		/**
 		 * Responsive extension options
 		 */
-		responsive?: boolean | Options;
+		responsive?: boolean | Config;
 	}
 
 	interface Defaults {
 		/**
 		 * Responsive extension defaults
 		 */
-		responsive?: Options;
+		responsive?: Config;
+	}
+
+	interface Context {
+		_responsive: Responsive;
 	}
 
 	interface ConfigColumns {
@@ -102,9 +98,9 @@ export interface Defaults {
 	orthogonal: string;
 }
 
-export interface Options extends Partial<Defaults> {}
+export interface Config extends Partial<Defaults> {}
 
-interface ApiResponsiveMethods<T> extends Api<T> {
+export interface ApiResponsiveMethods<T> extends Api<T> {
 	/**
 	 * Determine if Responsive has hidden any columns in the table
 	 *
@@ -213,7 +209,7 @@ export interface ResponsiveDisplay {
 	(
 		row: ApiRowMethods,
 		update: boolean,
-		render: ResponsiveRenderer,
+		render: () => ReturnType<ResponsiveRenderer>,
 		closeCallback: () => void
 	): boolean;
 }

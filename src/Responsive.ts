@@ -9,9 +9,9 @@ import DataTable, {
 import * as display from './display';
 import {
 	Column,
+	Config,
 	ConfigResponsiveDetails,
 	Defaults,
-	Options,
 	ResponsiveRenderer,
 	ResponsiveRowDetails,
 	Settings
@@ -60,26 +60,23 @@ export default class Responsive {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Properties
 	 */
-	private c: Options;
+	private c: Config;
 	private s: Settings;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Constructor
 	 */
 
-	constructor(settings: Context | Api, opts: Options) {
-		let details: ConfigResponsiveDetails = { type: false };
+	constructor(dt: Context | Api, opts: Config) {
+		let details: ConfigResponsiveDetails = { type: 'inline' };
 
-		// details is an object, but for simplicity the user can give it as a string
-		// or a boolean
+		// details is an object, but for simplicity the user can give it as a
+		// string or a boolean
 		if (opts && typeof opts.details === 'string') {
 			details = { type: opts.details };
 		}
 		else if (opts && opts.details === false) {
 			details = { type: false };
-		}
-		else if (opts && opts.details === true) {
-			details = { type: 'inline' };
 		}
 
 		this.c = util.object.assignDeep(
@@ -93,17 +90,21 @@ export default class Responsive {
 			childNodeStore: {},
 			columns: [],
 			current: [],
-			details: details,
-			dt: new DataTable.Api(settings),
+			details: util.is.plainObject(this.c.details)
+				? util.object.assign(details, this.c.details)
+				: details,
+			dt: new DataTable.Api(dt),
 			timer: null
 		};
 
+		let settings = this.s.dt.settings()[0];
+
 		// Check if responsive has already been initialised on this table
-		if (this.s.dt.settings()[0].responsive) {
+		if (settings._responsive) {
 			return;
 		}
 
-		settings.responsive = this;
+		settings._responsive = this;
 		this._init();
 	}
 
@@ -182,7 +183,8 @@ export default class Responsive {
 			// DataTables will trigger this event on every column it shows and
 			// hides individually
 			dt.on('column-visibility.dtr', function () {
-				// Use a small debounce to allow multiple columns to be set together
+				// Use a small debounce to allow multiple columns to be set
+				// together
 				if (that.s.timer) {
 					clearTimeout(that.s.timer);
 				}
@@ -480,7 +482,7 @@ export default class Responsive {
 		// This is the case when there is a hidden column (that is not the
 		// control column). The two loops look inefficient here, but they are
 		// trivial and will fly through. We need to know the outcome from the
-		// first , before the action in the second can be taken
+		// first, before the action in the second can be taken
 		var showControl = false;
 
 		for (i = 0, iLen = columns.length; i < iLen; i++) {
@@ -499,7 +501,8 @@ export default class Responsive {
 				display[i] = showControl;
 			}
 
-			// Replace not visible string with false from the control column detection above
+			// Replace not visible string with false from the control column
+			// detection above
 			if (display[i] === 'not-visible') {
 				display[i] = false;
 			}
@@ -620,7 +623,8 @@ export default class Responsive {
 			var classNames = col.className.split(' ');
 			var hasClass = false;
 
-			// Split the class name up so multiple rules can be applied if needed
+			// Split the class name up so multiple rules can be applied if
+			// needed
 			for (var k = 0, ken = classNames.length; k < ken; k++) {
 				var className = classNames[k].trim();
 
@@ -643,8 +647,9 @@ export default class Responsive {
 					className === 'control' ||
 					className === 'dtr-control'
 				) {
-					// Special column that is only visible, when one of the other
-					// columns is hidden. This is used for the details control
+					// Special column that is only visible, when one of the
+					// other columns is hidden. This is used for the details
+					// control
 					hasClass = true;
 					col.control = true;
 					return;
@@ -676,7 +681,8 @@ export default class Responsive {
 							);
 						}
 						else if (match[2] === brokenPoint[0] && !match[3]) {
-							// Class name matched primary breakpoint name with no qualifier
+							// Class name matched primary breakpoint name with
+							// no qualifier
 							column(i, breakpoint.name, match[1], match[2]);
 						}
 					}
@@ -710,15 +716,15 @@ export default class Responsive {
 				{ page: 'current' }
 			)
 				.nodes()
-				.to$()
+				.toDom()
 				.filter('.dtr-control')
-				.removeClass('dtr-control');
+				.classRemove('dtr-control');
 
 			if (firstVisible >= 0) {
 				dt.cells(null, firstVisible, { page: 'current' })
 					.nodes()
-					.to$()
-					.addClass('dtr-control');
+					.toDom()
+					.classAdd('dtr-control');
 			}
 		}
 
@@ -812,18 +818,20 @@ export default class Responsive {
 		var selector = typeof target === 'string' ? target : 'td, th';
 
 		if (target !== undefined || target !== null) {
-			// Click handler to show / hide the details rows when they are available
+			// Click handler to show / hide the details rows when they are
+			// available
 			dom.s(dt.table().body()).on(
 				'click.dtr mousedown.dtr mouseup.dtr',
 				selector,
 				function (e) {
-					// If the table is not collapsed (i.e. there is no hidden columns)
-					// then take no action
+					// If the table is not collapsed (i.e. there is no hidden
+					// columns) then take no action
 					if (!dom.s(dt.table().node()).classHas('collapsed')) {
 						return;
 					}
 
-					// Check that the row is actually a DataTable's controlled node
+					// Check that the row is actually a DataTable's controlled
+					// node
 					if (
 						!dt
 							.rows()
@@ -834,8 +842,8 @@ export default class Responsive {
 						return;
 					}
 
-					// For column index, we determine if we should act or not in the
-					// handler - otherwise it is already okay
+					// For column index, we determine if we should act or not in
+					// the handler - otherwise it is already okay
 					if (typeof target === 'number') {
 						var targetIdx =
 							target < 0
@@ -852,9 +860,9 @@ export default class Responsive {
 
 					// Check event type to do an action
 					if (e.type === 'click') {
-						// The renderer is given as a function so the caller can execute it
-						// only when they need (i.e. if hiding there is no point is running
-						// the renderer)
+						// The renderer is given as a function so the caller can
+						// execute it only when they need (i.e. if hiding there
+						// is no point is running the renderer)
 						that._detailsDisplay(row, false);
 					}
 					else if (e.type === 'mousedown') {
@@ -882,7 +890,8 @@ export default class Responsive {
 
 		return this.s.columns
 			.filter(function (col) {
-				// Never and control columns should not be passed to the renderer
+				// Never and control columns should not be passed to the
+				// renderer
 				return col.never || col.control ? false : true;
 			})
 			.map(function (col, i) {
@@ -993,8 +1002,8 @@ export default class Responsive {
 		dt.columns()
 			.eq(0)
 			.each(function (colIdx, i) {
-				// Do nothing on DataTables' hidden column - DT removes it from the table
-				// so we need to slide back
+				// Do nothing on DataTables' hidden column - DT removes it from
+				// the table so we need to slide back
 				if (!dt.column(colIdx).visible()) {
 					return;
 				}
@@ -1127,15 +1136,16 @@ export default class Responsive {
 					return;
 				}
 
-				// We clone the table's rows and cells to create the sizing table
+				// We clone the table's rows and cells to create the sizing
+				// table
 				var tr = node.cloneNode(false);
 
 				dt.cells(rowIdx, visibleColumns).every(function (
 					rowIdx2,
 					colIdx
 				) {
-					// If nodes have been moved out (listHiddenNodes), we need to
-					// clone from the store
+					// If nodes have been moved out (listHiddenNodes), we need
+					// to clone from the store
 					var store = that.s.childNodeStore[rowIdx + '-' + colIdx];
 
 					if (store) {
@@ -1152,10 +1162,12 @@ export default class Responsive {
 			});
 		}
 		else {
-			// This is much faster, but it doesn't account for moving nodes around
+			// This is much faster, but it doesn't account for moving nodes
+			// around
 			clonedBody
-				.append(dt.rows({ page: 'current' }).nodes().toDom())
-				.clone(true)
+				.append(
+					dt.rows({ page: 'current' }).nodes().toDom().clone(true)
+				)
 				.find('th, td')
 				.css('display', '');
 		}
@@ -1226,7 +1238,8 @@ export default class Responsive {
 	}
 
 	/**
-	 * Get the state of the current hidden columns - controlled by Responsive only
+	 * Get the state of the current hidden columns - controlled by Responsive
+	 * only
 	 */
 	private _responsiveOnlyHidden() {
 		var dt = this.s.dt;
@@ -1263,9 +1276,9 @@ export default class Responsive {
 
 		dt.column(col)
 			.nodes()
-			.to$()
+			.toDom()
 			.css('display', display)
-			.toggleClass('dtr-hidden', !showHide);
+			.classToggle('dtr-hidden', !showHide);
 
 		// We need to set a variable that DT can use when selecting visible
 		// columns without needing to query the DOM
@@ -1370,28 +1383,28 @@ export default class Responsive {
 	 */
 	private _tabIndexes() {
 		var dt = this.s.dt;
-		var cells = dt.cells({ page: 'current' }).nodes().to$();
+		var cells = dt.cells({ page: 'current' }).nodes().toDom();
 		var ctx = dt.settings()[0];
 		var target = this.s.details.target;
 
-		cells.filter('[data-dtr-keyboard]').removeData('[data-dtr-keyboard]');
+		cells.filter('[data-dtr-keyboard]').removeAttr('data-dtr-keyboard');
 
 		if (typeof target === 'number') {
 			dt.cells(null, target, { page: 'current' })
 				.nodes()
-				.to$()
+				.toDom()
 				.attr('tabIndex', ctx.tabIndex)
 				.data('dtr-keyboard', 1);
 		}
-		else {
-			// This is a bit of a hack - we need to limit the selected nodes to just
-			// those of this table
+		else if (target) {
+			// This is a bit of a hack - we need to limit the selected nodes to
+			// just those of this table
 			if (target === 'td:first-child, th:first-child') {
 				target = '>td:first-child, >th:first-child';
 			}
 
 			var rows = dt.rows({ page: 'current' }).nodes().toDom();
-			var nodes = target === 'tr' ? rows : rows.find(target!);
+			var nodes = target === 'tr' ? rows : rows.find(target);
 
 			nodes.attr('tabIndex', ctx.tabIndex).data('dtr-keyboard', 1);
 		}

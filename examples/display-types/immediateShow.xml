@@ -40,7 +40,7 @@ new DataTable('#example', {
 
 Responsive has the ability to display the details that it has hidden in a variety of different ways. Its default is to allow the end user to toggle the display by clicking on a row and showing the information in a DataTables child row. At times it can be useful not to require end user interaction to display the hidden data in a responsive manner, which can be done with the `childRowImmediate` display type.
 
-Display types are set using the `r-init responsive.details.display` option which should point to a function that will handle the child row display. The built in options are available in the `$.fn.dataTable.Responsive.display` object. See `r-init responsive.details.display` for a full list of the options available.
+Display types are set using the `r-init responsive.details.display` option which should point to a function that will handle the child row display. The built in options are available in the `DataTable.Responsive.display` object. See `r-init responsive.details.display` for a full list of the options available.
 
 Additionally, the `r-init responsive.details.type` option is set to be `-string none` in this example to the show / hide icons that Responsive will display by default. Along side this is the use of `-init responsive.details.target` which is set to be an empty string, disabling the user's ability to toggle the child rows - i.e. in this example the full contents of the table are always visible. This could be removed if you want to retain that ability.
 
