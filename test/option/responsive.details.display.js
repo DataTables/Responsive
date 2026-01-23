@@ -21,7 +21,7 @@ describe('Responsive - responsive.details.display', function() {
 		it('Open a parent', function() {
 			$('tbody tr:eq(2) td:eq(0)').click();
 			expect($('tr.child').length).toBe(1);
-			expect($('td.child ul li').length).toBe(3);
+			expect($('td.child ul li').length).toBe(4);
 		});
 	});
 
@@ -41,7 +41,7 @@ describe('Responsive - responsive.details.display', function() {
 			$('tbody tr:eq(2) td:eq(0)').click();
 
 			expect($('tr.child').length).toBe(9);
-			expect($('td.child ul li').length).toBe(27);
+			expect($('td.child ul li').length).toBe(36);
 		});
 	});
 
@@ -60,7 +60,7 @@ describe('Responsive - responsive.details.display', function() {
 		it('Open a parent', function() {
 			$('tbody tr:eq(2) td:eq(0)').click();
 			expect($('div.dtr-modal').length).toBe(1);
-			expect($('div.dtr-modal-content ul li').length).toBe(3);
+			expect($('div.dtr-modal-content ul li').length).toBe(4);
 		});
 		it('Close a parent', function() {
 			$('div.dtr-modal-close').click();
@@ -95,7 +95,7 @@ describe('Responsive - responsive.details.display', function() {
 				}
 			});
 			expect($('tr.child').length).toBe(10);
-			expect($('td.child ul li').length).toBe(30);
+			expect($('td.child ul li').length).toBe(40);
 		});
 		it('Check arguments', function() {
 			expect(args.length).toBe(4);
@@ -107,7 +107,7 @@ describe('Responsive - responsive.details.display', function() {
 		it('Close a parent', function() {
 			$('tbody tr:eq(2) td:eq(0)').click();
 			expect($('tr.child').length).toBe(9);
-			expect($('td.child ul li').length).toBe(27);
+			expect($('td.child ul li').length).toBe(36);
 		});
 	});
 });

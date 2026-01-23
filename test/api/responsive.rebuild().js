@@ -40,7 +40,7 @@ describe('Responsive - responsive.rebuild()', function () {
 				responsive: true
 			});
 
-			checkVisible([false, true, true, true, false, false]);
+			checkVisible([false, true, true, false, false, false]);
 		});
 		it('... change existing value', function() {
 			$('thead th:eq(0)').attr('data-priority', 1);

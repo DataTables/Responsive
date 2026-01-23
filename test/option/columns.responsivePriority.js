@@ -38,7 +38,7 @@ describe('Responsive - columns.responsivePriority', function() {
 				]
 			});
 
-			checkVisible([false, true, true, true, false, false]);
+			checkVisible([false, true, true, false, false, false]);
 		});
 
 		dt.html('basic');
@@ -98,7 +98,7 @@ describe('Responsive - columns.responsivePriority', function() {
 				responsive: true
 			});
 
-			checkVisible([false, true, true, true, false, false]);
+			checkVisible([false, true, true, false, false, false]);
 		});
 
 		dt.html('basic');

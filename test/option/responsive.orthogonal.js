@@ -6,7 +6,7 @@ describe('Responsive - responsive.orthogonal', function() {
 
 	let columnDefs = [
 		{
-			targets: 9,
+			targets: 8,
 			render: function(data, type, row, meta) {
 				return type === 'unitTest' ? 'test ' + data : data;
 			}
@@ -21,7 +21,7 @@ describe('Responsive - responsive.orthogonal', function() {
 		});
 		$('tbody tr:eq(2) td:eq(0)').click();
 
-		expect($('td.child ul li:eq(1) span:eq(1)').text()).toBe('Tiger');
+		expect($('td.child ul li:eq(1) span:eq(1)').text()).toBe('a.cox@datatables.net');
 	});
 
 	dt.html('basic_wide');
@@ -34,6 +34,6 @@ describe('Responsive - responsive.orthogonal', function() {
 		});
 		$('tbody tr:eq(2) td:eq(0)').click();
 
-		expect($('td.child ul li:eq(1) span:eq(1)').text()).toBe('test Tiger');
+		expect($('td.child ul li:eq(1) span:eq(1)').text()).toBe('test a.cox@datatables.net');
 	});
 });

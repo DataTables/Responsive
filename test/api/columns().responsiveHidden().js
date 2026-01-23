@@ -27,9 +27,10 @@ describe('Responsive - columns().responsiveHidden()', function() {
 				responsive: true
 			});
 
-			for (let i = 0; i < 8; i++) {
+			for (let i = 0; i < 7; i++) {
 				expect(table.columns(i).responsiveHidden()[0]).toBe(true);
 			}
+			expect(table.columns(7).responsiveHidden()[0]).toBe(false);
 			expect(table.columns(8).responsiveHidden()[0]).toBe(false);
 		});
 

@@ -12,14 +12,14 @@ describe('Responsive - responsive.colreorder', function() {
 			responsive: true,
 			colReorder: true
 		});
-		expect($('thead th:visible').text()).toBe('First nameLast namePositionOfficeAgeStart dateSalaryExtn.');
+		expect($('thead th:visible').text()).toBe('First nameLast namePositionOfficeAgeStart dateSalary');
 	});
 	it('Open a child', function() {
 		$('tbody tr:eq(2) td:eq(0)').click();
-		expect($('ul li').length).toBe(3);
-		expect($('ul li:nth-child(1) span:eq(0)').text()).toBe('E-mail');
-		expect($('ul li:nth-child(2) span:eq(0)').text()).toBe('Line Manager First Name');
-		expect($('ul li:nth-child(3) span:eq(0)').text()).toBe('Line Manager Last Name');
+		expect($('ul li').length).toBe(4);
+		expect($('ul li:nth-child(1) span:eq(0)').text()).toBe('Extn.');
+		expect($('ul li:nth-child(2) span:eq(0)').text()).toBe('E-mail');
+		expect($('ul li:nth-child(3) span:eq(0)').text()).toBe('Line Manager First Name');
 	});
 	it('Move a row and check table headers', function() {
 		table.colReorder.move(0, 10);
@@ -43,23 +43,23 @@ describe('Responsive - responsive.colreorder', function() {
 	});
 	it('Change order with colReorder.order()', function() {
 		table.colReorder.order([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0]);
-		expect($('thead th:visible').text()).toBe('PositionOfficeAgeStart dateSalaryExtn.E-mail');
+		expect($('thead th:visible').text()).toBe('PositionOfficeAgeStart dateSalaryExtn.');
 	});
 	it('... and child rows of open child', function() {
-		expect($('ul li').length).toBe(4);
-		expect($('ul li:nth-child(1) span:eq(0)').text()).toBe('Line Manager First Name');
-		expect($('ul li:nth-child(2) span:eq(0)').text()).toBe('Line Manager Last Name');
-		expect($('ul li:nth-child(3) span:eq(0)').text()).toBe('First name');
-		expect($('ul li:nth-child(4) span:eq(0)').text()).toBe('Last name');
-	});
-	it('And then reset back to the original', function() {
-		table.colReorder.order([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], true);
-		expect($('thead th:visible').text()).toBe('First nameLast namePositionOfficeAgeStart dateSalaryExtn.');
-	});
-	it('... and child rows of open child', function() {
-		expect($('ul li').length).toBe(3);
+		expect($('ul li').length).toBe(5);
 		expect($('ul li:nth-child(1) span:eq(0)').text()).toBe('E-mail');
 		expect($('ul li:nth-child(2) span:eq(0)').text()).toBe('Line Manager First Name');
 		expect($('ul li:nth-child(3) span:eq(0)').text()).toBe('Line Manager Last Name');
+		expect($('ul li:nth-child(4) span:eq(0)').text()).toBe('First name');
+	});
+	it('And then reset back to the original', function() {
+		table.colReorder.order([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], true);
+		expect($('thead th:visible').text()).toBe('First nameLast namePositionOfficeAgeStart dateSalary');
+	});
+	it('... and child rows of open child', function() {
+		expect($('ul li').length).toBe(4);
+		expect($('ul li:nth-child(1) span:eq(0)').text()).toBe('Extn.');
+		expect($('ul li:nth-child(2) span:eq(0)').text()).toBe('E-mail');
+		expect($('ul li:nth-child(3) span:eq(0)').text()).toBe('Line Manager First Name');
 	});
 });

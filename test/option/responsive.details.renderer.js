@@ -45,7 +45,7 @@ describe('Responsive - responsive.details.renderer', function() {
 		it('Clicking on first column opens child row', function() {
 			$('tbody tr td:eq(0)').click();
 			expect($('table').length).toBe(2);
-			expect($('tbody tr').length).toBe(22);
+			expect($('tbody tr').length).toBe(15);
 		});
 		it('Clicking on first column closes child row', function() {
 			$('tbody tr td:eq(0)').click();
@@ -72,7 +72,7 @@ describe('Responsive - responsive.details.renderer', function() {
 			$('tbody tr td:eq(0)').click();
 			expect($('table').length).toBe(2);
 			expect($('table.unitTest').length).toBe(1);
-			expect($('tbody tr').length).toBe(22);
+			expect($('tbody tr').length).toBe(15);
 		});
 	});
 
