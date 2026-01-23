@@ -108,21 +108,20 @@ table.dataTable {
 
 	// Child row styling
 	> tbody > tr.child {
-		padding: 0.5em 1em;
-
 		&:hover {
 			background: transparent !important;
 		}
 
 		ul.dtr-details {
-			display: inline-block;
+			display: inline-grid;
+			grid-template-columns: minmax(125px, 1fr) auto;
+			gap: var(--dtr-details-list_gap);
 			list-style-type: none;
 			margin: 0;
-			padding: 0;
+			padding: var(--dtr-details-list_padding);
 
 			> li {
-				border-bottom: var(--dtr-details-list_border-bottom);
-				padding: var(--dtr-details-list_padding);
+				display: contents;
 
 				&:first-child {
 					padding-top: 0;
@@ -137,7 +136,7 @@ table.dataTable {
 
 		span.dtr-title {
 			display: inline-block;
-			min-width: 75px;
+			min-width: 125px;
 			font-weight: bold;
 		}
 	}
@@ -209,5 +208,29 @@ div.dtr-modal {
 @media screen and (max-width: 767px) {
 	div.dtr-modal div.dtr-modal-display {
 		width: 95%;
+	}
+}
+
+@media screen and (max-width: 567px) {
+	table.dataTable > tbody > tr.child ul.dtr-details {
+		display: block;
+		padding: 0;
+
+		> li {
+			display: block;
+			padding-bottom: var(--dtr-details-list_gap);
+
+			&:last-child {
+				padding-bottom: 0;
+			}
+
+			span.dtr-title {
+				display: block;
+			}
+
+			span.dtr-data {
+				display: block;
+			}
+		}
 	}
 }
