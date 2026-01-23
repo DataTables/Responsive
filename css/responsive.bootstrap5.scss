@@ -1,7 +1,5 @@
-
-$open-button-background: #0d6efd !default;
-
-@use 'responsive.dataTables.scss';
+@use 'defaults.scss';
+@use 'shared.scss';
 
 div.dtr-bs-modal table.table tr:first-child td {
 	border-top: none;
@@ -13,4 +11,8 @@ table.dataTable.table-bordered {
 	td.dtr-control.dtr-hidden + * {
 		border-left-width: 1px;
 	}
+}
+
+html[data-theme="dark"] {
+	--dtr-details-list_border-bottom: 1px solid rgb(64, 67, 70);
 }

@@ -1,7 +1,5 @@
-
-$open-button-background: #008CBA !default;
-
-@use 'responsive.dataTables.scss';
+@use 'defaults.scss';
+@use 'shared.scss';
 
 table.dataTable > tbody > tr.child {
 	ul {

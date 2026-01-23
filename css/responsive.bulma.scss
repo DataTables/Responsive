@@ -1,7 +1,5 @@
-
-$open-button-background: #00D1B2 !default;
-
-@use 'responsive.dataTables.scss';
+@use 'defaults.scss';
+@use 'shared.scss';
 
 table.dataTable > tbody > tr.child {
 	ul {
@@ -11,6 +9,8 @@ table.dataTable > tbody > tr.child {
 
 div.modal-content {
 	padding: 20px;
-	background: white;
-	border-radius: 5px;
+}
+
+html[data-theme="dark"] {
+	--dtr-details-list_border-bottom: 1px solid rgb(64, 67, 70);
 }
