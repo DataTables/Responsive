@@ -1,7 +1,8 @@
-/*! Bootstrap 4 integration for DataTables' Responsive
- * © SpryMedia Ltd - datatables.net/license
+/*! Responsive Bootstrap 4 styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
+// Note that BS4's JS depends upon jQuery, so we use it here
 var $ = DataTable.use('jq');
 var _display = DataTable.Responsive.display;
 var _original = _display.modal;

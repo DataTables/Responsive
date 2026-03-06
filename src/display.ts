@@ -1,11 +1,10 @@
 import DataTable, { ApiRowMethods, Dom } from 'datatables.net';
 import { ResponsiveDisplay } from './interface';
 
-const dom = DataTable.dom;
 const util = DataTable.util;
 
 export const childRow: ResponsiveDisplay = function (row, update, render) {
-	var rowNode = dom.s(row.node());
+	var rowNode = Dom.s(row.node());
 
 	if (update) {
 		if (rowNode.classHas('dtr-expanded')) {
@@ -42,7 +41,7 @@ export const childRowImmediate: ResponsiveDisplay = function (
 	update,
 	render
 ) {
-	var rowNode = dom.s(row.node());
+	var rowNode = Dom.s(row.node());
 
 	if (
 		(!update && rowNode.classHas('dtr-expanded')) ||
@@ -85,28 +84,28 @@ export function modal(options?: {
 			// Show a modal
 			var close = function () {
 				modal.remove(); // will tidy events for us
-				dom.s(document).off('keypress.dtr');
-				dom.s(row.node()).classRemove('dtr-expanded');
+				Dom.s(document).off('keypress.dtr');
+				Dom.s(row.node()).classRemove('dtr-expanded');
 
 				closeCallback();
 			};
 
-			modal = dom
+			modal = Dom
 				.c('div')
 				.classAdd('dtr-modal')
 				.append(
-					dom
+					Dom
 						.c('div')
 						.classAdd('dtr-modal-display')
 						.append(
-							dom
+							Dom
 								.c('div')
 								.classAdd('dtr-modal-content')
 								.data('dtr-row-idx', row.index())
 								.append(rendered)
 						)
 						.append(
-							dom
+							Dom
 								.c('div')
 								.classAdd('dtr-modal-close')
 								.html('&times;')
@@ -116,7 +115,7 @@ export function modal(options?: {
 						)
 				)
 				.append(
-					dom
+					Dom
 						.c('div')
 						.classAdd('dtr-modal-background')
 						.on('click', function () {
@@ -125,9 +124,9 @@ export function modal(options?: {
 				)
 				.appendTo('body');
 
-			dom.s(row.node()).classAdd('dtr-expanded');
+			Dom.s(row.node()).classAdd('dtr-expanded');
 
-			dom.s(document).on('keyup.dtr', function (e) {
+			Dom.s(document).on('keyup.dtr', function (e) {
 				if (e.keyCode === 27) {
 					e.stopPropagation();
 
@@ -136,7 +135,7 @@ export function modal(options?: {
 			});
 		}
 		else {
-			modal = dom.s('div.dtr-modal-content');
+			modal = Dom.s('div.dtr-modal-content');
 
 			if (modal.count() && row.index() === modal.data('dtr-row-idx')) {
 				modal.empty().append(rendered);
@@ -148,8 +147,8 @@ export function modal(options?: {
 		}
 
 		if (options && options.header) {
-			dom.s('div.dtr-modal-content').prepend(
-				dom.c('h2').html(options.header(row))
+			Dom.s('div.dtr-modal-content').prepend(
+				Dom.c('h2').html(options.header(row))
 			);
 		}
 

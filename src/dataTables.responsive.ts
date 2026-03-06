@@ -1,16 +1,16 @@
-import DataTable, { Context } from 'datatables.net';
-import Responsive from './Responsive';
+/*! Responsive for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
+ */
 
-const Api = DataTable.Api;
-const dom = DataTable.dom;
-const util = DataTable.util;
+import DataTable, { Api, Context, Dom, util } from 'datatables.net';
+import Responsive from './Responsive';
 
 Api.register('responsive()', function () {
 	return this.inst(this.context);
 });
 
 Api.register('responsive.index()', function (li) {
-	li = dom.s(li);
+	li = Dom.s(li);
 
 	return {
 		column: li.data('dtr-index'),
@@ -63,14 +63,14 @@ DataTable.Responsive = Responsive;
 
 // Attach a listener to the document which listens for DataTables initialisation
 // events so we can automatically initialise
-dom.s(document).on('preInit.dt.dtr', function (e, settings: Context, json) {
+Dom.s(document).on('preInit.dt.dtr', function (e, settings: Context, json) {
 	if (e.namespace !== 'dt') {
 		return;
 	}
 
 	if (
-		dom.s(settings.table).classHas('responsive') ||
-		dom.s(settings.table).classHas('dt-responsive') ||
+		Dom.s(settings.table).classHas('responsive') ||
+		Dom.s(settings.table).classHas('dt-responsive') ||
 		settings.init.responsive ||
 		DataTable.defaults.responsive
 	) {

@@ -1,8 +1,8 @@
-/*! Fomantic integration for DataTables' Responsive
- * © SpryMedia Ltd - datatables.net/license
+/*! Responsive Fomantic styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
-// Fomantic Modal uses jQuery, so we might as well use it
+// Note that Fomantic's JS depends upon jQuery, so we use it here
 var jq = DataTable.use('jq');
 var _display = DataTable.Responsive.display;
 var _original = _display.modal;

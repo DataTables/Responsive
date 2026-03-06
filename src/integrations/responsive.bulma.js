@@ -1,22 +1,22 @@
-/*! Bulma integration for DataTables' Responsive
- * © SpryMedia Ltd - datatables.net/license
+/*! Responsive Bulma styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
-var dom = DataTable.dom;
+var Dom = DataTable.Dom;
 var _display = DataTable.Responsive.display;
-var _modal = dom
+var _modal = Dom
 	.c('div')
 	.classAdd('modal DTED')
-	.append(dom.c('div').classAdd('modal-background'))
+	.append(Dom.c('div').classAdd('modal-background'))
 	.append(
-		dom
+		Dom
 			.c('div')
 			.classAdd('modal-content')
-			.append(dom.c('div').classAdd('modal-header'))
-			.append(dom.c('div').classAdd('modal-body'))
+			.append(Dom.c('div').classAdd('modal-header'))
+			.append(Dom.c('div').classAdd('modal-body'))
 	)
 	.append(
-		dom
+		Dom
 			.c('button')
 			.attr('type', 'button')
 			.attr('aria-label', 'Close')
@@ -39,7 +39,7 @@ _display.modal = function (options) {
 				header
 					.empty()
 					.append(
-						dom
+						Dom
 							.c('h4')
 							.classAdd('modal-title subtitle')
 							.html(options.header(row))
@@ -52,12 +52,12 @@ _display.modal = function (options) {
 
 			_modal.classAdd('is-active is-clipped');
 
-			dom.s('.modal-close').one('click', function () {
+			Dom.s('.modal-close').one('click', function () {
 				_modal.classRemove('is-active is-clipped');
 				closeCallback();
 			});
 
-			dom.s('.modal-background').one('click', function () {
+			Dom.s('.modal-background').one('click', function () {
 				_modal.classRemove('is-active is-clipped');
 				closeCallback();
 			});

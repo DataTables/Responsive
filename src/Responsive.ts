@@ -4,7 +4,8 @@ import DataTable, {
 	ApiRowMethods,
 	Context,
 	Dom,
-	HeaderStructure
+	HeaderStructure,
+	util
 } from 'datatables.net';
 import * as display from './display';
 import {
@@ -22,9 +23,6 @@ import * as renderers from './render';
 if (!DataTable || !DataTable.versionCheck || !DataTable.versionCheck('3')) {
 	throw 'DataTables Responsive requires DataTables 3 or newer';
 }
-
-const dom = DataTable.dom;
-const util = DataTable.util;
 
 export default class Responsive {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -118,15 +116,15 @@ export default class Responsive {
 	private _init() {
 		var that = this;
 		var dt = this.s.dt;
-		var oldWindowWidth = dom.w.width();
+		var oldWindowWidth = Dom.w.width();
 
 		// Use DataTables' throttle function to avoid processor thrashing
-		dom.w.on(
+		Dom.w.on(
 			'orientationchange.dtr',
 			DataTable.util.throttle(function () {
 				// iOS has a bug whereby resize can fire when only scrolling
 				// See: http://stackoverflow.com/questions/8898412
-				var width = dom.w.width();
+				var width = Dom.w.width();
 
 				if (width !== oldWindowWidth) {
 					that._resize();
@@ -140,13 +138,13 @@ export default class Responsive {
 		// per draw.
 		dt.on('row-created.dtr', function (e, tr, data, idx) {
 			if (that.s.current.includes(false)) {
-				dom.s(tr)
+				Dom.s(tr)
 					.children('td, th')
 					.each(function (el, i) {
 						var idx = dt.column.index('toData', i);
 
 						if (that.s.current[idx!] === false) {
-							dom.s(el)
+							Dom.s(el)
 								.css('display', 'none')
 								.classAdd('dtr-hidden');
 						}
@@ -157,11 +155,11 @@ export default class Responsive {
 		// Destroy event handler
 		dt.on('destroy.dtr', function () {
 			dt.off('.dtr');
-			dom.s(dt.table().body()).off('.dtr');
-			dom.w.off('resize.dtr orientationchange.dtr');
+			Dom.s(dt.table().body()).off('.dtr');
+			Dom.w.off('resize.dtr orientationchange.dtr');
 
 			dt.cells('.dtr-control').nodes().toDom().classRemove('dtr-control');
-			dom.s(dt.table().node()).classRemove('dtr-inline collapsed');
+			Dom.s(dt.table().node()).classRemove('dtr-inline collapsed');
 
 			// Restore the columns that we've hidden
 			that.s.current.forEach((val, i) => {
@@ -214,7 +212,7 @@ export default class Responsive {
 				that._redrawChildren();
 			});
 
-			dom.s(dt.table().node()).classAdd('dtr-' + details.type);
+			Dom.s(dt.table().node()).classAdd('dtr-' + details.type);
 		}
 
 		// DT2+ let's us tell it if we are hiding columns
@@ -749,8 +747,8 @@ export default class Responsive {
 		var dt = this.s.dt;
 		var details = this.s.details;
 		var event = function (res: boolean) {
-			dom.s(row.node()).classToggle('dtr-expanded', res !== false);
-			dom.s(dt.table().node()).trigger('responsive-display.dt', false, [
+			Dom.s(row.node()).classToggle('dtr-expanded', res !== false);
+			Dom.s(dt.table().node()).trigger('responsive-display.dt', false, [
 				dt,
 				row,
 				res,
@@ -801,7 +799,7 @@ export default class Responsive {
 			details.target = 'td.dtr-control, th.dtr-control';
 		}
 
-		dom.s(dt.table().body()).on(
+		Dom.s(dt.table().body()).on(
 			'keyup.dtr',
 			'td, th',
 			function (e: KeyboardEvent) {
@@ -811,10 +809,10 @@ export default class Responsive {
 
 					if (
 						e.keyCode === 13 &&
-						dom.s(this).data('dtr-keyboard') &&
+						Dom.s(this).data('dtrKeyboard') &&
 						(activeNodeName === 'td' || activeNodeName === 'th')
 					) {
-						dom.s(this).trigger('click');
+						Dom.s(this).trigger('click');
 					}
 				}
 			}
@@ -827,13 +825,13 @@ export default class Responsive {
 		if (target !== undefined || target !== null) {
 			// Click handler to show / hide the details rows when they are
 			// available
-			dom.s(dt.table().body()).on(
+			Dom.s(dt.table().body()).on(
 				'click.dtr mousedown.dtr mouseup.dtr',
 				selector,
 				function (e) {
 					// If the table is not collapsed (i.e. there is no hidden
 					// columns) then take no action
-					if (!dom.s(dt.table().node()).classHas('collapsed')) {
+					if (!Dom.s(dt.table().node()).classHas('collapsed')) {
 						return;
 					}
 
@@ -844,7 +842,7 @@ export default class Responsive {
 							.rows()
 							.nodes()
 							.toArray()
-							.includes(dom.s(this).closest('tr').get(0))
+							.includes(Dom.s(this).closest('tr').get(0))
 					) {
 						return;
 					}
@@ -863,7 +861,7 @@ export default class Responsive {
 					}
 
 					// $().closest() includes itself in its check
-					var row = dt.row(dom.s(this).closest('tr'));
+					var row = dt.row(Dom.s(this).closest('tr'));
 
 					// Check event type to do an action
 					if (e.type === 'click') {
@@ -874,11 +872,11 @@ export default class Responsive {
 					}
 					else if (e.type === 'mousedown') {
 						// For mouse users, prevent the focus ring from showing
-						dom.s(this).css('outline', 'none');
+						Dom.s(this).css('outline', 'none');
 					}
 					else if (e.type === 'mouseup') {
 						// And then re-allow at the end of the click
-						dom.s(this).css('outline', '').trigger('blur');
+						Dom.s(this).css('outline', '').trigger('blur');
 					}
 				}
 			);
@@ -960,7 +958,7 @@ export default class Responsive {
 	private _resize(forceRedraw = false) {
 		var that = this;
 		var dt = this.s.dt;
-		var width = dom.w.width();
+		var width = Dom.w.width();
 		var breakpoints = this.c.breakpoints!;
 		var breakpoint = breakpoints[0].name;
 		var columns = this.s.columns;
@@ -996,12 +994,12 @@ export default class Responsive {
 			}
 		}
 
-		dom.s(dt.table().node()).classToggle('collapsed', collapsedClass);
+		Dom.s(dt.table().node()).classToggle('collapsed', collapsedClass);
 
 		var changed = false;
 		var visible = 0;
 		var dtSettings = dt.settings()[0];
-		var colGroup = dom.s(dt.table().node()).children('colgroup');
+		var colGroup = Dom.s(dt.table().node()).children('colgroup');
 		var colEls = dtSettings.columns.map(function (col) {
 			return col.colEl;
 		});
@@ -1042,14 +1040,14 @@ export default class Responsive {
 			this._redrawChildren();
 
 			// Inform listeners of the change
-			dom.s(dt.table().node()).trigger('responsive-resize.dt', false, [
+			Dom.s(dt.table().node()).trigger('responsive-resize.dt', false, [
 				dt,
 				this._responsiveOnlyHidden()
 			]);
 
 			// If no records, update the "No records" display element
 			if (dt.page.info().recordsDisplay === 0) {
-				dom.s(dt.table().body())
+				Dom.s(dt.table().body())
 					.find('td')
 					.eq(0)
 					.attr('colspan', visible);
@@ -1089,13 +1087,13 @@ export default class Responsive {
 
 		// Clone the table with the current data in it
 		var clonedTable = dt.table().node().cloneNode(false) as HTMLElement;
-		var clonedHeader = dom
+		var clonedHeader = Dom
 			.s(dt.table().header().cloneNode(false))
 			.appendTo(clonedTable);
-		var clonedFooter = dom
+		var clonedFooter = Dom
 			.s(dt.table().footer().cloneNode(false))
 			.appendTo(clonedTable);
-		var clonedBody = dom
+		var clonedBody = Dom
 			.s(dt.table().body())
 			.clone(true)
 			.empty()
@@ -1112,7 +1110,7 @@ export default class Responsive {
 						return el ? true : false;
 					})
 					.map(function (el) {
-						return dom
+						return Dom
 							.s(el.cell)
 							.clone(true)
 							.css('display', 'table-cell')
@@ -1121,14 +1119,14 @@ export default class Responsive {
 							.get(0);
 					});
 
-				dom.c('tr').append(cells).appendTo(clonedHeader);
+				Dom.c('tr').append(cells).appendTo(clonedHeader);
 			});
 
 		// Always need an empty row that we can read widths from
-		var emptyRow = dom.c('tr').appendTo(clonedBody);
+		var emptyRow = Dom.c('tr').appendTo(clonedBody);
 
 		for (var i = 0; i < visibleColumns.count(); i++) {
-			emptyRow.append(dom.c('td'));
+			emptyRow.append(Dom.c('td'));
 		}
 
 		// Body rows
@@ -1156,12 +1154,12 @@ export default class Responsive {
 					var store = that.s.childNodeStore[rowIdx + '-' + colIdx];
 
 					if (store) {
-						dom.s(this.node().cloneNode(false))
-							.append(dom.s(store).clone(true))
+						Dom.s(this.node().cloneNode(false))
+							.append(Dom.s(store).clone(true))
 							.appendTo(tr);
 					}
 					else {
-						dom.s(this.node()).clone(true).appendTo(tr);
+						Dom.s(this.node()).clone(true).appendTo(tr);
 					}
 				});
 
@@ -1192,7 +1190,7 @@ export default class Responsive {
 						return el ? true : false;
 					})
 					.map(function (el) {
-						return dom
+						return Dom
 							.s(el.cell)
 							.clone(false)
 							.css('display', 'table-cell')
@@ -1201,26 +1199,26 @@ export default class Responsive {
 							.get(0);
 					});
 
-				dom.c('tr').append(cells).appendTo(clonedFooter);
+				Dom.c('tr').append(cells).appendTo(clonedFooter);
 			});
 
 		// In the inline case extra padding is applied to the first column to
 		// give space for the show / hide icon. We need to use this in the
 		// calculation
 		if (this.s.details.type === 'inline') {
-			dom.s(clonedTable).classAdd('dtr-inline collapsed');
+			Dom.s(clonedTable).classAdd('dtr-inline collapsed');
 		}
 
 		// It is unsafe to insert elements with the same name into the DOM
 		// multiple times. For example, cloning and inserting a checked radio
 		// clears the checked state of the original radio.
-		dom.s(clonedTable).find('[name]').removeAttr('name');
+		Dom.s(clonedTable).find('[name]').removeAttr('name');
 
 		// A position absolute table would take the table out of the flow of
 		// our container element, bypassing the height and width (Scroller)
-		dom.s(clonedTable).css('position', 'relative');
+		Dom.s(clonedTable).css('position', 'relative');
 
-		var inserted = dom
+		var inserted = Dom
 			.c('div')
 			.css({
 				width: '1px',
@@ -1334,7 +1332,7 @@ export default class Responsive {
 
 		structure.forEach(function (row) {
 			if (row[col] && row[col].cell) {
-				dom.s(row[col].cell)
+				Dom.s(row[col].cell)
 					.css('display', display)
 					.classToggle('dtr-hidden', !showHide);
 			}
@@ -1345,7 +1343,7 @@ export default class Responsive {
 
 				while (search >= 0) {
 					if (row[search] && row[search].cell) {
-						dom.s(row[search].cell).attr(
+						Dom.s(row[search].cell).attr(
 							'colSpan',
 							that._colspan(row, search)
 						);
@@ -1401,7 +1399,7 @@ export default class Responsive {
 				.nodes()
 				.toDom()
 				.attr('tabIndex', ctx.tabIndex)
-				.data('dtr-keyboard', 1);
+				.data('dtrKeyboard', 1);
 		}
 		else if (target) {
 			// This is a bit of a hack - we need to limit the selected nodes to
@@ -1413,7 +1411,7 @@ export default class Responsive {
 			var rows = dt.rows({ page: 'current' }).nodes().toDom();
 			var nodes = target === 'tr' ? rows : rows.find(target);
 
-			nodes.attr('tabIndex', ctx.tabIndex).data('dtr-keyboard', 1);
+			nodes.attr('tabIndex', ctx.tabIndex).data('dtrKeyboard', 1);
 		}
 	}
 }

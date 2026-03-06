@@ -1,7 +1,8 @@
-/*! jQuery UI integration for DataTables' Responsive
- * © SpryMedia Ltd - datatables.net/license
+/*! Responsive jQuery UI styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
+// Note that jQuery UI's JS depends upon jQuery, so we use it here
 var $ = DataTable.use('jq');
 var _display = DataTable.Responsive.display;
 var _original = _display.modal;

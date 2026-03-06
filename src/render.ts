@@ -1,13 +1,10 @@
-import DataTable from 'datatables.net';
+import DataTable, { Dom } from 'datatables.net';
 import { ResponsiveRenderer } from './interface';
-
-const dom = DataTable.dom;
-const util = DataTable.util;
 
 export function listHiddenNodes(): ResponsiveRenderer {
 	let fn: ResponsiveRenderer = function (api, rowIdx, columns) {
 		let that = this;
-		let ul = dom
+		let ul = Dom
 			.c('ul')
 			.attr('data-dtr-index', rowIdx)
 			.classAdd('dtr-details');
@@ -20,14 +17,14 @@ export function listHiddenNodes(): ResponsiveRenderer {
 					? 'class="' + col.className + '"'
 					: '';
 
-				dom.c('li')
+				Dom.c('li')
 					.classAdd(col.className)
 					.attr('data-dtr-index', col.columnIndex)
 					.attr('data-dt-row', col.rowIndex)
 					.attr('data-dt-column', col.columnIndex)
-					.append(dom.c('span').classAdd('dtr-title').html(col.title))
+					.append(Dom.c('span').classAdd('dtr-title').html(col.title))
 					.append(
-						dom
+						Dom
 							.c('span')
 							.classAdd('dtr-data')
 							.append(
@@ -54,7 +51,7 @@ export function listHiddenNodes(): ResponsiveRenderer {
 
 export function listHidden(): ResponsiveRenderer {
 	return function (api, rowIdx, columns) {
-		let ul = dom
+		let ul = Dom
 			.c('ul')
 			.attr('data-dtr-index', rowIdx)
 			.classAdd('dtr-details');
@@ -64,13 +61,13 @@ export function listHidden(): ResponsiveRenderer {
 				return;
 			}
 
-			dom.c('li')
+			Dom.c('li')
 				.classAdd(col.className)
 				.attr('data-dtr-index', col.columnIndex)
 				.attr('data-dt-row', col.rowIndex)
 				.attr('data-dt-column', col.columnIndex)
-				.append(dom.c('span').classAdd('dtr-title').html(col.title))
-				.append(dom.c('span').classAdd('dtr-data').html(col.data))
+				.append(Dom.c('span').classAdd('dtr-title').html(col.title))
+				.append(Dom.c('span').classAdd('dtr-data').html(col.data))
 				.appendTo(ul);
 		});
 
@@ -81,7 +78,7 @@ export function listHidden(): ResponsiveRenderer {
 export function tableAll(
 	options: { tableClass?: string } = {}
 ): ResponsiveRenderer {
-	options = util.object.assign(
+	options = DataTable.util.object.assign(
 		{
 			tableClass: ''
 		},
@@ -89,7 +86,7 @@ export function tableAll(
 	);
 
 	return function (api, rowIdx, columns) {
-		let table = dom
+		let table = Dom
 			.c('table')
 			.classAdd(options.tableClass)
 			.classAdd('dtr-details');
@@ -99,12 +96,12 @@ export function tableAll(
 				return;
 			}
 
-			dom.c('tr')
+			Dom.c('tr')
 				.classAdd(col.className)
 				.attr('data-dt-row', col.rowIndex)
 				.attr('data-dt-column', col.columnIndex)
-				.append(dom.c('td').html(col.title))
-				.append(dom.c('td').html(col.data))
+				.append(Dom.c('td').html(col.title))
+				.append(Dom.c('td').html(col.data))
 				.appendTo(table);
 		});
 

@@ -1,8 +1,8 @@
-/*! Foundation integration for DataTables' Responsive
- * © SpryMedia Ltd - datatables.net/license
+/*! Responsive Foundation styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
-// Foundation Reveal uses jQuery, so we might as well use it
+// Note that Foundation's JS depends upon jQuery, so we use it here
 var jq = DataTable.use('jq');
 var _display = DataTable.Responsive.display;
 var _original = _display.modal;

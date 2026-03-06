@@ -1,30 +1,30 @@
-/*! Bootstrap 5 integration for DataTables' Responsive
- * © SpryMedia Ltd - datatables.net/license
+/*! Responsive Bootstrap 5 styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
-var dom = DataTable.dom;
+var Dom = DataTable.Dom;
 var _display = DataTable.Responsive.display;
 var _original = _display.modal;
 
-var _modal = dom
+var _modal = Dom
 	.c('div')
 	.classAdd('modal fade dtr-bs-modal')
 	.attr('role', 'dialog')
 	.append(
-		dom
+		Dom
 			.c('div')
 			.classAdd('modal-dialog')
 			.attr('role', 'document')
 			.append(
-				dom
+				Dom
 					.c('div')
 					.classAdd('modal-content')
 					.append(
-						dom
+						Dom
 							.c('div')
 							.classAdd('modal-header')
 							.append(
-								dom
+								Dom
 									.c('button')
 									.attr('type', 'button')
 									.attr('data-bs-dismiss', 'modal')
@@ -32,10 +32,10 @@ var _modal = dom
 									.classAdd('btn-close')
 							)
 					)
-					.append(dom.c('div').classAdd('modal-body'))
+					.append(Dom.c('div').classAdd('modal-body'))
 			)
 	)
-	.append(dom.c('div').classAdd('content'));
+	.append(Dom.c('div').classAdd('content'));
 
 var modal;
 
@@ -90,7 +90,7 @@ _display.modal = function (options) {
 					header
 						.empty()
 						.append(
-							dom
+							Dom
 								.c('h4')
 								.classAdd('modal-title')
 								.html(options.header(row))

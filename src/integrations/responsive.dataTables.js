@@ -1,3 +1,3 @@
-/*! DataTables styling wrapper for Responsive
- * © SpryMedia Ltd - datatables.net/license
+/*! Responsive default styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
