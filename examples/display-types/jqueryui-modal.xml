@@ -2,27 +2,7 @@
 <dt-example table-type="html-wide" table-class="display nowrap" order="7" framework="jqueryui">
 
 <css lib="datatables responsive"/>
-<js lib="jquery jqueryui datatables responsive">
-<![CDATA[
-
-$('#example').DataTable({
-	responsive: {
-		details: {
-			display: DataTable.Responsive.display.modal({
-				header: function (row) {
-					var data = row.data();
-					return 'Details for ' + data[0] + ' ' + data[1];
-				}
-			}),
-			renderer: DataTable.Responsive.renderer.tableAll()
-		}
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="jqueryui datatables responsive">
 <![CDATA[
 
 new DataTable('#example', {
@@ -40,7 +20,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 
 <title lib="Responsive">jQuery UI modal</title>

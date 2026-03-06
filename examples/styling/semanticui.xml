@@ -2,17 +2,7 @@
 <dt-example table-type="html-wide" table-class="display nowrap unstackable" order="4" framework="semanticui">
 
 <css lib="datatables responsive"/>
-<js lib="jquery semanticui datatables responsive">
-<![CDATA[
-
-$('#example').DataTable({
-	responsive: true
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="semanticui datatables responsive">
 <![CDATA[
 
 new DataTable('#example', {
@@ -20,7 +10,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Responsive">Fomantic-UI (formally Semantic-UI) styling</title>
 

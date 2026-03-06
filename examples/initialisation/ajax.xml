@@ -4,25 +4,7 @@
 <css lib="datatables responsive">
 	div.container { max-width: 1200px }
 </css>
-<js lib="jquery datatables responsive">
-<![CDATA[
-
-$('#example').DataTable({
-	ajax: '../../../../examples/ajax/data/objects.txt',
-	columns: [
-		{ data: 'name' },
-		{ data: 'position' },
-		{ data: 'office' },
-		{ data: 'extn' },
-		{ data: 'start_date' },
-		{ data: 'salary' }
-	]
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables responsive">
 <![CDATA[
 
 new DataTable('#example', {
@@ -38,7 +20,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Responsive">Ajax data</title>
 

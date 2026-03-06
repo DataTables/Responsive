@@ -2,27 +2,7 @@
 <dt-example table-type="html-wide" table-class="display nowrap" order="5" framework="foundation">
 
 <css lib="datatables responsive"/>
-<js lib="jquery foundation datatables responsive">
-<![CDATA[
-
-$('#example').DataTable({
-	responsive: {
-		details: {
-			display: DataTable.Responsive.display.modal({
-				header: function (row) {
-					var data = row.data();
-					return 'Details for ' + data[0] + ' ' + data[1];
-				}
-			}),
-			renderer: DataTable.Responsive.renderer.tableAll()
-		}
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="foundation datatables responsive">
 <![CDATA[
 
 new DataTable('#example', {
@@ -40,7 +20,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 
 <title lib="Responsive">Foundation modal</title>

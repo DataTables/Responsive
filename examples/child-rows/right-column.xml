@@ -2,29 +2,7 @@
 <dt-example table-type="html-details-right" table-class="display nowrap" order="3">
 
 <css lib="datatables responsive" />
-<js lib="jquery datatables responsive">
-<![CDATA[
-
-$('#example').DataTable({
-	columnDefs: [
-		{
-			className: 'dtr-control arrow-right',
-			orderable: false,
-			target: -1
-		}
-	],
-	responsive: {
-		details: {
-			type: 'column',
-			target: -1
-		}
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables responsive">
 <![CDATA[
 
 new DataTable('#example', {
@@ -44,7 +22,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Responsive">Column control - right</title>
 

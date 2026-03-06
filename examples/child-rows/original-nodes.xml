@@ -2,21 +2,7 @@
 <dt-example table-type="html-wide" table-class="display nowrap" order="2">
 
 <css lib="datatables responsive" />
-<js lib="jquery datatables responsive">
-<![CDATA[
-
-$('#example').DataTable({
-	responsive: {
-		details: {
-			renderer:  DataTable.Responsive.renderer.listHiddenNodes()
-		}
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables responsive">
 <![CDATA[
 
 new DataTable('#example', {
@@ -28,7 +14,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Responsive">Moving nodes (no clone)</title>
 

@@ -3,26 +3,7 @@
 
 <css lib="datatables responsive">
 </css>
-<js lib="jquery datatables responsive">
-<![CDATA[
-
-$('#example').DataTable({
-	ajax: '../../../../examples/ajax/data/objects.txt',
-	columns: [
-		{ data: 'name', className: 'all' },
-		{ data: 'position', className: 'min-phone-l' },
-		{ data: 'office', className: 'min-tablet' },
-		{ data: 'start_date', className: 'never' },
-		{ data: 'salary', className: 'desktop' },
-		{ data: 'extn', className: 'none' }
-	],
-	responsive: true
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables responsive">
 <![CDATA[
 
 new DataTable('#example', {
@@ -39,7 +20,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Responsive">Assigned class control</title>
 

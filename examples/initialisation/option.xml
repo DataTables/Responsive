@@ -4,17 +4,7 @@
 <css lib="datatables responsive">
 	div.container { max-width: 1200px }
 </css>
-<js lib="jquery datatables responsive">
-<![CDATA[
-
-$('#example').DataTable({
-	responsive: true
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables responsive">
 <![CDATA[
 
 new DataTable('#example', {
@@ -22,7 +12,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Responsive">Basic initialisation</title>
 

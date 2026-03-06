@@ -2,19 +2,7 @@
 <dt-example table-type="html-wide" table-class="display nowrap" order="1">
 
 <css lib="datatables responsive" />
-<js lib="jquery datatables responsive">
-<![CDATA[
-
-$('#example').DataTable({
-	responsive: {
-		details: false
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables responsive">
 <![CDATA[
 
 new DataTable('#example', {
@@ -24,7 +12,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Responsive">Disable child rows</title>
 

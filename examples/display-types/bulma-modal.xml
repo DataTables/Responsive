@@ -6,29 +6,7 @@
 		width: 960px;
 	}
 </css>
-<js lib="jquery datatables responsive">
-<![CDATA[
-
-$('#example').DataTable({
-	responsive: {
-		details: {
-			display: DataTable.Responsive.display.modal({
-				header: function (row) {
-					var data = row.data();
-					return 'Details for ' + data[0] + ' ' + data[1];
-				}
-			}),
-			renderer: DataTable.Responsive.renderer.tableAll({
-				tableClass: 'table'
-			})
-		}
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables responsive">
 <![CDATA[
 
 new DataTable('#example', {
@@ -48,7 +26,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Responsive">Bulma modal</title>
 

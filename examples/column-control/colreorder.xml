@@ -2,18 +2,7 @@
 <dt-example table-type="html-wide" table-class="display nowrap" order="7">
 
 <css lib="datatables responsive colreorder"/>
-<js lib="jquery datatables responsive colreorder">
-<![CDATA[
-
-$('#example').DataTable({
-	colReorder: true,
-	responsive: true
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables responsive colreorder">
 <![CDATA[
 
 new DataTable('#example', {
@@ -22,7 +11,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Responsive">With ColReorder</title>
 

@@ -4,19 +4,7 @@
 <css lib="datatables responsive fixedheader">
 	div.container { max-width: 1200px }
 </css>
-<js lib="jquery datatables responsive fixedheader">
-<![CDATA[
-
-$('#example').DataTable({
-	fixedHeader: true,
-	paging: false,
-	responsive: true
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables responsive fixedheader">
 <![CDATA[
 
 new DataTable('#example', {
@@ -26,7 +14,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Responsive">With FixedHeader</title>
 

@@ -7,18 +7,7 @@
 		margin: 0 auto;
 	}
 </css>
-<js lib="jquery datatables responsive">
-<![CDATA[
-$('#example').DataTable({
-	ajax: '../../../../examples/server_side/scripts/server_processing.php',
-	processing: true,
-	responsive: true,
-	serverSide: true
-});
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables responsive">
 <![CDATA[
 new DataTable('#example', {
 	ajax: '../../../../examples/server_side/scripts/server_processing.php',
@@ -27,7 +16,7 @@ new DataTable('#example', {
 	serverSide: true
 });
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Responsive">Server-side processing</title>
 
