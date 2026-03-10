@@ -113,7 +113,7 @@ export interface ApiResponsiveMethods<T> extends Api<T> {
 	 * Calculate the cell index from a li details element
 	 *
 	 * @param li The li node (or a jQuery collection containing the node) to get the cell index for.
-	 * @returns Cell object that contains the properties row and column. This object can be used as a DataTables cell-selector.
+	 * @returns Cell object that contains the properties row and column. This object can be used as a DataTables DataTable.CellSelector.
 	 */
 	index(li: HTMLElement): object;
 
