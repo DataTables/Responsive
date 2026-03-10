@@ -9,10 +9,10 @@
 		<parameter type="object" name="e">
 			jQuery event object
 		</parameter>
-		<parameter type="DataTables.Api" name="datatable">
+		<parameter type="DataTable.Api" name="datatable">
 			DataTable API instance for the table in question
 		</parameter>
-		<parameter type="DataTables.Api" name="row">
+		<parameter type="DataTable.Api" name="row">
 			The `dt-api row()` for the row whose details are being handled
 		</parameter>
 		<parameter type="boolean" name="showHide">

@@ -7,7 +7,7 @@
 	<type type="function">
 		<signature>responsive.rebuild()</signature>
 		<description>Recalculate the column breakpoints based on the class information of the column header cells</description>
-		<returns type="DataTables.Api">DataTables API instance</returns>
+		<returns type="DataTable.Api">DataTables API instance</returns>
 	</type>
 
 	<description>

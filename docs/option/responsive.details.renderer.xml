@@ -6,7 +6,7 @@
 
 	<type type="function">
 		<signature>renderer( api, rowIdx, columns )</signature>
-		<parameter type="DataTables.Api" name="api">
+		<parameter type="DataTable.Api" name="api">
 			DataTables API instance for the table in question
 		</parameter>
 		<parameter type="integer" name="rowIdx">

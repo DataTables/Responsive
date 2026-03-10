@@ -7,7 +7,7 @@
 	<type type="function">
 		<signature>columns().responsiveHidden()</signature>
 		<description>For the selected columns, determine if Responsive has hidden them or not.</description>
-		<returns type="DataTables.Api">API instance that contains boolean values in the result set - `true` if the column is responsive visible, `false` otherwise.</returns>
+		<returns type="DataTable.Api">API instance that contains boolean values in the result set - `true` if the column is responsive visible, `false` otherwise.</returns>
 	</type>
 
 	<description>

@@ -9,7 +9,7 @@
 		<parameter type="object" name="e">
 			jQuery event object
 		</parameter>
-		<parameter type="DataTables.Api" name="datatable">
+		<parameter type="DataTable.Api" name="datatable">
 			DataTable API instance for the table in question
 		</parameter>
 		<parameter type="array" name="columns">
