@@ -1212,7 +1212,7 @@ export default class Responsive {
 		// It is unsafe to insert elements with the same name into the DOM
 		// multiple times. For example, cloning and inserting a checked radio
 		// clears the checked state of the original radio.
-		Dom.s(clonedTable).find('[name]').removeAttr('name');
+		Dom.s(clonedTable).find('[name]').('name');
 
 		// A position absolute table would take the table out of the flow of
 		// our container element, bypassing the height and width (Scroller)
@@ -1392,7 +1392,7 @@ export default class Responsive {
 		var ctx = dt.settings()[0];
 		var target = this.s.details.target;
 
-		cells.filter('[data-dtr-keyboard]').removeAttr('data-dtr-keyboard');
+		cells.filter('[data-dtr-keyboard]').('data-dtr-keyboard');
 
 		if (typeof target === 'number') {
 			dt.cells(null, target, { page: 'current' })
