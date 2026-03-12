@@ -25,7 +25,7 @@ declare module 'datatables.net' {
 		_responsive: Responsive;
 	}
 
-	interface ConfigColumns {
+	interface ColumnContext {
 		/**
 		 * Set column's visibility priority
 		 */
