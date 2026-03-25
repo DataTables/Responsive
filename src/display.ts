@@ -101,7 +101,7 @@ export function modal(options?: {
 							Dom
 								.c('div')
 								.classAdd('dtr-modal-content')
-								.data('dtr-row-idx', row.index())
+								.data('dtrRowIdx', row.index())
 								.append(rendered)
 						)
 						.append(
@@ -137,7 +137,7 @@ export function modal(options?: {
 		else {
 			modal = Dom.s('div.dtr-modal-content');
 
-			if (modal.count() && row.index() === modal.data('dtr-row-idx')) {
+			if (modal.count() && row.index() === modal.data('dtrRowIdx')) {
 				modal.empty().append(rendered);
 			}
 			else {
