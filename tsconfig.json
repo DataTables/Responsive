@@ -10,7 +10,9 @@
 		"declaration": true,
 		"skipLibCheck": true,
 		"outDir": "dist",
-		"types": []
+		"types": [],
+        "strict": false,
+        "noImplicitAny": false
 	},
 	"files": [
 		"src/dataTables.responsive.ts"
