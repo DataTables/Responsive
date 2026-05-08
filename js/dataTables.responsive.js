@@ -124,7 +124,7 @@ $.extend(Responsive.prototype, {
 
 		// Use DataTables' throttle function to avoid processor thrashing
 		$(window).on(
-			'orientationchange.dtr',
+			'resize.dtr orientationchange.dtr',
 			DataTable.util.throttle(function () {
 				// iOS has a bug whereby resize can fire when only scrolling
 				// See: http://stackoverflow.com/questions/8898412
