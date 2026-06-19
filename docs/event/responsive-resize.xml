@@ -7,7 +7,7 @@
 	<type type="function">
 		<signature>function( e, datatable, columns )</signature>
 		<parameter type="object" name="e">
-			jQuery event object
+			Event object
 		</parameter>
 		<parameter type="DataTable.Api" name="datatable">
 			DataTable API instance for the table in question
