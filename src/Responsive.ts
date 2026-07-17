@@ -152,6 +152,11 @@ export default class Responsive {
 			}
 		});
 
+
+		dt.on('rowInvalidate.dtr', (e, ctx, rowIdx) => {
+			this._redrawChildren();
+		});
+
 		// Destroy event handler
 		dt.on('destroy.dtr', function () {
 			dt.off('.dtr');
