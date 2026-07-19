@@ -2,7 +2,7 @@
 <dt-example table-type="html-wide" table-class="display responsive nowrap" order="5">
 
 <css lib="datatables responsive buttons" />
-<js lib="datatables responsive buttons buttons-colvis">
+<js lib="datatables responsive buttons">
 <![CDATA[
 
 new DataTable('#example', {
