@@ -8,11 +8,7 @@ export const childRow: ResponsiveDisplay = function (row, update, render) {
 
 	if (update) {
 		if (rowNode.classHas('dtr-expanded')) {
-			let rendered = render();
-
-			if (rendered) {
-				row.child(rendered, 'child').show();
-			}
+			row.child(render(), 'child').show();
 
 			return true;
 		}
