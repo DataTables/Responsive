@@ -49,7 +49,7 @@ _display.modal = function (options) {
 				_modal.find('div.modal-body').empty().append(rendered);
 
 				_modal
-					.data('dtr-row-idx', row.index())
+					.attr('data-dtr-index', row.index())
 					.one('hidden.bs.modal', closeCallback)
 					.appendTo('body')
 					.modal();
@@ -57,7 +57,7 @@ _display.modal = function (options) {
 			else {
 				if (
 					$.contains(document, _modal[0]) &&
-					row.index() === _modal.data('dtr-row-idx')
+					row.index() === _modal.attr('data-dtr-index')
 				) {
 					_modal.find('div.modal-body').empty().append(rendered);
 				}
