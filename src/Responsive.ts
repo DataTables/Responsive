@@ -60,7 +60,7 @@ export default class Responsive {
 		tableAll: renderers.tableAll
 	}
 
-	public static version = '4.0.1';
+	public static version = '4.0.2';
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Properties
