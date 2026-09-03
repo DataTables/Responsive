@@ -899,12 +899,11 @@ export default class Responsive {
 		let settings = dt.settings()[0];
 
 		return this.s.columns
-			.filter(function (col) {
-				// Never and control columns should not be passed to the
-				// renderer
-				return col.never || col.control ? false : true;
-			})
 			.map(function (col, i) {
+				if (col.never || col.control) {
+					return false;
+				}
+
 				var dtCol = settings.columns[i];
 
 				if (!columnApis[i]) {
@@ -919,7 +918,8 @@ export default class Responsive {
 					rowIndex: rowIdx,
 					title: columnApis[i].title()
 				};
-			});
+			})
+			.filter(c => !!c) as ResponsiveRowDetails[];
 	}
 
 	/**
