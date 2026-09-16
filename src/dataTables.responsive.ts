@@ -63,7 +63,7 @@ DataTable.Responsive = Responsive;
 
 // Attach a listener to the document which listens for DataTables initialisation
 // events so we can automatically initialise
-Dom.s(document).on('preInit.dt.dtr', function (e, settings: Context, json) {
+Dom.on('preInit.dt.dtr', function (e, settings: Context, json) {
 	if (e.namespace !== 'dt') {
 		return;
 	}

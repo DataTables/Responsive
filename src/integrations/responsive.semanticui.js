@@ -6,14 +6,22 @@
 var jq = DataTable.use('jq');
 var _display = DataTable.Responsive.display;
 var _original = _display.modal;
-var _modal = jq(
-	'<div class="ui modal" role="dialog">' +
-		'<div class="header">' +
-		'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
-		'</div>' +
-		'<div class="content"/>' +
-		'</div>'
-);
+var _modal;
+
+function getModelEl() {
+	if (!_modal) {
+		_modal = jq(
+			'<div class="ui modal" role="dialog">' +
+				'<div class="header">' +
+				'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+				'</div>' +
+				'<div class="content"/>' +
+				'</div>'
+		);
+	}
+
+	return _modal;
+}
 
 _display.modal = function (options) {
 	return function (row, update, render, closeCallback) {
@@ -22,6 +30,7 @@ _display.modal = function (options) {
 		}
 		else {
 			var rendered = render();
+			var modal = getModelEl();
 
 			if (rendered === false) {
 				return false;
@@ -29,20 +38,20 @@ _display.modal = function (options) {
 
 			if (!update) {
 				if (options && options.header) {
-					_modal
+					modal
 						.find('div.header')
 						.empty()
 						.append('<h4 class="title">' + options.header(row) + '</h4>');
 				}
 
-				_modal.find('div.content').empty().append(rendered);
+				modal.find('div.content').empty().append(rendered);
 
 				// Only need to attach the first time
-				if (!_modal.parent().hasClass('dimmer')) {
-					_modal.appendTo('body');
+				if (!modal.parent().hasClass('dimmer')) {
+					modal.appendTo('body');
 				}
 
-				_modal
+				modal
 					.modal({
 						onHide: closeCallback
 					})

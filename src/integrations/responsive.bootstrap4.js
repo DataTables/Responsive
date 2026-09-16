@@ -6,18 +6,26 @@
 var $ = DataTable.use('jq');
 var _display = DataTable.Responsive.display;
 var _original = _display.modal;
-var _modal = $(
-	'<div class="modal fade dtr-bs-modal" role="dialog">' +
-		'<div class="modal-dialog" role="document">' +
-		'<div class="modal-content">' +
-		'<div class="modal-header">' +
-		'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
-		'</div>' +
-		'<div class="modal-body"/>' +
-		'</div>' +
-		'</div>' +
-		'</div>'
-);
+var _modal;
+
+function getModelEl() {
+	if (!_modal) {
+		_modal = $(
+			'<div class="modal fade dtr-bs-modal" role="dialog">' +
+				'<div class="modal-dialog" role="document">' +
+				'<div class="modal-content">' +
+				'<div class="modal-header">' +
+				'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+				'</div>' +
+				'<div class="modal-body"/>' +
+				'</div>' +
+				'</div>' +
+				'</div>'
+		);
+	}
+
+	return _modal;
+}
 
 _display.modal = function (options) {
 	return function (row, update, render, closeCallback) {
@@ -26,6 +34,7 @@ _display.modal = function (options) {
 		}
 		else {
 			var rendered = render();
+			var modal = getModelEl();
 
 			if (rendered === false) {
 				return false;
@@ -33,26 +42,33 @@ _display.modal = function (options) {
 
 			if (!update) {
 				if (options && options.header) {
-					var header = _modal.find('div.modal-header');
+					var header = modal.find('div.modal-header');
 					var button = header.find('button').detach();
 
 					header
 						.empty()
-						.append('<h4 class="modal-title">' + options.header(row) + '</h4>')
+						.append(
+							'<h4 class="modal-title">' +
+								options.header(row) +
+								'</h4>'
+						)
 						.append(button);
 				}
 
-				_modal.find('div.modal-body').empty().append(rendered);
+				modal.find('div.modal-body').empty().append(rendered);
 
-				_modal
+				modal
 					.attr('data-dtr-index', row.index())
 					.one('hidden.bs.modal', closeCallback)
 					.appendTo('body')
 					.modal();
 			}
 			else {
-				if ($.contains(document, _modal[0]) && row.index() === _modal.attr('data-dtr-index')) {
-					_modal.find('div.modal-body').empty().append(rendered);
+				if (
+					$.contains(document, modal[0]) &&
+					row.index() === modal.attr('data-dtr-index')
+				) {
+					modal.find('div.modal-body').empty().append(rendered);
 				}
 				else {
 					// Modal not shown - do nothing

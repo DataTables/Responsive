@@ -4,28 +4,37 @@
 
 var Dom = DataTable.Dom;
 var _display = DataTable.Responsive.display;
-var _modal = Dom
-	.c('div')
-	.classAdd('modal DTED')
-	.append(Dom.c('div').classAdd('modal-background'))
-	.append(
-		Dom
+var _modal;
+
+function getModelEl() {
+	if (!_modal) {
+		_modal = Dom
 			.c('div')
-			.classAdd('modal-content')
-			.append(Dom.c('div').classAdd('modal-header'))
-			.append(Dom.c('div').classAdd('modal-body'))
-	)
-	.append(
-		Dom
-			.c('button')
-			.attr('type', 'button')
-			.attr('aria-label', 'Close')
-			.classAdd('modal-close is-large')
-	);
+			.classAdd('modal DTED')
+			.append(Dom.c('div').classAdd('modal-background'))
+			.append(
+				Dom
+					.c('div')
+					.classAdd('modal-content')
+					.append(Dom.c('div').classAdd('modal-header'))
+					.append(Dom.c('div').classAdd('modal-body'))
+			)
+			.append(
+				Dom
+					.c('button')
+					.attr('type', 'button')
+					.attr('aria-label', 'Close')
+					.classAdd('modal-close is-large')
+			);
+	}
+
+	return _modal;
+}
 
 _display.modal = function (options) {
 	return function (row, update, render, closeCallback) {
 		var rendered = render();
+		var modal = getModelEl();
 
 		if (rendered === false) {
 			return false;
@@ -33,7 +42,7 @@ _display.modal = function (options) {
 
 		if (!update) {
 			if (options && options.header) {
-				var header = _modal.find('div.modal-header');
+				var header = modal.find('div.modal-header');
 				header.find('button').detach();
 
 				header
@@ -46,28 +55,28 @@ _display.modal = function (options) {
 					);
 			}
 
-			_modal.find('div.modal-body').empty().append(rendered);
+			modal.find('div.modal-body').empty().append(rendered);
 
-			_modal.attr('data-dtr-index', row.index()).appendTo('body');
+			modal.attr('data-dtr-index', row.index()).appendTo('body');
 
-			_modal.classAdd('is-active is-clipped');
+			modal.classAdd('is-active is-clipped');
 
 			Dom.s('.modal-close').one('click', function () {
-				_modal.classRemove('is-active is-clipped');
+				modal.classRemove('is-active is-clipped');
 				closeCallback();
 			});
 
 			Dom.s('.modal-background').one('click', function () {
-				_modal.classRemove('is-active is-clipped');
+				modal.classRemove('is-active is-clipped');
 				closeCallback();
 			});
 		}
 		else {
 			if (
-				_modal.isAttached() &&
-				row.index() === _modal.attr('data-dtr-index')
+				modal.isAttached() &&
+				row.index() === modal.attr('data-dtr-index')
 			) {
-				_modal.find('div.modal-body').empty().append(rendered);
+				modal.find('div.modal-body').empty().append(rendered);
 			}
 			else {
 				// Modal not shown - do nothing
